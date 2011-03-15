@@ -1,0 +1,3 @@
+library(Streamer)
+Streamer:::.test()
+

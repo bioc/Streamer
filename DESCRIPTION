@@ -1,0 +1,25 @@
+Package: Streamer
+Type: Package
+Title: Enabling stream processing of large files
+Version: 0.0.1
+Date: 2010-10-13
+Author: Martin Morgan
+Maintainer: Martin Morgan <mtmorgan@fhcrc.org>
+Description: Large data files can be difficult to work with in R,
+  where data generally resides in memory. This package encourages a
+  style of programming where data is 'streamed' from disk into R
+  through a series of streams that, typically reduce the original data
+  to a manageable size. The package provides useful Producer and
+  Consumer stream components for operations such as data input,
+  sampling, indexing, and transformation; see package?Streamer for
+  details.
+License: Artistic-2.0
+LazyLoad: yes
+Imports: methods
+Suggests: RUnit
+Collate: 
+  generics.R OldClass.R Streamer.R
+  Producer.R Consumer.R Stream.R
+  ConnectionProducer.R RawInput.R ValueInput.R
+  RevStream.R Downsample.R Utility.R
+  runit_runner.R

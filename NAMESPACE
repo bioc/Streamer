@@ -1,0 +1,9 @@
+useDynLib(Streamer, .registration=TRUE)
+
+import(methods)
+
+exportPattern("^[^\\.]")
+
+exportClasses(Streamer, Producer, Consumer, Stream,
+              ConnectionProducer, RawInput,
+              Downsample, RawToChar, Rev)
