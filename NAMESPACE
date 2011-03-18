@@ -5,5 +5,5 @@ import(methods)
 exportPattern("^[^\\.]")
 
 exportClasses(Streamer, Producer, Consumer, Stream,
-              ConnectionProducer, RawInput,
+              ConnectionProducer, NetCDFProducer, RawInput,
               Downsample, RawToChar, Rev)
