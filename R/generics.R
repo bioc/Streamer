@@ -10,5 +10,5 @@ setGeneric("variableNames", function(x, ...) standardGeneric("variableNames"))
 setGeneric("status", function(x, ...) standardGeneric("status"))
 
 setGeneric("sliceDimensions", function(x, ...) standardGeneric("sliceDimensions"))
-setGeneric("sliceDimensions<-", function(x, var, dim, ...)  standardGeneric("sliceDimensions<-"))
+setGeneric("sliceDimensions<-", function(x, var, value)  standardGeneric("sliceDimensions<-"))
 
