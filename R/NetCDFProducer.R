@@ -97,13 +97,15 @@
                             file has been reached."
                             if (missing(var)) {
                                 if (length(variableNames) != 1)
-                                    stop("NetCDF file contains multiple varialbles: Please 
-                                         specify a variable name") 
-                                     else 
-                                         var <- variableNames
+                                    stop("NetCDF file contains multiple varialbles: Please specify a variable name") 
+                                else 
+                                    var <- variableNames
                             }
                             if (length(var) != 1)
                                 stop( "Please specify a single variable name")
+                            
+                            if(!(var %in% variableNames))
+                                stop("Variable specified was not found in the ncdfSampler class")
 
                             slice <- sliceDimensions[[var]]
                             start <- readStarts[[var]]
