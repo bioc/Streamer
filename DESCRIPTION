@@ -1,7 +1,7 @@
 Package: Streamer
 Type: Package
 Title: Enabling stream processing of large files
-Version: 0.0.2
+Version: 0.0.3
 Date: 2010-10-13
 Author: Martin Morgan
 Maintainer: Martin Morgan <mtmorgan@fhcrc.org>
