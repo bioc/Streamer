@@ -20,6 +20,11 @@ setMethod("yield", "NetCDFProducer", function(x, var,...) {
 })
 
 
+setMethod("dimensionLengths", "NetCDFProducer", function(x, var,...) {
+    x$getDimensionLengths(var,...)
+})
+
+
 ## Replacement methods 
 setReplaceMethod("sliceDimensions", c("NetCDFProducer", "character", "list"),
                  function(x, var, value) {

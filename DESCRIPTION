@@ -15,6 +15,7 @@ Description: Large data files can be difficult to work with in R,
   details.
 License: Artistic-2.0
 LazyLoad: yes
+Depends: ncdf4
 Imports: methods
 Suggests: RUnit
 Collate: 

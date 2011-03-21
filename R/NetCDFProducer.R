@@ -37,6 +37,13 @@
                             else
                                 return (sliceDimensions[[var]])
                         },
+                        getDimensionLengths = function(var) {
+                              "Returns the dimension lengths for a variable"
+                            if (missing(var))
+                                return (dimensionLengths)
+                            else
+                                return (dimensionLengths[[var]])
+                        }, 
                         setSliceDimensions = function(var, dim, ...) {
                             "Sets the default slice dimensions for a variable.
                             This determines the size of the slice retrieved by the
