@@ -122,10 +122,10 @@
                                 new_start <- start
                                 while (i <= nd) {
                                     if ( start[i] + slice[i]  == dimLen[i] +1) {
-                                        i <- i +1
                                         new_start[i] <- 1
+                                        i <- i +1
                                     } else if(start[i] + slice[i] <= dimLen[i]) {
-                                        new_start[i] <- slice[i] + 1
+                                        new_start[i] <- slice[i] + start[i] 
                                         i <- nd +1
                                     } else if(start[i] + slice[i]  > dimLen[i] +1) {
                                         new_start[i] <- 1
