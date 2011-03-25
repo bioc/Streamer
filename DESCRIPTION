@@ -23,5 +23,5 @@ Collate:
   Producer.R Consumer.R Stream.R
   ConnectionProducer.R RawInput.R ValueInput.R
   RevStream.R Downsample.R Utility.R
-  runit_runner.R NetCDFProducer.R
+  runit_runner.R NetCDFFile.R NetCDFProducer.R
   NetCDFWrappers.R

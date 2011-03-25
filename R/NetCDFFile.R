@@ -1,0 +1,130 @@
+.NetCDFFile <- setRefClass("NetCDFFile",
+    fields = list(
+                  con = "ANY",
+                  variableNames = "character",
+                  dimensionNames = "list",
+                  precision = "character",
+                  numDims = "integer"))
+
+.NetCDFFile$methods(
+    initialize = function(file = NULL) {
+        "Initialize all the fields of the NetCDFFile class"
+        if(!is.null(file)) {
+            .self$con <- nc_open(file)
+            .self$variableNames <- .getNcdfVariableNames(con)
+            .self$dimensionNames <- .getNcdfDimNames(con)
+            .self$dimensionLengths <- .getNcdfDimLengths(con)
+            .self$numDims <- .getNcdfNumDims(con)
+            .self$precision <- .getNcdfPrecision(con)
+        }
+        .self
+    },
+    getVariableNames = function() {
+        "Returns the names for all variables in the file"
+        variableNames
+    },
+    getDimensionNames = function(var) {
+        "Returns the names of the dimensions for a variable "
+        .getFieldValue(.self, "dimensionNames", var)
+    }, 
+    getDimensionLengths = function(var) {
+        "Returns the dimension lengths for a variable"
+        .getFieldValue(.self, "dimensionLengths", var)
+    },
+    getDimensionCounts = function(var) {
+        "Returns the number of dimensions for a variable"
+        .getFieldValue(.self, "numDims", var)
+    },
+    getPrecision = function(var) {
+        "Returns the storage precision for a variable"
+        .getFieldValue(.self, "precision", var) 
+    },
+    finalize = function(){
+        if(!is(con, "uninitializedField"))
+           nc_close(con)
+    }
+)
+
+## retrieves the field from the NetCDFFile class
+.getFieldValue <- function(self, field,  var) {
+    if(missing(var))
+        return(self[[field]])
+    else
+        return(self[[field]][[var]])
+}
+
+## Helper for precision and number of dims
+.getNcdfInfo <- function(nc, info) {
+    vars <- .getNcdfVariableNames(nc)
+    structure(sapply(seq_len(length(vars)), function(i) {
+                     nc$var[[i]][[info]]
+
+    }), names = vars)
+}
+
+## Helper for dimension names, dim lengths
+.getNcdfDimInfo <- function(nc,info ) {
+    vars <- .getNcdfVariableNames(nc)
+    get_dim_info <- function(varid, info) {
+        ndims <- nc$var[[varid]]$ndims
+        sapply(seq_len(ndims), function(i) {
+               nc$var[[varid]]$dim[[i]][[info]]
+        })
+    }
+    structure(
+        lapply(vars, function(i) {
+               val <- get_dim_info(i, info)
+               if(info == "len") {
+                   ndims <- nc$var[[i]]$ndims
+                   nms <- sapply(seq_len(ndims), function(j) {
+                                 nc$var[[i]]$dim[[j]]$name
+                   })
+                   names(val) <- nms
+                }
+                val
+        }), names = vars)
+}
+
+## gets  names of variables in NetCDF file  
+.getNcdfVariableNames <- function(nc) {
+
+    names(nc$var)
+}
+
+
+## gets the dimension names for all variables as a named list
+.getNcdfDimNames <- function(nc) {
+    .getNcdfDimInfo(nc, "name")
+}
+
+## gets the dimension lengths for all variables as a named list
+.getNcdfDimLengths  <- function(nc) {
+    .getNcdfDimInfo(nc,"len")
+}
+
+
+## gets the number of dimensions for all variables in the file
+.getNcdfNumDims <- function(nc) {
+    .getNcdfInfo(nc, "ndims")
+}
+
+## gets precision info for all variables in file 
+.getNcdfPrecision <- function(nc) {
+    .getNcdfInfo(nc, "prec")
+
+}
+
+## Constructor for NetCDFFile class
+
+NetCDFFile <- function(file) {
+    .NetCDFFile$new(file)
+}
+
+.checkVar <- function(x, var) {
+    if(! missing(var)  && !all(var %in% names(x)))
+        stop(paste(var, "was not found in the variables in the file", sep = " "))
+    if(!missing(var) && length(var) != 1)
+        stop("Please specify a single variable from the file")
+}
+
+

@@ -1,45 +1,73 @@
 ## Accessor methods 
-setMethod("variableNames", "NetCDFProducer", function(x) {
-    x$variableNames
+## Accessor methods 
+setMethod("names", "NetCDFProducer", function(x) {
+    x$name
 })
 
-setMethod("sliceDimensions", "NetCDFProducer", function(x, var) {
-    x$getSliceDimensions(var)
+setMethod("slice", "NetCDFProducer", function(x) {
+    x$slice
 })
 
-setMethod("status", "NetCDFProducer", function(x, var) {
-    x$status(var)
-
-})
-setMethod("reset", "NetCDFProducer", function(x, var,...) {
-    x$reset(var,...)
+setMethod("yield", "NetCDFProducer", function(x) {
+    x$yield()
 })
 
-setMethod("yield", "NetCDFProducer", function(x, var,...) {
-    x$yield(var,...)
+setMethod("reset", "NetCDFProducer", function(x) {
+    x$reset()
 })
 
-
-setMethod("dimensionLengths", "NetCDFProducer", function(x, var,...) {
-    x$getDimensionLengths(var,...)
+setMethod("status", "NetCDFProducer", function(x) {
+    x$status()
 })
 
 
 ## Replacement methods 
-setReplaceMethod("sliceDimensions", c("NetCDFProducer", "character", "list"),
-                 function(x, var, value) {
-     if(length(var) != 1)
-         stop("A single variable has to be specified")
-     if( ! var %in% variableNames(x))
-         stop( paste(var, "was not found in the variables in the NetCDF file",
-                      sep = " "))
-     nms <- names(value)
-     if( !all( nms %in% names(sliceDimensions(x, var))))
-         stop(paste("Dimension names specified do not match those for the variable",
-              var, sep = " "))
-     x$setSliceDimensions(var, unlist(value))
-     x
+setReplaceMethod("slice", c("NetCDFProducer", "list"),
+                 function(x, ..., value) {
+                     value <- unlist(value)
+                     callNextMethod(...)
+                     x
+                 })
+
+setReplaceMethod("slice", c("NetCDFProducer", "numeric"),
+                 function(x, ..., value) {
+                     nms <- names(value)
+                     if( !all( nms %in% names(slice(x))))
+                         stop(paste("Dimension names specified do not match those for the variable", sep = " "))
+                     x$setSlice(value)
+                     x
+                 })
+
+
+### Wrapper methods for NetCDFFile class
+setMethod("names", "NetCDFFile", function(x) {
+          x$variableNames
 })
 
-        
+setMethod("precision", "NetCDFFile", function(x, var) {
+          .checkVar(x, var = var)
+          x$getPrecision(var = var)
+})
+
+setMethod("dimensionLengths", "NetCDFFile", function(x, var, ...) {
+          .checkVar(x, var = var)
+          x$getDimensionLengths(var = var,...)
+})
+
+
+setMethod("dimensions", "NetCDFFile", function(x, var,...) {
+          .checkVar(x, var)
+          x$getDimensionNames(var = var,...)
+})
+
+
+setMethod("dimensionCount", "NetCDFFile", function(x, var,...) {
+          .checkVar(x, var)
+          x$getDimensionCounts(var = var,...)
+})
+
+
+
+
+ 
 
