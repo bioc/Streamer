@@ -45,7 +45,7 @@
         }
         .checkDimension(dim) 
         .self$start <- .initializeStart(ncdf, name)
-        .self$slice <- .self$count <- dim
+        .self$slice <- .self$count <- dim[dimensions(ncdf)[[name]]]
     }, 
     status = function() {
         "Gets the current start position of the slice being read"
@@ -69,37 +69,6 @@
 
         }
         nd <- dimensionCount(ncdf)[[name]]
-        ## Helper functions for yield function
-        ## Gets the start position for the next read
-        .getNextStart <- function(start, slice, dimLen , nd) {
-            i <- 1
-            new_start <- start
-            while (i <= nd) {
-                if ( start[i] + slice[i]  == dimLen[i] +1) {
-                    new_start[i] <- 1
-                    i <- i +1
-                } else if(start[i] + slice[i] <= dimLen[i]) {
-                    new_start[i] <- slice[i] + start[i] 
-                    i <- nd +1
-                } else if(start[i] + slice[i]  > dimLen[i] +1) {
-                    new_start[i] <- 1
-                    i <- i +1
-                }
-            }
-            if(all(new_start == 1))
-                new_start <- structure(rep(-1, nd), names = names(start))
-            new_start
-        }
-
-        ## Gets the count to be read for current yield being processed
-        .getCurrentCount <- function(start, slice, dimLen, count) {
-            val <-  start + slice -1  
-            indx <- val <= dimLen
-            count[indx] <- slice[indx]
-            tmp <- dimLen - start +1
-            count[!indx] <- tmp[!indx]
-            count                          
-        }
         count <<- .getCurrentCount(start, slice, dimLen, count)
         dat <- ncvar_get(ncdf$con, name, start = as.vector(start), count = as.vector(count))
         start <<- .getNextStart(start, slice, dimLen, nd) 
@@ -151,5 +120,37 @@ NetCDFProducer <- function(ncdf, var = NULL) {
     numDims <- dimensionCount(nc)[[var]]
     structure(rep(1, numDims), names = dimNames)
                
+}
+
+## Helper functions for yield function
+## Gets the start position for the next read
+.getNextStart <- function(start, slice, dimLen , nd) {
+    i <- 1
+    new_start <- start
+    while (i <= nd) {
+        if ( start[i] + slice[i]  == dimLen[i] +1) {
+            new_start[i] <- 1
+            i <- i +1
+        } else if(start[i] + slice[i] <= dimLen[i]) {
+            new_start[i] <- slice[i] + start[i] 
+            i <- nd +1
+        } else if(start[i] + slice[i]  > dimLen[i] +1) {
+            new_start[i] <- 1
+            i <- i +1
+        }
+    }
+    if(all(new_start == 1))
+        new_start <- structure(rep(-1, nd), names = names(start))
+    new_start
+}
+
+## Gets the count to be read for current yield being processed
+.getCurrentCount <- function(start, slice, dimLen, count) {
+    val <-  start + slice -1  
+    indx <- val <= dimLen
+    count[indx] <- slice[indx]
+    tmp <- dimLen - start +1
+    count[!indx] <- tmp[!indx]
+    count                          
 }
 
