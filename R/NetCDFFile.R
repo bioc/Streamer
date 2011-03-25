@@ -23,21 +23,21 @@
         "Returns the names for all variables in the file"
         variableNames
     },
-    getDimensionNames = function(var) {
-        "Returns the names of the dimensions for a variable "
-        .getFieldValue(.self, "dimensionNames", var)
+    getDimensionNames = function() {
+        "Returns the names of the dimensions "
+        .getFieldValue(.self, "dimensionNames")
     }, 
-    getDimensionLengths = function(var) {
-        "Returns the dimension lengths for a variable"
-        .getFieldValue(.self, "dimensionLengths", var)
+    getDimensionLengths = function() {
+        "Returns the dimension lengths"
+        .getFieldValue(.self, "dimensionLengths")
     },
-    getDimensionCounts = function(var) {
-        "Returns the number of dimensions for a variable"
-        .getFieldValue(.self, "numDims", var)
+    getDimensionCounts = function() {
+        "Returns the number of dimensions"
+        .getFieldValue(.self, "numDims")
     },
-    getPrecision = function(var) {
+    getPrecision = function() {
         "Returns the storage precision for a variable"
-        .getFieldValue(.self, "precision", var) 
+        .getFieldValue(.self, "precision") 
     },
     finalize = function(){
         if(!is(con, "uninitializedField"))
@@ -46,11 +46,8 @@
 )
 
 ## retrieves the field from the NetCDFFile class
-.getFieldValue <- function(self, field,  var) {
-    if(missing(var))
-        return(self[[field]])
-    else
-        return(self[[field]][[var]])
+.getFieldValue <- function(self, field) {
+    return(self[[field]])
 }
 
 ## Helper for precision and number of dims
@@ -87,7 +84,6 @@
 
 ## gets  names of variables in NetCDF file  
 .getNcdfVariableNames <- function(nc) {
-
     names(nc$var)
 }
 
@@ -115,16 +111,8 @@
 }
 
 ## Constructor for NetCDFFile class
-
 NetCDFFile <- function(file) {
     .NetCDFFile$new(file)
-}
-
-.checkVar <- function(x, var) {
-    if(! missing(var)  && !all(var %in% names(x)))
-        stop(paste(var, "was not found in the variables in the file", sep = " "))
-    if(!missing(var) && length(var) != 1)
-        stop("Please specify a single variable from the file")
 }
 
 

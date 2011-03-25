@@ -27,9 +27,9 @@
     },
     setSlice = function(dim, ...) {
         .checkDimension <- function(dim) {
-            numDim <- dimensionCount(ncdf, name)
-            dimNames <- dimensions(ncdf, name)
-            dimLength <- dimensionLengths(ncdf, name)
+            numDim <- dimensionCount(ncdf)[[name]]
+            dimNames <- dimensions(ncdf)[[name]]
+            dimLength <- dimensionLengths(ncdf)[[name]]
             if(length(dim) != numDim)
                 stop(paste("'dim' should have the same length as the number of dimensions of", name, sep =" "))
  
@@ -50,7 +50,7 @@
     status = function() {
         "Gets the current start position of the slice being read"
         if(all(start == -1))
-            return(dimensionLengths(ncdf, name))
+            return(dimensionLengths(ncdf)[[name]])
         else
             return(start)
     },
@@ -62,13 +62,13 @@
     yield = function() {
         "Reads a slice. Repeated calls retrieves the next chunk of data until 
         the end of file has been reached."
-        dimLen <- dimensionLengths(ncdf, name)
+        dimLen <- dimensionLengths(ncdf)[[name]]
         if( all(start == -1)) {
             message("Reached the end of the file ")
             return(matrix(numeric(0), 0, 0))   
 
         }
-        nd <- dimensionCount(ncdf, name)
+        nd <- dimensionCount(ncdf)[[name]]
         ## Helper functions for yield function
         ## Gets the start position for the next read
         .getNextStart <- function(start, slice, dimLen , nd) {
@@ -100,21 +100,26 @@
             count[!indx] <- tmp[!indx]
             count                          
         }
-        start <<- .getNextStart(start, slice, dimLen, nd) 
         count <<- .getCurrentCount(start, slice, dimLen, count)
-        ncvar_get(ncdf$con, name, start = as.vector(start), count = as.vector(count))
+        dat <- ncvar_get(ncdf$con, name, start = as.vector(start), count = as.vector(count))
+        start <<- .getNextStart(start, slice, dimLen, nd) 
+        dat
+
     }
 )
 
 
 ## Constructor for NetCDF producer class
 NetCDFProducer <- function(ncdf, var = NULL) {
+   
     if(!is(ncdf, "NetCDFFile") || missing(ncdf))
         stop(paste(ncdf, "should be a valid object of class \"NetCDFFile\"", sep = " "))
+    
     if(!is.null(var)) {
         if(!var %in% names(ncdf))
-            stop(paste("var must be one of the  variables in", names(ncdf), sep =" "))
+            stop("var must be one of the  variables in the NetCDF file")
     }
+    
     if(length(var) != 1)
         stop("var must specify a single variable")
     .NetCDFProducer$new(ncdf, var)
@@ -125,9 +130,9 @@ NetCDFProducer <- function(ncdf, var = NULL) {
 ## sets the default slices for the getSlice function
 .getDefaultSlice <- function(nc, var) {
     slicePercent = 0.05 
-    dimLen <- dimensionLengths(nc, var) 
-    numDims <- dimensionCount(nc, var)
-    dimNames <- dimensions(nc, var)
+    dimLen <- dimensionLengths(nc)[[var]]
+    numDims <- dimensionCount(nc)[[var]]
+    dimNames <- dimensions(nc)[[var]]
     if(numDims ==2) {
         mx <- max(round(dimLen[2] * slicePercent), 1)
         return(structure(c(dimLen[1], mx ), names = dimNames))
@@ -141,9 +146,9 @@ NetCDFProducer <- function(ncdf, var = NULL) {
 
 ## default start value for the cursor in NetCDF file
 .initializeStart <- function(nc, var) {
-    dimNames <- dimensions(nc, var)
-    dimLen <- dimensionLengths(nc, var)
-    numDims <- dimensionCount(nc, var)
+    dimNames <- dimensions(nc)[[var]]
+    dimLen <- dimensionLengths(nc)[[var]]
+    numDims <- dimensionCount(nc)[[var]]
     structure(rep(1, numDims), names = dimNames)
                
 }

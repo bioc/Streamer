@@ -1,5 +1,5 @@
-## Accessor methods 
-## Accessor methods 
+## Accessor methods for NetCDFProducer class
+
 setMethod("names", "NetCDFProducer", function(x) {
     x$name
 })
@@ -21,7 +21,7 @@ setMethod("status", "NetCDFProducer", function(x) {
 })
 
 
-## Replacement methods 
+## Replacement methods for NetCDFProducer class
 setReplaceMethod("slice", c("NetCDFProducer", "list"),
                  function(x, ..., value) {
                      value <- unlist(value)
@@ -39,31 +39,27 @@ setReplaceMethod("slice", c("NetCDFProducer", "numeric"),
                  })
 
 
-### Wrapper methods for NetCDFFile class
+## Accessor methods for NetCDFFile class
 setMethod("names", "NetCDFFile", function(x) {
           x$variableNames
 })
 
-setMethod("precision", "NetCDFFile", function(x, var) {
-          .checkVar(x, var = var)
-          x$getPrecision(var = var)
+setMethod("precision", "NetCDFFile", function(x) {
+          x$getPrecision()
 })
 
-setMethod("dimensionLengths", "NetCDFFile", function(x, var, ...) {
-          .checkVar(x, var = var)
-          x$getDimensionLengths(var = var,...)
-})
-
-
-setMethod("dimensions", "NetCDFFile", function(x, var,...) {
-          .checkVar(x, var)
-          x$getDimensionNames(var = var,...)
+setMethod("dimensionLengths", "NetCDFFile", function(x) {
+          x$getDimensionLengths()
 })
 
 
-setMethod("dimensionCount", "NetCDFFile", function(x, var,...) {
-          .checkVar(x, var)
-          x$getDimensionCounts(var = var,...)
+setMethod("dimensions", "NetCDFFile", function(x) {
+          x$getDimensionNames()
+})
+
+
+setMethod("dimensionCount", "NetCDFFile", function(x) {
+          x$getDimensionCounts()
 })
 
 
