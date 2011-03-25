@@ -10,7 +10,7 @@
                   ))
 
 .NetCDFProducer$methods(
-    initialize  = function(ncdf, var) {
+    initialize  = function(ncdf, var, ...) {
         "Initialize slots of netCDFSampler class for all variables
         in file "
         if(is.null(var))

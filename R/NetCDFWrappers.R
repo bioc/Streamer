@@ -25,7 +25,7 @@ setMethod("status", "NetCDFProducer", function(x) {
 setReplaceMethod("slice", c("NetCDFProducer", "list"),
                  function(x, ..., value) {
                      value <- unlist(value)
-                     callNextMethod(...)
+                     slice(x, ...) <- value
                      x
                  })
 

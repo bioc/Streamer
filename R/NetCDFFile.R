@@ -7,7 +7,7 @@
                   numDims = "integer"))
 
 .NetCDFFile$methods(
-    initialize = function(file = NULL) {
+    initialize = function(file = NULL, ...) {
         "Initialize all the fields of the NetCDFFile class"
         if(!is.null(file)) {
             .self$con <- nc_open(file)
