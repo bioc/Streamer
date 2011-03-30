@@ -5,7 +5,6 @@
 
 \alias{NetCDFProducer-class}
 \alias{NetCDFProducer}
-
 \alias{names,NetCDFProducer-method}
 \alias{slice,NetCDFProducer-method}
 \alias{reset,NetCDFProducer-method}
