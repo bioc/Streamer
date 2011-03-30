@@ -5,6 +5,9 @@
 
 \alias{NetCDFProducer-class}
 \alias{NetCDFProducer}
+\alias{status}
+\alias{slice}
+\alias{slice<-}
 \alias{names,NetCDFProducer-method}
 \alias{slice,NetCDFProducer-method}
 \alias{reset,NetCDFProducer-method}
@@ -12,6 +15,7 @@
 \alias{status,NetCDFProducer-method}
 \alias{slice,NetCDFProducer-method}
 \alias{slice<-,NetCDFProducer,list-method}
+\alias{slice<-,NetCDFProducer,numeric-method}
 
 \title{Class "NetCDFProducer"}
 
@@ -87,15 +91,13 @@ NetCDFProducer(ncdf, var = NULL, ..., verbose = FALSE)
      NetCDFProducer class.}
     \item{\code{slice()}:}{Returns a named  numeric vector for the block size of
         data that will be retrieved using the \code{yield} function.}
-    \item{\code{slice()}:}{Returns a named \code{list} containing the names of 
-        the dimensions for each variable in the NetCDF file. }
     \item{\code{yield()}:}{Processes the NetCDF file and retrieves a matrix of data 
       from the NetCDF file corresponding to the slice size that has been set.
       Repeated calls to the \code{yield} function retrieves the next block of data
      until the end of file has been reached.}
     \item{\code{reset()}:}{Resets the cursor that tracks the next block of data
         to be read to the start of the file.}
-     \item{\code{staus()}:}{Returns a named numeric vector for the position of 
+     \item{\code{status()}:}{Returns a named numeric vector for the position of 
         the start of the  block from which data will be read for the next call
         to the \code{yield} function.}
   }

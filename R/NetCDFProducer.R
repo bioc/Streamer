@@ -131,7 +131,7 @@ NetCDFProducer <- function(ncdf, var = NULL, ..., verbose = FALSE) {
         mx <- max(round(dimLen[3] * slicePercent), 1)
         return(structure(c(dimLen[1], dimLen[2], mx ), names = dimNames))
     } else {
-        structure(rep(NA, numDims), names = diimNames)
+        structure(rep(NA, numDims), names = dimNames)
     }
 
 }
