@@ -1,5 +1,6 @@
 .NetCDFFile <- setRefClass("NetCDFFile",
     fields = list(
+      ## FIXME: indent 4 in from '    fields'
                   con = "ANY",
                   variableNames = "character",
                   dimensionNames = "list",
@@ -10,6 +11,8 @@
      initialize = function(file = NULL,...) {
         
         "Initialize all the fields of the NetCDFFile class"
+        ## FIXME: do more work here, rather than in NetCDFFile or
+        ## helper functions
         if (!is.null(file)) {
             .self$con <- nc_open(file)
             .self$variableNames <- .getNcdfVariableNames(con)
@@ -24,12 +27,14 @@
     getVariableNames = function() {
 
         "Returns the names for all variables in the file"
+        ## FIXME: .self$variableNames
         variableNames
 
     },
     getDimensionNames = function() {
     
         "Returns the names of the dimensions "
+        ## FIXME: here and elsewhere; just .self$dimensionNames
         .getFieldValue(.self, "dimensionNames")
     
     }, 
@@ -60,7 +65,6 @@
     }
 )
 
-
 ## Constructor for NetCDFFile class
 NetCDFFile <- function(file = NULL, ... ) {
 
@@ -81,8 +85,7 @@ NetCDFFile <- function(file = NULL, ... ) {
 
     vars <- .getNcdfVariableNames(nc)
     structure(sapply(seq_len(length(vars)), function(i) {
-                     nc$var[[i]][[info]]
-
+        nc$var[[i]][[info]]
     }), names = vars)
 
 }
@@ -119,7 +122,6 @@ NetCDFFile <- function(file = NULL, ... ) {
 
 }
 
-
 ## gets the dimension names for all variables as a named list
 .getNcdfDimNames <- function(nc) {
 
@@ -148,4 +150,3 @@ NetCDFFile <- function(file = NULL, ... ) {
     .getNcdfInfo(nc, "prec")
 
 }
-

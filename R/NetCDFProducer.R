@@ -28,30 +28,43 @@
     getSlice = function() {
 
         "Returns the slice dimensions"
+        ## FIXME: not actually used, so don't implement?
         if (verbose) msg(".NetCDFProducer$getSlice()")
         slice
-
     },
     setSlice = function(dim, ...) {
 
         "Sets the slice dimensions"
         if (verbose) msg(".NetCDFProducer$setSlice()")
         .checkDimension <- function(dim) {
+            ## FIXME: inside the class we should use class methods / variables
             numDim <- dimensionCount(ncdf)[[name]]
             dimNames <- dimensions(ncdf)[[name]]
             dimLength <- dimensionLengths(ncdf)[[name]]
-            if (length(dim) != numDim)
-                stop(paste("'dim' should have the same length as the number of dimensions of", name, sep =" "))
- 
+            if(length(dim) != numDim) {
+                ## FIXME: separate message construction from signal;
+                ## simplify messages
+                msg <-
+                    sprintf("'dim' length must equal dimension number of '%s'",
+                            name)
+                stop(msg)
+            }
             nms <- names(dim) %in% dimNames
-            if (!(all(nms) && length(nms)))
-                stop(paste("'dim' should have names corresponding to the names of dimensions for the variable",
-                           name , sep =" "))
+            if(!(all(nms) && length(nms))) {
+                msg <-
+                    sprintf("'dim' names must equal dimension names of '%s'",
+                            name)
+                stop(msg)
+            }
+            ## FIXME: for() rather than sapply since no useful return
             sapply(seq_len(numDim), function(i) {
-                   if ( dim[i] < 1 || dim[i] > dimLength[i])
-                       stop(paste("Slice dimension for", dimNames[i],  "should be within the range 1 and", dimLength[i], sep = " "))
-                  }
-            )
+                if( dim[i] < 1 || dim[i] > dimLength[i]) {
+                    msg <-
+                        sprintf("'%s' slice dimension must be in range 1, %d",
+                                dimNames[i], dimLength[i])
+                    stop(msg)
+                }
+            })
         }
         .checkDimension(dim) 
         .self$start <- .initializeStart(ncdf, name)
@@ -59,11 +72,10 @@
 
     }, 
     status = function() {
-    
         "Gets the current start position of the slice being read"
         if (verbose) msg(".NetCDFProducer$status()")
-        
-        if (all(start == -1))
+        ## FIXME 'return' not necessary here
+        if(all(start == -1))
             return(dimensionLengths(ncdf)[[name]])
         else
             return(start)
@@ -86,35 +98,32 @@
         dimLen <- dimensionLengths(ncdf)[[name]]
         if ( all(start == -1)) {
             message("Reached the end of the file ")
-            return(matrix(numeric(0), 0, 0))   
+            ## FIXME: correct type for variable
+            return(matrix(numeric(0), 0, 0))
         }
         nd <- dimensionCount(ncdf)[[name]]
         count <<- .getCurrentCount(start, slice, dimLen, count)
+        ## FIXME wrap long line
         dat <- ncvar_get(ncdf$con, name, start = as.vector(start), count = as.vector(count))
         start <<- .getNextStart(start, slice, dimLen, nd) 
         dat
-
     }
 )
 
-
 ## Constructor for NetCDF producer class
-NetCDFProducer <- function(ncdf, var = NULL, ..., verbose = FALSE) {
-   
-    if (!is(ncdf, "NetCDFFile") || missing(ncdf))
-        stop(paste(ncdf, "should be a valid object of class \"NetCDFFile\"", sep = " "))
-    
-    if (!is.null(var)) {
-        if (!var %in% names(ncdf))
-            stop("var must be one of the  variables in the NetCDF file")
-    }
-    
-    if (length(var) != 1)
-        stop("var must specify a single variable")
+NetCDFProducer <- function(ncdf, var = NULL) 
+{
+    ## FIXME: (fixed) order tests for success, e.g., test 'missing'
+    ## before 'is'
+    if (missing(ncdf) || !is(ncdf, "NetCDFFile"))
+        stop("'ncdf' must be a valid object of class 'NetCDFFile'")
+    if (!is.character(var) || 1L != length(var) || !var %in% names(ncdf))
+        stop("'var' must be one variable in 'file'")
     .NetCDFProducer$new(ncdf = ncdf, var = var, ... , verbose = verbose)
 
 }
 
+## FIXME: Do these belong *in* the class?
 ## Helper functions for NetCDF producer class
 
 ## sets the default slices for the getSlice function
