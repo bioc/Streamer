@@ -1,18 +1,84 @@
 .NetCDFFile <- setRefClass("NetCDFFile",
     fields = list(
-      ## FIXME: indent 4 in from '    fields'
-                  con = "ANY",
-                  variableNames = "character",
-                  dimensionNames = "list",
-                  precision = "character",
-                  numDims = "integer"))
+        con = "ANY",
+        variableNames = "character",
+        dimensionNames = "list",
+        precision = "character",
+        numDims = "integer"))
 
 .NetCDFFile$methods(
      initialize = function(file = NULL,...) {
         
         "Initialize all the fields of the NetCDFFile class"
-        ## FIXME: do more work here, rather than in NetCDFFile or
-        ## helper functions
+        
+        ## Helper for precision and number of dims
+        .getNcdfInfo <- function(nc, info) {
+
+            vars <- .getNcdfVariableNames(nc)
+            structure(sapply(seq_len(length(vars)), function(i) {
+                nc$var[[i]][[info]]
+            }), names = vars)
+
+        }   
+
+        ## Helper for dimension names, dim lengths
+        .getNcdfDimInfo <- function(nc,info ) {
+
+            vars <- .getNcdfVariableNames(nc)
+            get_dim_info <- function(varid, info) {
+                ndims <- nc$var[[varid]]$ndims
+                sapply(seq_len(ndims), function(i) {
+                    nc$var[[varid]]$dim[[i]][[info]]
+                })
+            }   
+            structure(lapply(vars, function(i) {
+               val <- get_dim_info(i, info)
+               if (info == "len") {
+                   ndims <- nc$var[[i]]$ndims
+                   nms <- sapply(seq_len(ndims), function(j) {
+                                 nc$var[[i]]$dim[[j]]$name
+                   })
+                   names(val) <- nms
+                }
+                val
+            }), names = vars)
+       }
+
+        ## gets  names of variables in NetCDF file  
+        .getNcdfVariableNames <- function(nc) {
+
+            names(nc$var)
+
+        }
+
+        ## gets the dimension names for all variables as a named list
+        .getNcdfDimNames <- function(nc) {
+
+            .getNcdfDimInfo(nc, "name")
+
+        }
+
+        ## gets the dimension lengths for all variables as a named list
+        .getNcdfDimLengths  <- function(nc) {
+
+            .getNcdfDimInfo(nc,"len")
+
+        }
+
+
+        ## gets the number of dimensions for all variables in the file
+        .getNcdfNumDims <- function(nc) {
+
+            .getNcdfInfo(nc, "ndims")
+
+        }
+
+        ## gets precision info for all variables in file 
+        .getNcdfPrecision <- function(nc) {
+
+            .getNcdfInfo(nc, "prec")
+
+        }
         if (!is.null(file)) {
             .self$con <- nc_open(file)
             .self$variableNames <- .getNcdfVariableNames(con)
@@ -27,33 +93,30 @@
     getVariableNames = function() {
 
         "Returns the names for all variables in the file"
-        ## FIXME: .self$variableNames
-        variableNames
+        .self$variableNames
 
     },
     getDimensionNames = function() {
     
         "Returns the names of the dimensions "
-        ## FIXME: here and elsewhere; just .self$dimensionNames
-        .getFieldValue(.self, "dimensionNames")
-    
+        .self$dimensionNames 
     }, 
     getDimensionLengths = function() {
 
         "Returns the dimension lengths"
-        .getFieldValue(.self, "dimensionLengths")
+        .self$dimensionLengths
     
     },
     getDimensionCounts = function() {
 
         "Returns the number of dimensions"
-        .getFieldValue(.self, "numDims")
+        .self$numDims
     
     },
     getPrecision = function() {
         
         "Returns the storage precision for a variable"
-        .getFieldValue(.self, "precision") 
+        .self$precision 
 
     },
     finalize = function() {
@@ -72,81 +135,22 @@ NetCDFFile <- function(file = NULL, ... ) {
 
 }
 
+## Accessor methods for NetCDFFile class
+setMethod("names", "NetCDFFile", function(x) x$getVariableNames())
 
-## retrieves the field from the NetCDFFile class
-.getFieldValue <- function(self, field) {
+setMethod("precision", "NetCDFFile", function(x) x$getPrecision())
 
-    return(self[[field]])
+setMethod("dimensionLengths", "NetCDFFile",
+          function(x) x$getDimensionLengths())
 
-}
+setMethod("dimensions", "NetCDFFile",
+          function(x) x$getDimensionNames())
 
-## Helper for precision and number of dims
-.getNcdfInfo <- function(nc, info) {
-
-    vars <- .getNcdfVariableNames(nc)
-    structure(sapply(seq_len(length(vars)), function(i) {
-        nc$var[[i]][[info]]
-    }), names = vars)
-
-}
-
-## Helper for dimension names, dim lengths
-.getNcdfDimInfo <- function(nc,info ) {
-
-    vars <- .getNcdfVariableNames(nc)
-    get_dim_info <- function(varid, info) {
-        ndims <- nc$var[[varid]]$ndims
-        sapply(seq_len(ndims), function(i) {
-               nc$var[[varid]]$dim[[i]][[info]]
-        })
-    }
-    structure(
-        lapply(vars, function(i) {
-               val <- get_dim_info(i, info)
-               if (info == "len") {
-                   ndims <- nc$var[[i]]$ndims
-                   nms <- sapply(seq_len(ndims), function(j) {
-                                 nc$var[[i]]$dim[[j]]$name
-                   })
-                   names(val) <- nms
-                }
-                val
-        }), names = vars)
-
-}
-
-## gets  names of variables in NetCDF file  
-.getNcdfVariableNames <- function(nc) {
-
-    names(nc$var)
-
-}
-
-## gets the dimension names for all variables as a named list
-.getNcdfDimNames <- function(nc) {
-
-    .getNcdfDimInfo(nc, "name")
-
-}
-
-## gets the dimension lengths for all variables as a named list
-.getNcdfDimLengths  <- function(nc) {
-
-    .getNcdfDimInfo(nc,"len")
-
-}
+setMethod("dimensionCount", "NetCDFFile",
+          function(x) x$getDimensionCounts())
 
 
-## gets the number of dimensions for all variables in the file
-.getNcdfNumDims <- function(nc) {
 
-    .getNcdfInfo(nc, "ndims")
 
-}
+ 
 
-## gets precision info for all variables in file 
-.getNcdfPrecision <- function(nc) {
-
-    .getNcdfInfo(nc, "prec")
-
-}
