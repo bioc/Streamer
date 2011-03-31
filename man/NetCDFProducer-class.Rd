@@ -44,7 +44,25 @@ NetCDFProducer(ncdf, var = NULL, ..., verbose = FALSE)
 
 }
 
-\section{Fields}{
+\section{Class Methods}{
+  \describe{
+    \item{\code{names()}:}{Returns the name of the variable being processed by the 
+     NetCDFProducer class.}
+    \item{\code{slice()}:}{Returns a named  numeric vector for the block size of
+        data that will be retrieved using the \code{yield} function.}
+    \item{\code{yield()}:}{Processes the NetCDF file and retrieves a matrix of data 
+      from the NetCDF file corresponding to the slice size that has been set.
+      Repeated calls to the \code{yield} function retrieves the next block of data
+     until the end of file has been reached.}
+    \item{\code{reset()}:}{Resets the cursor that tracks the next block of data
+        to be read to the start of the file.}
+     \item{\code{status()}:}{Returns a named numeric vector for the position of 
+        the start of the  block from which data will be read for the next call
+        to the \code{yield} function.}
+  }
+}
+
+\section{Class Internal Fields: (For developers)}{
   \describe{
     \item{\code{name}:}{ A character vector specifying the name of the variable 
         that is  being read using the \code{NetCDFProducer} class}
@@ -62,7 +80,7 @@ NetCDFProducer(ncdf, var = NULL, ..., verbose = FALSE)
      }
 }
 
-\section{Class-Based Methods}{
+\section{Class Internal Methods: (For developers)}{
   \describe{
     \item{\code{initialize(ncdf, var, ..., verbose)}:}{Called during object creation with values to
       initialize fields.}
@@ -81,25 +99,6 @@ NetCDFProducer(ncdf, var = NULL, ..., verbose = FALSE)
     along each dimension that will be retrieved by the \code{yield} function. A
     call to this function resets the next block of data to be read to the start 
     of the NetCDF file.}
-  }
-}
-
-
-\section{Class-Wrapper Methods}{
-  \describe{
-    \item{\code{names()}:}{Returns the name of the variable being processed by the 
-     NetCDFProducer class.}
-    \item{\code{slice()}:}{Returns a named  numeric vector for the block size of
-        data that will be retrieved using the \code{yield} function.}
-    \item{\code{yield()}:}{Processes the NetCDF file and retrieves a matrix of data 
-      from the NetCDF file corresponding to the slice size that has been set.
-      Repeated calls to the \code{yield} function retrieves the next block of data
-     until the end of file has been reached.}
-    \item{\code{reset()}:}{Resets the cursor that tracks the next block of data
-        to be read to the start of the file.}
-     \item{\code{status()}:}{Returns a named numeric vector for the position of 
-        the start of the  block from which data will be read for the next call
-        to the \code{yield} function.}
   }
 }
 

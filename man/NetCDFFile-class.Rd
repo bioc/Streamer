@@ -37,7 +37,21 @@ NetCDFFile(file = NULL, ...)
     this class. Currently ignored.}
 }
 
-\section{Fields}{
+\section{Class Methods}{
+  \describe{
+    \item{\code{names()}:}{Returns the names of variables in the NetCDF file.}
+    \item{\code{precision()}:}{Returns a named character vector corresponding to
+        the storage precision of the variables in the NetCDF file.}
+    \item{\code{dimensions()}:}{Returns a named \code{list} containing the names of 
+        the dimensions for each variable in the NetCDF file. }
+    \item{\code{dimensionLengths()}:}{Returns a named \code{list} containing named numeric
+       vectors of the length of dimensions for each variable.}
+    \item{\code{dimensionCount()}:}{Returns a named numeric vector the number of 
+       dimensions for each variable.}
+  }
+}
+
+\section{Class Internal Fields: (For developers)}{
   \describe{
     \item{\code{con}:}{Object of class \code{ncdf4}. An R
        ncdf4 connection obtained by opening a NetCDF file from which data 
@@ -59,7 +73,7 @@ NetCDFFile(file = NULL, ...)
   }
 }
 
-\section{Class-Based Methods}{
+\section{Class Internal Methods: (For developers)}{
   \describe{
     \item{\code{initialize(con, variableNames, dimensionNames, dimensionLengths,
 	numDims, precision)}:}{Called during object creation with values to
@@ -75,21 +89,6 @@ NetCDFFile(file = NULL, ...)
     \item{\code{getPrecision()}:}{Retrieves the precision of each variable in 
         the NetCDF file.}
     \item{\code{finalize()}:}{Closes the NetCDF connection \code{con}.}
-  }
-}
-
-
-\section{Class-Wrapper Methods}{
-  \describe{
-    \item{\code{names()}:}{Returns the names of variables in the NetCDF file.}
-    \item{\code{precision()}:}{Returns a named character vector corresponding to
-        the storage precision of the variables in the NetCDF file.}
-    \item{\code{dimensions()}:}{Returns a named \code{list} containing the names of 
-        the dimensions for each variable in the NetCDF file. }
-    \item{\code{dimensionLengths()}:}{Returns a named \code{list} containing named numeric
-       vectors of the length of dimensions for each variable.}
-    \item{\code{dimensionCount()}:}{Returns a named numeric vector the number of 
-       dimensions for each variable.}
   }
 }
 
