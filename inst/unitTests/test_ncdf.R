@@ -1,40 +1,34 @@
-
 test_2D_Data_read <- function() {
     file <- system.file("extdata", "NetCDFData.nc", package = "Streamer")
     ncFile <- NetCDFFile(file)
 
-    vars <- names(ncFile)
+    vars <- names(dimensions(ncFile))
     checkIdentical(vars, c( "2dIntData", "2dFloatData"))
 
     current <- dimensions(ncFile)
-    target <- list("2dIntData" = c("sampleDim", "snpDim"),
-                   "2dFloatData" = c("sampleDim", "snpDim" ))
+    target <- list(`2dIntData` = c(sampleDim=5L, snpDim=10L),
+                   `2dFloatData` = c(sampleDim=5L, snpDim=10L ))
     checkIdentical(current, target)
     
-    current <- dimensionLengths(ncFile)
-    nms <-  c("sampleDim", "snpDim")
-    target <- list("2dIntData" = structure(c(5L, 10L), names = nms) ,
-                   "2dFloatData" = structure( c(5L, 10L), names = nms))
-    checkIdentical(current, target)
-
     ncprod <- NetCDFProducer(ncFile, "2dIntData")
-    current <- names(ncprod)
+    current <- names(dimensions(ncprod))
     checkIdentical(current, "2dIntData")
     
-    slice(ncprod) <- list(snpDim = 5, sampleDim = 5)
-    current <- slice(ncprod)
+    slice <- c(sampleDim = 5, snpDim = 5)
+    ncprod <- NetCDFProducer(ncFile, "2dIntData", slice)
+    current <- ncprod$slice
     nms <-  c("sampleDim", "snpDim")
-    target <-  structure( c(5, 5), names = nms)
+    target <-  structure( c(5L, 5L), names = nms)
     checkIdentical(current, target)
 
     dat <- yield(ncprod)
     current <- status(ncprod)
-    target <- structure( c(1,6), names = c("sampleDim", "snpDim"))
+    target <- structure(c(1L, 6L), names = c("sampleDim", "snpDim"))
     checkEquals(target, current)
    
     reset(ncprod)
     current <- status(ncprod)
-    target <- structure( c(1,1), names = c("sampleDim", "snpDim"))
+    target <- structure(c(1L, 1L), names = c("sampleDim", "snpDim"))
     checkEquals(target, current)
 
     current <- yield(ncprod)
@@ -49,11 +43,11 @@ test_2D_Data_read <- function() {
     target <- matrix(numeric(0), 0, 0)
     checkEquals(target ,current)
   
-    reset(ncprod)
-    slice(ncprod) <- list(sampleDim = 4, snpDim = 4)
+    slice <- c(sampleDim = 4, snpDim = 4)
+    ncprod <- NetCDFProducer(ncFile, "2dIntData", slice)
 
     current <- yield(ncprod)
-    target <- matrix( c(1:4, 6:9, 11:14, 16:19), ncol = 4)
+    target <- matrix(c(1:4, 6:9, 11:14, 16:19), ncol = 4)
     checkEquals(target ,current)
     
     current <- yield(ncprod)
