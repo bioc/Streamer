@@ -40,6 +40,8 @@ reset(x, ...)
 
 }
 
-\examples{}
+\examples{
+## see example(stream)
+}
 
 \keyword{methods}

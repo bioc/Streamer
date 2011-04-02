@@ -58,6 +58,8 @@ b <- RawInput(fl, 100L, reader=rawReaderFactory(1e4))
 s <- stream(RawToChar(), Rev(), b)
 s
 yield(s)
+reset(s)
+while (length(yield(s))) cat("tick\n")
 }
 
 \keyword{manip}

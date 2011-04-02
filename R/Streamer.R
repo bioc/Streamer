@@ -41,6 +41,8 @@ setMethod(reset, "Streamer", function(x, ...) x$reset())
 
 setMethod(yield, "Streamer", function(x, ...) x$yield())
 
+setMethod(status, "Streamer", function(x, ...) x$status())
+
 setMethod(show, "Streamer",
     function(object)
 {

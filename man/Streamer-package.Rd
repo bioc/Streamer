@@ -32,8 +32,6 @@
   \code{yield} on a stream, retrieving chunks of the stream for further
   processing.
 
-  
-
 }
 
 \author{Martin Morgan \url{mtmorgan@fhcrc.org}}

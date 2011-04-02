@@ -33,7 +33,7 @@
 }
 
 \usage{
-RawInput(con, yieldSize = 1e+06, reader = rawReaderFactory(), 
+RawInput(con, yieldSize = 1e+05, reader = rawReaderFactory(), 
     parser = rawParserFactory(), ..., verbose = FALSE)
 rawReaderFactory(blockSize = 1e+06, what)
 rawParserFactory(separator = charToRaw("\n"), trim = separator)

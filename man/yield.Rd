@@ -40,6 +40,8 @@ yield(x, ...)
 
 }
 
-\examples{}
+\examples{
+## see example(stream)
+}
 
 \keyword{ manip }
