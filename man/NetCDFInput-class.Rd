@@ -1,26 +1,26 @@
-\name{NetCDFProducer-class}
+\name{NetCDFInput-class}
 
 \Rdversion{1.1}
 \docType{class}
 
-\alias{NetCDFProducer-class}
-\alias{NetCDFProducer}
-\alias{dimensions,NetCDFProducer-method}
+\alias{NetCDFInput-class}
+\alias{NetCDFInput}
+\alias{dimensions,NetCDFInput-method}
 
-\title{Class "NetCDFProducer"}
+\title{Class "NetCDFInput"}
 
 \description{
 
-  A \code{\linkS4class{NetCDFProducer}}-class to retrieve data store in
+  A \code{\linkS4class{NetCDFInput}}-class to retrieve data store in
   NetCDF files. Users interact with this class through the constructor
-  \code{\link{NetCDFProducer}} and methods \code{\link{yield}},
+  \code{\link{NetCDFInput}} and methods \code{\link{yield}},
   \code{\link{status}}, and \code{\link{reset}}.
 
 }
 
 \usage{
-NetCDFProducer(ncdf, var, slice, ..., verbose = FALSE)
-\S4method{dimensions}{NetCDFProducer}(x, ...)
+NetCDFInput(ncdf, var, slice, ..., verbose = FALSE)
+\S4method{dimensions}{NetCDFInput}(x, ...)
 }
 
 \arguments{
@@ -42,7 +42,7 @@ NetCDFProducer(ncdf, var, slice, ..., verbose = FALSE)
   \item{verbose}{\code{logical(1)} indicating whether class methods
     should report to the user.}
 
-  \item{x}{An instance of the \code{NetCDFProducer} class.}
+  \item{x}{An instance of the \code{NetCDFInput} class.}
 
 }
 
@@ -124,13 +124,13 @@ NetCDFProducer(ncdf, var, slice, ..., verbose = FALSE)
 \seealso{\code{\link{NetCDFFile}}}
 
 \examples{
-showClass("NetCDFProducer")
+showClass("NetCDFInput")
 
 pth <- system.file("extdata", "NetCDFData.nc", package = "Streamer")
 ncFile <- NetCDFFile(pth)
 dimensions(ncFile)		# variable names and dimensions
 
-ncProd <- NetCDFProducer(ncFile, "2dIntData", c(sampleDim=5, snpDim=2))
+ncProd <- NetCDFInput(ncFile, "2dIntData", c(sampleDim=5, snpDim=2))
 yield(ncProd)
 status(ncProd)
 reset(ncProd)

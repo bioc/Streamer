@@ -1,7 +1,7 @@
 Package: Streamer
 Type: Package
 Title: Enabling stream processing of large files
-Version: 0.0.6
+Version: 0.0.7
 Date: 2010-10-13
 Author: Martin Morgan, Nishant Gopalakrishnan
 Maintainer: Martin Morgan <mtmorgan@fhcrc.org>
@@ -23,5 +23,5 @@ Collate:
   Producer.R Consumer.R Stream.R
   ConnectionProducer.R RawInput.R ValueInput.R
   RevStream.R Downsample.R Utility.R
-  runit_runner.R NetCDFFile.R NetCDFProducer.R
+  runit_runner.R NetCDFFile.R NetCDFInput.R
   zzz.R

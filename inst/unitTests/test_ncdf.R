@@ -10,12 +10,12 @@ test_2D_Data_read <- function() {
                    `2dFloatData` = c(sampleDim=5L, snpDim=10L ))
     checkIdentical(current, target)
     
-    ncprod <- NetCDFProducer(ncFile, "2dIntData")
+    ncprod <- NetCDFInput(ncFile, "2dIntData")
     current <- names(dimensions(ncprod))
     checkIdentical(current, "2dIntData")
     
     slice <- c(sampleDim = 5, snpDim = 5)
-    ncprod <- NetCDFProducer(ncFile, "2dIntData", slice)
+    ncprod <- NetCDFInput(ncFile, "2dIntData", slice)
     current <- ncprod$slice
     nms <-  c("sampleDim", "snpDim")
     target <-  structure( c(5L, 5L), names = nms)
@@ -44,7 +44,7 @@ test_2D_Data_read <- function() {
     checkEquals(target ,current)
   
     slice <- c(sampleDim = 4, snpDim = 4)
-    ncprod <- NetCDFProducer(ncFile, "2dIntData", slice)
+    ncprod <- NetCDFInput(ncFile, "2dIntData", slice)
 
     current <- yield(ncprod)
     target <- matrix(c(1:4, 6:9, 11:14, 16:19), ncol = 4)

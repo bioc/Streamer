@@ -1,13 +1,13 @@
-.NetCDFProducer <- setRefClass("NetCDFProducer",
+.NetCDFInput <- setRefClass("NetCDFInput",
     contains = c("Producer"),
     fields = list(ncdf="NetCDFFile", name="character",
       slice="integer", start="integer"))
 
-.NetCDFProducer$methods(
+.NetCDFInput$methods(
     .validSlice = function(slc)
     {
         "Validate slice dimensions"
-        if (verbose) msg(".NetCDFProducer$.validSlice()")
+        if (verbose) msg(".NetCDFInput$.validSlice()")
         dims <- dimensions(ncdf)[[name]]
         if(length(dims) != length(slc)) {
             msg <-
@@ -37,7 +37,7 @@
     {
         "Initialize the fields of a netCDFSampler class "
         callSuper(..., yieldSize=prod(slice))
-        if (verbose) msg(".NetCDFProducer$initialize()")
+        if (verbose) msg(".NetCDFInput$initialize()")
         .self$ncdf <- ncdf
         .self$name <- var
         .self$slice <- .validSlice(slice)
@@ -45,7 +45,7 @@
     },
     status = function() {
         "Gets the current start position of the slice being read"
-        if (verbose) msg(".NetCDFProducer$status()")
+        if (verbose) msg(".NetCDFInput$status()")
         if(all(start == -1))
             dimensions(ncdf)[[name]]
         else
@@ -54,7 +54,7 @@
     reset = function() {
         "Resets the position to be read to start of the file"
         callSuper()
-        if (verbose) msg(".NetCDFProducer$reset()")
+        if (verbose) msg(".NetCDFInput$reset()")
         dimNames <- names(dimensions(ncdf)[[name]])
         .self$start <-
             structure(rep(1L, length(dimNames)), names = dimNames)
@@ -96,7 +96,7 @@
     yield = function() {
         "Reads a slice. Repeated calls retrieves the next chunk of data until 
          the end of file has been reached."
-        if (verbose) msg(".NetCDFProducer$yield()")
+        if (verbose) msg(".NetCDFInput$yield()")
         if (all(-1L == start)) {
             if (verbose) msg("end of file")
             ## FIXME: correct type for variable
@@ -106,7 +106,8 @@
         dat <- ncvar_get(ncdf$con, name, start = as.vector(start), 
                          count = count)
         .self$start <- .getNextStart()
-        dim(dat) <- count
+        if (1L != length(count))
+            dim(dat) <- count
         dat
     }
 )
@@ -130,7 +131,7 @@
     }
 }
 
-NetCDFProducer <-
+NetCDFInput <-
     function(ncdf, var, slice, ..., verbose = FALSE) 
 {
     if (missing(ncdf) || !is(ncdf, "NetCDFFile"))
@@ -140,14 +141,14 @@ NetCDFProducer <-
         stop("'var' must be one variable in 'file'")
     if (missing(slice))
         slice <- .getDefaultSlice(ncdf, var)
-    .NetCDFProducer$new(ncdf = ncdf, var = var, slice=slice, ...,
+    .NetCDFInput$new(ncdf = ncdf, var = var, slice=slice, ...,
                         verbose = verbose)
 }
 
-setMethod(dimensions, "NetCDFProducer",
+setMethod(dimensions, "NetCDFInput",
           function(x, ...) dimensions(x$ncdf)[x$name])
 
-setMethod(show, "NetCDFProducer", function(object)
+setMethod(show, "NetCDFInput", function(object)
 {
     .p1dim <- function(tag, dim, collapse=" x ")
         sprintf("%s: %s (%s)\n", tag, paste(dim, collapse=collapse),
