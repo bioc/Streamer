@@ -99,8 +99,9 @@
         if (verbose) msg(".NetCDFInput$yield()")
         if (all(-1L == start)) {
             if (verbose) msg("end of file")
-            ## FIXME: correct type for variable
-            return(structure(numeric(), .Dim=integer(length(start))))
+            prec <- precision(ncdf)[[name]]
+            typ <- if(prec == "float" || prec == "double") numeric() else integer()
+            return(structure(typ, .Dim=integer(length(start))))
         }
         count <- .getCounts()
         dat <- ncvar_get(ncdf$con, name, start = as.vector(start), 
