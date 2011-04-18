@@ -6,4 +6,4 @@ exportPattern("^[^\\.]")
 
 exportClasses(Streamer, Producer, Consumer, Stream,
               ConnectionProducer, RawInput, NetCDFInput,
-              Downsample, RawToChar, Rev)
+              Downsample, RawToChar, Rev, ParallelConnector)
