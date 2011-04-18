@@ -3,25 +3,24 @@
                 fields=list(upstream="ANY"))
 
 .ParallelConnector$methods(
-    initialize = function(streamer, ...)
+    initialize = function(...)
     {
         "Initialize the fields of the ParallelConnector class"
-         callSuper(...)
-         if (verbose) msg(".ParallelConnector$initialize()")   
-        .self$inputPipe <- streamer
-        .self$upstream <- parallel(quote({
-            while(TRUE) {
-                prime <- yield(streamer)
-                sendMaster(prime)
-        }}))
+        callSuper(...)
+        if (verbose) msg(".ParallelConnector$initialize()")   
         .self
     },
     yield = function() 
     {
         "Read data from childProcess"
         if (verbose) msg(".ParallelConnector$yield()")   
-        res <- readChild(upstream)
-        if(is.raw(res)) unserialize(res) else res 
+        if(is(.self$inputPipe, "uninitializedField") || 
+           is(.self$upstream, "uninitializedField")) {
+            stop("ParallelConnector not connected to a valid stream")
+        } else {
+            res <- readChild(upstream)
+            if(is.raw(res)) unserialize(res) else res 
+        }
     },
     finalize = function() 
     {
@@ -31,9 +30,8 @@
         collect(children(upstream))
     })
 
-ParallelConnector <- function(streamer, ..., verbose = FALSE) 
+ParallelConnector <- function(..., verbose = FALSE) 
 {
-    .ParallelConnector$new(streamer = streamer, ..., verbose = verbose)
-
+    .ParallelConnector$new(..., verbose = verbose)
 }
 
