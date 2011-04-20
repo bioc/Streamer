@@ -20,6 +20,8 @@
 
 \section{Fields}{
   \describe{
+    \item{\code{inUse}:}{ A \code{logical(1)} instance indicating whether
+      the class instantiated has been used in a stream.}
     \item{\code{verbose}:}{A \code{logical(1)} instance indicating
       whether methods invoked on the class should be reported to the
       user.}

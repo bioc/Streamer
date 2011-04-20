@@ -45,17 +45,31 @@
         c(inputs=inputs(), callSuper())
     })
 
+
 setMethod(stream, "Consumer",
     function(x, ..., verbose=FALSE)
-{
+{  
+    inp <- list(x, ...)
+    use <- sapply(inp, function(k) {
+        k$inUse
+    })
+    cls <- sapply(inp, class)
+    if(any(use)) {
+        msg <- sprintf("%s : already in use in another stream",
+                           paste(cls[which(use)], sep = " ", collapse = ", "))
+        stop(msg)
+    }
+    x$inUse <- TRUE
     inputPipe <- Reduce(function(x, y) {
         x$inputPipe <- y
-        if( is(x, "ParallelConnector"))
+        y$inUse = TRUE
+        if( is(x, "ParallelConnector")) {
             x$upstream <- parallel(quote({
                 while(TRUE) {
                     prime <- yield(y)
                     sendMaster(prime)
             }}))
+        }
         x
     }, list(x, ...), right=TRUE)
     .Stream$new(inputPipe=inputPipe, verbose=verbose)

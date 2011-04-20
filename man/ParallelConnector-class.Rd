@@ -13,11 +13,9 @@
 
 }
 
-\usage{ParallelConnector(streamer, ..., verbose = FALSE)}
+\usage{ParallelConnector(..., verbose = FALSE)}
 
 \arguments{
-  \item{streamer}{An object of class \code{Producer} or \code{Consumer} which
-          is to be parallelized.}
   \item{...}{Additional arguments to be passed to the constructor}
   \item{verbose}{\code{logical(1)} indicating whether class methods
     should report to the user.}

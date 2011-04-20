@@ -1,7 +1,8 @@
 .Streamer <- setRefClass("Streamer",
     fields = list(
       yieldSize="integer",
-      verbose="logical"))
+      verbose="logical",
+      inUse="logical"))
 
 .Streamer$methods(
     initialize = function(..., yieldSize=1e5, verbose=FALSE)
@@ -10,6 +11,7 @@
         if (verbose) msg("Streamer$initialize")
         .self$yieldSize <- as.integer(yieldSize)
         .self$verbose <- verbose
+        .self$inUse = FALSE
         invisible(.self)
     },
     msg = function(fmt, ...)
