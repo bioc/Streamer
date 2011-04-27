@@ -150,7 +150,7 @@ setMethod(dimensions, "NetCDFInput",
           function(x, ...) dimensions(x$ncdf)[x$name])
 
 setMethod(show, "NetCDFInput", function(object)
-{
+{  browser()
     .p1dim <- function(tag, dim, collapse=" x ")
         sprintf("%s: %s (%s)\n", tag, paste(dim, collapse=collapse),
                 paste(names(dim), collapse=collapse))

@@ -5,13 +5,13 @@
       inUse="logical"))
 
 .Streamer$methods(
-    initialize = function(..., yieldSize=1e5, verbose=FALSE)
+    initialize = function(..., yieldSize=1e6, verbose=FALSE)
     {
         "initialize 'Streamer'"
         if (verbose) msg("Streamer$initialize")
         .self$yieldSize <- as.integer(yieldSize)
         .self$verbose <- verbose
-        .self$inUse = FALSE
+        .self$inUse <- FALSE
         invisible(.self)
     },
     msg = function(fmt, ...)

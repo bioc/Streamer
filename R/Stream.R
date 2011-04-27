@@ -1,5 +1,12 @@
 .Stream <- setRefClass("Stream", contains = "Consumer")
 
+.Stream$methods(
+    yield=function()
+    {
+        .self$inputPipe$yield()
+    
+    })
+
 setMethod(length, "Stream",
     function(x)
 {

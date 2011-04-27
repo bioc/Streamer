@@ -10,15 +10,15 @@
     contains = "Utility",
     methods = list(
     yield = function()
-    {
+    {  
         "convert list of raw() to char()"
-        sapply(callSuper(), rawToChar)
+         sapply(callSuper(), rawToChar)
     }))
 
 RawToChar <-
-    function(verbose=FALSE)
+    function(yieldSize=1e6, verbose=FALSE)
 {
-    .RawToChar$new(verbose=verbose)
+    .RawToChar$new(yieldSize=yieldSize, verbose=verbose)
 }
 
 ## Rev
@@ -32,7 +32,7 @@ RawToChar <-
     }))
 
 Rev <-
-    function(verbose=FALSE)
+    function(yieldSize=1e6,verbose=FALSE)
 {
-    .Rev$new(verbose=verbose)
+    .Rev$new(yieldSize=yieldSize, verbose=verbose)
 }

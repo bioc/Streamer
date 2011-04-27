@@ -114,7 +114,7 @@ rawParserFactory <-
     })
 
 RawInput <-
-    function(con, yieldSize = 1e5, 
+    function(con, yieldSize = 1e6, 
              reader=rawReaderFactory(),
              parser=rawParserFactory(),
              ..., verbose=FALSE)

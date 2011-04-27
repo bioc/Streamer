@@ -1,7 +1,6 @@
 \name{ParallelConnector-class}
 \Rdversion{1.1}
 \docType{class}
-\alias{RawToChar}
 \alias{ParallelConnector-class}
 \alias{ParallelConnector}
 \title{Class "ParallelConnector"}

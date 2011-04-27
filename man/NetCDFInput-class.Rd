@@ -135,6 +135,6 @@ yield(ncProd)
 status(ncProd)
 reset(ncProd)
 yield(ncProd)
-ncProd
+
 }
 \keyword{classes}

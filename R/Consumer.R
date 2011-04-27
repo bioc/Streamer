@@ -1,6 +1,6 @@
 .Consumer <- setRefClass("Consumer",
     contains="Streamer",
-    fields = list(inputPipe="ANY"),     # actually, "Producer"
+    fields = list(inputPipe="ANY", .records="list"),     # actually, "Producer"
     methods = list(
     initialize = function(..., inputPipe, verbose=FALSE)
     {
@@ -33,16 +33,35 @@
         inputPipe$reset()
     },
     yield = function()
-    {
+    {   
         "delegate yield() to inputPipe"
         if (verbose) msg("Consumer$yield()")
-        inputPipe$yield()
+        .fill()
+        idx <- seq_len(min(yieldSize, length(.records)))
+        records <- .records[idx]
+        .self$.records[idx] <- NULL
+        records
     },
     status = function() 
     {
         "report status of 'Consumer'"
         if (verbose) msg("Consumer$status()")
         c(inputs=inputs(), callSuper())
+    },
+    .fill = function() {
+        "fill stream with yieldSize records, if available"
+        if(verbose) msg("Consumer$.fill()")
+        while ( length(.records) < yieldSize &&
+               0 != length(input <- inputPipe$yield()))
+            .add(input)
+        .self
+    },
+    .add = function(input)
+    { 
+        ".add (incomplete) 'input'"
+        if (verbose) msg("Consumer$.add()")
+        .self$.records <- c(.records, input)
+        .self    
     })
 
 
@@ -72,7 +91,7 @@ setMethod(stream, "Consumer",
         }
         x
     }, list(x, ...), right=TRUE)
-    .Stream$new(inputPipe=inputPipe, verbose=verbose)
+    .Stream$new(inputPipe=inputPipe, yieldSize=x$yieldSize, verbose=verbose)
 })
 
 setMethod(show, "Consumer",

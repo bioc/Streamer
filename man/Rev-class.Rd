@@ -14,10 +14,12 @@
 
 }
 
-\usage{Rev(verbose=FALSE)}
+\usage{Rev(yieldSize = 1e6, verbose=FALSE)}
 
 \arguments{
-  \item{verbose}{\code{logical(1)} indicating whether class methods
+   \item{yieldSize}{A \code{integer(1)} indicating the number of
+      records to yield.}
+   \item{verbose}{\code{logical(1)} indicating whether class methods
     should report to the user.}
 }
 
@@ -29,6 +31,8 @@
   \describe{
     \item{\code{inputPipe}:}{Object of class \code{ANY}. The component
       from which input is retrieved.}
+    \item{\code{yieldSize}:}{A \code{integer(1)} indicating the number of
+      records to yield.}
     \item{\code{verbose}:}{Object of class \code{logical}. Display
       method invokation messages to the user.}
   }

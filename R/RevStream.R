@@ -78,7 +78,7 @@
     })
 
 RevStream <-
-    function(..., yieldSize = 1e5)
+    function(..., yieldSize = 1e6)
 {
     .RevStream$new(..., yieldSize=yieldSize)
 }
