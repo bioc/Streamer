@@ -97,10 +97,12 @@ NetCDFFile(file = character(), ...)
 \seealso{\code{\link{stream}}}
 
 \examples{
+\dontrun{
 pth <- system.file("extdata", "NetCDFData.nc", package = "Streamer")
 ncFile <- NetCDFFile(pth)
 dimensions(ncFile)
 precision(ncFile)
 ncFile
+}
 }
 \keyword{classes}

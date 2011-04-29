@@ -95,7 +95,7 @@ TOut <- function( ..., yieldSize=1e6, verbose=FALSE)
    }    
 )                     
 
-TConnector <- function(upstream, downstream, ..., yieldSize = 20, verbose = FALSE) {
+TConnector <- function(upstream, downstream, ..., yieldSize=1e6, verbose = FALSE) {
     ds <- list(downstream, ...)
     tconn <- Streamer:::.TConnector$new(upstream=upstream, downstream= ds, yieldSize = yieldSize)
     for(i in 1:length(ds))

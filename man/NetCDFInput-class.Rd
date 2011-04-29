@@ -124,7 +124,8 @@ NetCDFInput(ncdf, var, slice, ..., verbose = FALSE)
 \seealso{\code{\link{NetCDFFile}}}
 
 \examples{
-showClass("NetCDFInput")
+\dontrun{
+    showClass("NetCDFInput")
 
 pth <- system.file("extdata", "NetCDFData.nc", package = "Streamer")
 ncFile <- NetCDFFile(pth)
@@ -135,6 +136,7 @@ yield(ncProd)
 status(ncProd)
 reset(ncProd)
 yield(ncProd)
+}
 
 }
 \keyword{classes}

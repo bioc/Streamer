@@ -1,7 +1,7 @@
 Package: Streamer
 Type: Package
 Title: Enabling stream processing of large files
-Version: 0.0.13
+Version: 0.0.14
 Date: 2010-10-13
 Author: Martin Morgan, Nishant Gopalakrishnan
 Maintainer: Martin Morgan <mtmorgan@fhcrc.org>
@@ -15,7 +15,7 @@ Description: Large data files can be difficult to work with in R,
   package?Streamer for details.
 License: Artistic-2.0
 LazyLoad: yes
-Depends: ncdf4, multicore
+Depends: multicore
 Imports: methods
 Suggests: RUnit
 Collate: 
@@ -23,5 +23,5 @@ Collate:
   Producer.R Consumer.R Stream.R
   ConnectionProducer.R RawInput.R ValueInput.R
   RevStream.R Downsample.R Utility.R
-  runit_runner.R NetCDFFile.R NetCDFInput.R
-  ParallelConnector.R  TConnector.R zzz.R
+  runit_runner.R ParallelConnector.R  
+  TConnector.R zzz.R
