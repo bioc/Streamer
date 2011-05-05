@@ -15,8 +15,7 @@
         .self
     },
     yield = function() 
-    { 
-       "Calls yield on the inputPipe"
+    {  "Calls yield on the inputPipe"
        if (verbose) msg(".TOut$yield()")
        while(length(.self$inputPipe$.records) - .self$.start < yieldSize &&
               0 != length(input <- .self$inputPipe$.fill()) )
@@ -40,7 +39,8 @@ TOut <- function( ..., yieldSize=1e6, verbose=FALSE)
                 fields = list(
                     .records = "list",
                     .downstream ="list",
-                    .upstream="ANY"
+                    .upstream="list",
+                    .tOuts="list"
                     ))
     
 .TConnector$methods(
@@ -53,12 +53,20 @@ TOut <- function( ..., yieldSize=1e6, verbose=FALSE)
         .self$.downstream <- downstream
         .self$.upstream <- upstream
         .self$yieldSize <- yieldSize
+        len <- length(downstream)
+        for(i in 1:len) {
+            temp <- TOut(yieldSize = yieldSize)
+            temp$inputPipe <- .self
+            .self$.tOuts[[i]] <- temp
+            .self$.downstream[[i]]$inputPipe <- .self
+        }
+        .self$inUse <- rep(FALSE, len)
         .self
-    }, 
+    },   
     .fill = function() 
     {   "Fills the stream with yieldSize records"
         if (verbose) msg("TConnector$.fill")
-        .self$.upstream$yield()
+        .self$inputPipe$yield()
     },
     .add = function(input)
     { 
@@ -68,63 +76,35 @@ TOut <- function( ..., yieldSize=1e6, verbose=FALSE)
         .self    
     },
     .dump = function() 
-    { 
+    {    
         "Clear .records that are used"
         if (verbose) msg("TConnector$.dump()")
-        mn <- min(sapply(.self$.downstream, function(x) {
-                    len <- length(x)
-                    x[[len-2]]$.start
+        mn <- min(sapply(.self$.tOuts, function(x) {
+                    x$.start
                }))
         if(mn !=1) {
-            len <- length(.self$.downstream)
+            len <- length(.self$.tOuts)
             for(i in 1:len) 
             {   
-                pos <- length(.self$.downstream[[i]]) -2
-                inp <-  .self$.downstream[[i]]
+                pos <- length(.self$.tOuts[[i]]) -2
+                inp <-  .self$.tOuts[[i]]
                 count <- 1
                 repeat {
                     inp <- inp$inputPipe
                     count <- count +1
                     if(count > pos) break
                 }
-                inp$.start <- inp$.start -mn +1
+                inp$.tOuts[[i]]$.start <- inp$.tOuts[[i]]$.start -mn +1
             }
             .self$.records[seq_len(mn-1)] <- NULL
         }
         .self
-   }    
-)                     
+   })
+
+                   
 
 TConnector <- function(upstream, downstream, ..., yieldSize=1e6, verbose = FALSE) {
-    ds <- list(downstream, ...)
-    tconn <- Streamer:::.TConnector$new(upstream=upstream, downstream= ds, yieldSize = yieldSize)
-    for(i in 1:length(ds))
-    {
-      inp <- ds[[i]]
-      count <- 1
-      len <- length(inp)
-      repeat {
-        inp <- inp$inputPipe
-        count <- count +1 
-        if(count >= len) break
-      }
-      ys <- inp$yieldSize  
-      temp <- Streamer:::.TOut$new(yieldSize =ys)
-      temp$inputPipe <- tconn
-
-      inp <- ds[[i]]
-      count <- 1
-      len <- length(inp) 
-      repeat {
-        inp <- inp$inputPipe
-        count <- count +1 
-        if(count >= len) break
-      }
-      inp$inputPipe <- temp
-    }
-    tconn
+    .TConnector$new(upstream=upstream, downstream=downstream, ..., yieldSize = yieldSize)
 }
-
-
 
 

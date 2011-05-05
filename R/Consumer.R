@@ -17,8 +17,8 @@
     {
         "a character() describing this stream"
         if (verbose) msg("Consumer$inputs")
-        pipe <- character(0)
         inp <- .self
+        pipe <- class(inp)
         repeat {
             inp <- inp$inputPipe
             pipe <- append(pipe, class(inp))
@@ -70,18 +70,31 @@ setMethod(stream, "Consumer",
 {  
     inp <- list(x, ...)
     use <- sapply(inp, function(k) {
-        k$inUse
+        all(k$inUse)
     })
     cls <- sapply(inp, class)
     if(any(use)) {
         msg <- sprintf("%s : already in use in another stream",
-                           paste(cls[which(use)], sep = " ", collapse = ", "))
-        stop(msg)
+                       paste(cls[which(use)], sep = " ", collapse = ", "))
+        warning(msg)
     }
     x$inUse <- TRUE
     inputPipe <- Reduce(function(x, y) {
-        x$inputPipe <- y
-        y$inUse = TRUE
+                        browser()
+        if(is(y, "TConnector")) {
+            pos <- which(!y$inUse)[1]
+            if (length(pos)) 
+            {
+                y$.tOuts[[pos]]$inputPipe <- y
+                x$inputPipe <- y$.tOuts[[pos]]
+                y$inUse[pos] <- TRUE
+            }
+        } else {
+          
+            x$inputPipe <- y
+            y$inUse = TRUE
+            
+        }  
         if( is(x, "ParallelConnector")) {
             x$upstream <- parallel(quote({
                 while(TRUE) {
@@ -98,7 +111,9 @@ setMethod(show, "Consumer",
     function(object)
 {
     callNextMethod()
-    inp <- paste(object$inputs(), collapse=" << ")
+    inp <- rev(object$inputs())
+    indx = !inp %in%"TOut" 
+    inp <- paste(inp[indx], collapse=" => ")
     txt <- sprintf("stream: %s", inp)
     cat(strwrap(txt, exdent=2), sep="\n")
 })
