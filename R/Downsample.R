@@ -51,7 +51,7 @@ Downsample <-
     function(probability = 0.1, ..., yieldSize = 1e6,
              verbose=FALSE)
 {
-    .Downsample$new(probability=probability, ..f,
+    .Downsample$new(probability=probability, ...,
                     yieldSize=yieldSize, verbose=verbose)
 }
     

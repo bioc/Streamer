@@ -2,24 +2,19 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{TConnector}
-\alias{TConector-class}
+\alias{TConnector-class}
 
 \title{Class "TConnector"}
 
 \description{
 
   A \code{\linkS4class{Consumer}}-class that is used to connect 
-  several consumer streams to a producer stream.
+  several consumer streams to a single producer/consumer stream.
 }
 
-\usage{TConnector(upstream, downstream, ..., yieldSize=1e6, verbose=FALSE)}
+\usage{TConnector(..., yieldSize=1e6, verbose=FALSE)}
 
 \arguments{
-   \item{upstream}{A single stream consisting of an ordered collection of a
-       \code{Producer}  and \code{Consumer} component.}
-   \item{downstream}{A \code{list} of \code{Consumer} streams that branch off
-       from the \code{Producer} stream supplied in the \code{upstream}
-       arugment.}
    \item{...}{ Additional arguments}
    \item{verbose}{\code{logical(1)} indicating whether class methods
     should report to the user.}
@@ -32,12 +27,11 @@
 
 \section{Fields}{
   \describe{
-    \item{\code{.records}:}{Records retrieved from the stream \code{.upstream}.}
-    \item{.upstream}{A single stream consisting of an ordered collection of a
-       \code{Producer}  and \code{Consumer} components..}
-    \item{.downstream}{A \code{list} of \code{Consumer} streams that branch off
-       from the \code{Producer} stream supplied in the \code{upstream}
-       arugment.}
+    \item{\code{.records}:}{Records retrieved from the stream connected upstream 
+        to this class.}
+    \item{\code{.tOuts}:}{A \code{list} of objects of class \code{TOut} of
+        length correponding to the number of streams connected downstream to
+        it.}
     \item{\code{yieldSize}:}{A \code{integer(1)} indicating the number of
       records to yield.}
     \item{\code{verbose}:}{Object of class \code{logical}. Display
@@ -56,9 +50,9 @@
 
 \author{Nishant Gopalakrishnan \url{ngopalak@fhcrc.org}}
 
-\seealso{\code{\link{stream}}}
+\seealso{\code{\link{stream}},\code{\link{YConnector}}, \code{\link{connect}} }
 
-\examples{showClass("TOut")}
+\examples{showClass("TConnector")}
 
 \keyword{classes}
 

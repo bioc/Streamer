@@ -55,7 +55,7 @@ stream(x, ..., verbose=FALSE)
 \examples{
 fl <- system.file("extdata", "s_1_sequence.txt", package="Streamer")
 b <- RawInput(fl, 100L, reader=rawReaderFactory(1e4))
-s <- stream(RawToChar(), Rev(), b)
+s <- stream(b, Rev(), RawToChar())
 s
 yield(s)
 reset(s)

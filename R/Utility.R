@@ -28,7 +28,8 @@ RawToChar <-
     methods = list(
     yield = function()
     {
-        rev(callSuper())
+       # rev(callSuper())
+        sapply(callSuper(), rev)
     }))
 
 Rev <-
@@ -38,18 +39,18 @@ Rev <-
 }
 
 
-connect <- function(comp, df) 
+connect <- function(blocks, df) 
 {
-    use <- sapply(comp, function(x) {
+    use <- sapply(blocks, function(x) {
         all(x$inUse)
     })
-    cls <- sapply(comp, class)
+    cls <- sapply(blocks, class)
     if(any(use)) {
         msg <- sprintf("%s : already in use in another stream",
                        paste(cls[which(use)], sep = " ", collapse = ", "))
         stop(msg)
     }
-    len <- length(comp)
+    len <- length(blocks)
     n <- nrow(df)
     df <- cbind(df, "weight" =rep(1L, n))
     g <- graphBAM(df,edgemode="directed")
@@ -57,8 +58,8 @@ connect <- function(comp, df)
     nms <- names(outDeg[outDeg==0])
     for(i in 1:n) 
     {
-        left <- comp[[as.character(df$from[i])]]
-        right <- comp[[as.character(df$to[i])]]
+        left <- blocks[[as.character(df$from[i])]]
+        right <- blocks[[as.character(df$to[i])]]
         if(is(right, "YConnector")) {
             right$.upstream[[as.character(df$from[i])]] <- left
         }
@@ -75,9 +76,9 @@ connect <- function(comp, df)
     }
     for(i in 1:len) 
     {
-        comp[[i]]$inUse <- TRUE
+        blocks[[i]]$inUse <- TRUE
     }
-    lapply(comp[nms], stream)
+    lapply(blocks[nms], stream)
 }
 
 

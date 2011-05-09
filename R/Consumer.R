@@ -70,11 +70,12 @@ setMethod(stream, "Consumer",
 {  
     inp <- list(x, ...)
     inputPipe <- Reduce(function(x, y) {
-    if ( is(x, "ParallelConnector")) {
-        x$upstream <- parallel(quote({
-            while(TRUE) {
-                prime <- yield(y)
-                sendMaster(prime)
+        x$inputPipe <- y
+        if ( is(x, "ParallelConnector")) {
+            x$upstream <- parallel(quote({
+                while(TRUE) {
+                    prime <- yield(y)
+                    sendMaster(prime)
             }}))
         }
         x

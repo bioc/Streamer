@@ -29,7 +29,7 @@
 
 TOut <- function( ..., yieldSize=1e6, verbose=FALSE) 
 {
-    .TOut$new(..., yieldSize=yieldSize, verbose = verbose)
+    .TOut$new(..., yieldSize=yieldSize, verbose=verbose)
 
 }
 
