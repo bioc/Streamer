@@ -36,3 +36,48 @@ Rev <-
 {
     .Rev$new(yieldSize=yieldSize, verbose=verbose)
 }
+
+
+connect <- function(comp, df) 
+{
+    use <- sapply(comp, function(x) {
+        all(x$inUse)
+    })
+    cls <- sapply(comp, class)
+    if(any(use)) {
+        msg <- sprintf("%s : already in use in another stream",
+                       paste(cls[which(use)], sep = " ", collapse = ", "))
+        stop(msg)
+    }
+    len <- length(comp)
+    n <- nrow(df)
+    df <- cbind(df, "weight" =rep(1L, n))
+    g <- graphBAM(df,edgemode="directed")
+    outDeg <- degree(g)$outDegree
+    nms <- names(outDeg[outDeg==0])
+    for(i in 1:n) 
+    {
+        left <- comp[[as.character(df$from[i])]]
+        right <- comp[[as.character(df$to[i])]]
+        if(is(right, "YConnector")) {
+            right$.upstream[[as.character(df$from[i])]] <- left
+        }
+        if(is(left, "TConnector")) 
+        {
+            orig <- left$.tOuts 
+            temp <- TOut(yieldSize = left$yieldSize)
+            temp$inputPipe <- left
+            right$inputPipe <- temp
+            left$.tOuts <- c(left$.tOuts, temp)
+        } else {
+            right$inputPipe <- left
+        }
+    }
+    for(i in 1:len) 
+    {
+        comp[[i]]$inUse <- TRUE
+    }
+    lapply(comp[nms], stream)
+}
+
+

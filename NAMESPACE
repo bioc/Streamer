@@ -4,6 +4,7 @@ import(methods)
 
 exportPattern("^[^\\.]")
 
+export(connect)
 exportClasses(Streamer, Producer, Consumer, Stream,
               ConnectionProducer, RawInput, Downsample,
               RawToChar, Rev, ParallelConnector,

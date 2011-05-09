@@ -69,37 +69,12 @@ setMethod(stream, "Consumer",
     function(x, ..., verbose=FALSE)
 {  
     inp <- list(x, ...)
-    use <- sapply(inp, function(k) {
-        all(k$inUse)
-    })
-    cls <- sapply(inp, class)
-    if(any(use)) {
-        msg <- sprintf("%s : already in use in another stream",
-                       paste(cls[which(use)], sep = " ", collapse = ", "))
-        warning(msg)
-    }
-    x$inUse <- TRUE
     inputPipe <- Reduce(function(x, y) {
-                        browser()
-        if(is(y, "TConnector")) {
-            pos <- which(!y$inUse)[1]
-            if (length(pos)) 
-            {
-                y$.tOuts[[pos]]$inputPipe <- y
-                x$inputPipe <- y$.tOuts[[pos]]
-                y$inUse[pos] <- TRUE
-            }
-        } else {
-          
-            x$inputPipe <- y
-            y$inUse = TRUE
-            
-        }  
-        if( is(x, "ParallelConnector")) {
-            x$upstream <- parallel(quote({
-                while(TRUE) {
-                    prime <- yield(y)
-                    sendMaster(prime)
+    if ( is(x, "ParallelConnector")) {
+        x$upstream <- parallel(quote({
+            while(TRUE) {
+                prime <- yield(y)
+                sendMaster(prime)
             }}))
         }
         x

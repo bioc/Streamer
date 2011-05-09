@@ -11,7 +11,6 @@
         callSuper(...)
         if (verbose) msg(".TOut$initialize()")
         .self$.start <- 1L
-        .self$yieldSize <- yieldSize
         .self
     },
     yield = function() 
@@ -38,29 +37,17 @@ TOut <- function( ..., yieldSize=1e6, verbose=FALSE)
     setRefClass("TConnector", contains = "Consumer",
                 fields = list(
                     .records = "list",
-                    .downstream ="list",
-                    .upstream="list",
                     .tOuts="list"
                     ))
     
 .TConnector$methods(
-    initialize = function(upstream, downstream,..., verbose = FALSE) 
+    initialize = function(...) 
     {   
         "initialize TConnector"
-        if (verbose) msg("TConnector$initialize")
         callSuper(...)
-        if (verbose) msg(".TConnector$initialize()")
-        .self$.downstream <- downstream
-        .self$.upstream <- upstream
-        .self$yieldSize <- yieldSize
-        len <- length(downstream)
-        for(i in 1:len) {
-            temp <- TOut(yieldSize = yieldSize)
-            temp$inputPipe <- .self
-            .self$.tOuts[[i]] <- temp
-            .self$.downstream[[i]]$inputPipe <- .self
-        }
-        .self$inUse <- rep(FALSE, len)
+        if (verbose) msg("TConnector$initialize()")
+        .self$.tOuts <- list()
+        .self$inUse <- FALSE
         .self
     },   
     .fill = function() 
@@ -103,8 +90,8 @@ TOut <- function( ..., yieldSize=1e6, verbose=FALSE)
 
                    
 
-TConnector <- function(upstream, downstream, ..., yieldSize=1e6, verbose = FALSE) {
-    .TConnector$new(upstream=upstream, downstream=downstream, ..., yieldSize = yieldSize)
+TConnector <- function(..., yieldSize=1e6, verbose=FALSE) {
+    .TConnector$new(..., yieldSize=yieldSize, verbose=verbose)
 }
 
 
