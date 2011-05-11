@@ -19,8 +19,13 @@
        while(length(.self$inputPipe$.records) - .self$.start < yieldSize &&
               0 != length(input <- .self$inputPipe$.fill()) )
          .self$inputPipe$.add(input)
-       width <- min(yieldSize,  length(.self$inputPipe$.records))
-       idx <- seq(.self$.start, .self$.start + width -1)
+       if( .self$.start + yieldSize  <= length(.self$inputPipe$.records))
+            width <-  .self$.start + yieldSize -1
+       else
+            width <- length(.self$inputPipe$.records) - .self$.start +1
+       if(width>0)
+            idx <- seq(.self$.start, .self$.start + width -1)
+       else  idx <- 0
        .self$.start <- .self$.start + width
        dat <- .self$inputPipe$.records[idx]
        .self$inputPipe$.dump()
@@ -73,15 +78,8 @@ TOut <- function( ..., yieldSize=1e6, verbose=FALSE)
             len <- length(.self$.tOuts)
             for(i in 1:len) 
             {   
-                pos <- length(.self$.tOuts[[i]]) -2
-                inp <-  .self$.tOuts[[i]]
-                count <- 1
-                repeat {
-                    inp <- inp$inputPipe
-                    count <- count +1
-                    if(count > pos) break
-                }
-                inp$.tOuts[[i]]$.start <- inp$.tOuts[[i]]$.start -mn +1
+              .self$.tOuts[[i]]$.start <-  .self$.tOuts[[i]]$.start - mn +1
+
             }
             .self$.records[seq_len(mn-1)] <- NULL
         }
