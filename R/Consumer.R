@@ -33,7 +33,7 @@
         inputPipe$reset()
     },
     yield = function()
-    {   
+    {    
         "delegate yield() to inputPipe"
         if (verbose) msg("Consumer$yield()")
         .fill()
@@ -69,8 +69,19 @@ setMethod(stream, "Consumer",
     function(x, ..., verbose=FALSE)
 {  
     inp <- list(x, ...)
+    use <- sapply(inp, function(k) {
+                  k$inUse
+               })
+    cls <- sapply(inp, class)
+    if(any(use)) {
+        msg <- sprintf("%s : already in use in another stream",
+                       paste(cls[which(use)], sep = " ", collapse = ", "))
+        stop(msg)
+    }
+    x$inUse <- TRUE
     inputPipe <- Reduce(function(x, y) {
         x$inputPipe <- y
+        y$inUse <- TRUE
         if ( is(x, "ParallelConnector")) {
             x$upstream <- parallel(quote({
                 while(TRUE) {

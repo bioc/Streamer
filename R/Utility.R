@@ -74,11 +74,12 @@ connect <- function(blocks, df)
             right$inputPipe <- left
         }
     }
+    s <- lapply(blocks[nms], stream)
     for(i in 1:len) 
     {
         blocks[[i]]$inUse <- TRUE
     }
-    lapply(blocks[nms], stream)
+    s
 }
 
 
