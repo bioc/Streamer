@@ -9,7 +9,9 @@
         callSuper(...)
         if(verbose) msg(".YConnector$initialize")
         .self$.upstream <- list()
-        .self$.fun <- fun
+        if(missing(fun))
+            .self$.fun <- function(){}
+        else .self$.fun <- fun
         .self
     },
     yield = function() 
