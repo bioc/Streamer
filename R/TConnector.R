@@ -1,8 +1,8 @@
-.TOut <-
-    setRefClass("TOut", contains="Consumer",
-        fields=list(
-            .start="numeric"
-                ))
+.TOut <- setRefClass("TOut", 
+    contains="Consumer",
+    fields=list(
+        .start="numeric"
+    ))
 
 .TOut$methods(
     initialize =function(...) 
@@ -38,12 +38,12 @@ TOut <- function( ..., yieldSize=1e6, verbose=FALSE)
 
 }
 
-.TConnector <- 
-    setRefClass("TConnector", contains = "Consumer",
-                fields = list(
-                    .records = "list",
-                    .tOuts="list"
-                    ))
+.TConnector <- setRefClass("TConnector", 
+    contains = "Consumer",
+    fields = list(
+        .records = "list",
+        .tOuts="list"
+    ))
     
 .TConnector$methods(
     initialize = function(...) 
@@ -52,7 +52,6 @@ TOut <- function( ..., yieldSize=1e6, verbose=FALSE)
         callSuper(...)
         if (verbose) msg("TConnector$initialize()")
         .self$.tOuts <- list()
-        .self$inUse <- FALSE
         .self
     },   
     .fill = function() 

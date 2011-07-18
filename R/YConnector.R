@@ -4,7 +4,7 @@
     ))
     
 .YConnector$methods(
-    initialize = function(fun, ...) 
+    initialize = function(..., fun) 
     {   "initialize YConnector"
         callSuper(...)
         if(verbose) msg(".YConnector$initialize")
@@ -25,7 +25,14 @@
 
 YConnector <- function(fun, ...,  yieldSize =1e6, verbose = FALSE) 
 {
-    new("YConnector", fun=fun, ..., yieldSize=yieldSize, verbose=verbose)
+    .YConnector$new(fun=fun, ..., yieldSize=yieldSize, verbose=verbose)
 }
 
-
+setMethod(show, "YConnector",
+    function(object)
+{
+    cat("class:", class(object), "\n")
+    upstream <- paste(lapply(object$.upstream, "class"), collapse = " ,")
+    txt <- sprintf("upstream: %s", if(upstream=="") "uninitialized field" else upstream)
+    cat(strwrap(txt, exdent=2), sep="\n")
+})

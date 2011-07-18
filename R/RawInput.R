@@ -112,6 +112,7 @@ rawParserFactory <-
                .bufferLength = length(.buffer)),
           callSuper())
     })
+    
 
 RawInput <-
     function(con, yieldSize = 1e6, 

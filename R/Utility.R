@@ -72,6 +72,15 @@ connect <- function(blocks, df)
             left$.tOuts <- c(left$.tOuts, temp)
         } else {
             right$inputPipe <- left
+
+        }
+        if ( is(right, "ParallelConnector")) {
+            right$.upstream <- parallel(quote({
+                while(TRUE) {
+                    prime <- yield(left)
+                    sendMaster(prime)
+        }}))
+
         }
     }
     s <- lapply(blocks[nms], stream)

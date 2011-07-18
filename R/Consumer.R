@@ -2,11 +2,11 @@
     contains="Streamer",
     fields = list(inputPipe="ANY", .records="list"),     # actually, "Producer"
     methods = list(
-    initialize = function(..., inputPipe, verbose=FALSE)
+    initialize = function(..., inputPipe)
     {
         "initialize 'Consumer'"
+        callSuper(...)
         if (verbose) msg("Consumer$initialize")
-        callSuper(..., verbose=verbose)
         if (!missing(inputPipe))
             .self$inputPipe <- inputPipe
         .self
@@ -46,7 +46,7 @@
     {
         "report status of 'Consumer'"
         if (verbose) msg("Consumer$status()")
-        c(inputs=inputs(), callSuper())
+        c(recLength=length(.records), inputs=inputs(), callSuper())
     },
     .fill = function() {
         "fill stream with yieldSize records, if available"
@@ -83,7 +83,7 @@ setMethod(stream, "Consumer",
         x$inputPipe <- y
         y$inUse <- TRUE
         if ( is(x, "ParallelConnector")) {
-            x$upstream <- parallel(quote({
+            x$.upstream <- parallel(quote({
                 while(TRUE) {
                     prime <- yield(y)
                     sendMaster(prime)

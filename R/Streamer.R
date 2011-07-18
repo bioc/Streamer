@@ -36,14 +36,14 @@
     {
         "report status of Steamer"
         if (verbose) msg("Streamer$status()")
-        list(yieldSize=yieldSize, verbose=verbose)
+        list(yieldSize=yieldSize, verbose=verbose, inUse=inUse)
     })
 
 setMethod(reset, "Streamer", function(x, ...) x$reset())
 
 setMethod(yield, "Streamer", function(x, ...) x$yield())
 
-setMethod(status, "Streamer", function(x, ...) x$status())
+setMethod(status,"Streamer", function(x, ...) x$status())
 
 setMethod(show, "Streamer",
     function(object)

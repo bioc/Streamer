@@ -5,7 +5,7 @@
             .fun= "function")) 
  
 .UserFunction$methods(
-    initialize = function(fun,...)
+    initialize = function(..., fun)
     {
         "initialize myCons"
         callSuper(...)
