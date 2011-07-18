@@ -20,25 +20,30 @@
 
 \section{Fields}{
   \describe{
-    \item{\code{inUse}:}{ A \code{logical(1)} instance indicating whether
-      the class instantiated has been used in a stream.}
-    \item{\code{verbose}:}{A \code{logical(1)} instance indicating
+      \item{\code{yieldSize}:}{ An \code{integer} for the number of records
+          to be returned.}
+      \item{\code{verbose}:}{A \code{logical(1)} instance indicating
       whether methods invoked on the class should be reported to the
       user.}
+      \item{\code{inUse}:}{ A \code{logical(1)} instance indicating whether
+      the object instantiated has been used in a stream.}
   }
 }
 
 \section{Class-Based Methods}{
   \describe{
     \item{\code{initialize(..., verbose = FALSE)}:}{Initialize
-      \code{Streamer}, setting \code{verbose} field. and returning
-      \code{.self} invisibly.}
+      \code{Streamer}, setting \code{verbose}, \code{yieldSize} and \code{inUse}
+      fields, returning \code{.self} invisibly.}
+    \item{\code{msg(fmt, ...)}:}{Use \code{msg} to print
+      \code{sprintf(fmt, ...)} messages to user.}
     \item{\code{reset()}:}{Reset \code{Streamer}; this default method is
       a no-op.}
-    \item{\code{msg(fmt, ...)}:}{Use \code{message} to print
-      \code{sprintf(fmt, ...)} to user.}
     \item{\code{yield()}:}{Yield default value \code{list()}.}
-  }
+    \item{\code{status()}:}{Reports the status of the \code{Streamer} class.
+       A \code{list} of the status of \code{yieldSize}, \code{verbose} and 
+       \code{inUse} fields is returned.}
+    }
 }
 
 \author{Martin Morgan \url{mtmorgan@fhcrc.org}}

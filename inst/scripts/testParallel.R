@@ -10,28 +10,26 @@ library(Streamer)
        callSuper(...)
        .self$tick <- tick
        .self
-                             
    },
     yield=function() {
         .self$tick <- .self$tick + 1
-        Sys.sleep(3)
+        Sys.sleep(2)
         tick
     })
-
 
 .CSleeper <-
     setRefClass("CSleeper", contains="Consumer")
  
 .CSleeper$methods(
     yield=function() {
-        Sys.sleep(2)
-        callSuper()
+        Sys.sleep(1)
+        callSuper()[[1]]
     })
-
-psleep <- .PSleeper$new()     ## sleeps for 3 s 
-csleep1 <- .CSleeper$new()    ## sleeps for 2 s
-csleep2 <- .CSleeper$new()
-csleep3 <- .CSleeper$new()
+pconn <- ParallelConnector()
+psleep <- .PSleeper$new(yieldSize=1L)     ## sleeps for 2 s
+csleep1 <- .CSleeper$new(yieldSize=1L)    ## sleeps for 1 s
+csleep2 <- .CSleeper$new(yieldSize=1L)
+csleep3 <- .CSleeper$new(yieldSize=1L)
 
 ## sequential
 
@@ -40,7 +38,7 @@ system.time(res <- yield(s)) ; res
 
 
 pconn <- ParallelConnector()
-s1 <- stream(psleep,csleep1, pconn, csleep2, csleep3)
+s1 <- stream(psleep,csleep1, csleep2, pconn, csleep3)
 system.time(res <- yield(s1)) ; res 
 
 
@@ -59,20 +57,6 @@ s <- stream(psleep, pconn)
 
 
 
-
-
-
-x <- s1
-inp <- x$inputPipe
-i = 1
-    while (extends(class(inp), "Consumer") && 1L < i) {
-        inp <- inp$inputPipe
-        i <- i - 1L
-        if(inp == "ParallelConnecter") {
-            browser()
-            finalize(inp)
-        }
-    }
 
 
 

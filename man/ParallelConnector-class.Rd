@@ -7,15 +7,19 @@
 
 \description{
 
-  A \code{\linkS4class{Consumer}}-class to parallelize streamer classes
-  connected to it.
-
+  The \code{ParallelConnector} \code{\linkS4class{Consumer}}-class can be used
+  to parallelize the computations done by blocks directly connected to the 
+  \code{ParallelConnector} and all blocks down-stream to the
+  \code{ParallelConnector}. i.e Computations performed by the block directly 
+  connected  up-stream to the \code{ParallelConnector} and all blocks connected
+  down-stream to the \code{ParallelConnector} in a stream happen simultaneously.
 }
 
-\usage{ParallelConnector(..., verbose = FALSE)}
+\usage{ParallelConnector(..., yieldSize=1e6, verbose=FALSE)}
 
 \arguments{
-  \item{...}{Additional arguments to be passed to the constructor}
+  \item{...}{Additional arguments to be passed to the constructor.}
+  \item{yieldSize}{The number of records the input parser is to yield.}
   \item{verbose}{\code{logical(1)} indicating whether class methods
     should report to the user.}
 }
@@ -26,18 +30,24 @@
 
 \section{Fields}{
   \describe{
-    \item{\code{inputPipe}:}{Object of class \code{ANY}. The component
-      from which input is retrieved.}
-    \item{\code{upstream}:}{Object of class \code{ANY}. The output of a call 
-      to the \code{parallel} function from the multicore package.}
+    \item{\code{.upstream}:}{Object of class \code{ANY}. The output of a call 
+      to the \code{parallel} function from the \code{multicore}-package. This
+      field is internal to the \code{ParallelConnector} class and will be
+      populated by a call to the \code{stream} method or the \code{connect}
+      function used to connect the \code{ParallelConnector} to other blocks in a
+    \code{stream}.}
   }
 }
 
 \section{Methods}{
   \describe{
-    \item{\code{yield()}:}{Convert the result of applying \code{yield}
-      to \code{inputPipe} (which must be a list of \code{raw}) into a
-      vector of \code{character}.}
+    \item{\code{initialize(...)}:}{Initializes the fields of the
+        \code{ParallelConnector} class.}
+    \item{\code{yield()}:}{Reads data from the child processes and converts the
+        result (which must be a list of \code{raw}) into a vector of
+        \code{character}.}
+    \item{\code{finalize()}:}{Collects results from the parallel processes and 
+            closes the threads started by the \code{ParallelConnector}.}
   }
 }
 

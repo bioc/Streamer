@@ -13,7 +13,8 @@
   instance. A \code{Producer} represents a source of data, responsible
   for parsing a file into records to be passed to \code{Consumer}
   classes. \code{Producer} and \code{Consumer} instances are associated
-  with each other through the \code{\link{stream}} function.
+  with each other through the \code{\link{stream}} function or using the
+  \code{\link{connect}} function.  
 
 }
 
@@ -29,18 +30,23 @@
 
 \section{Fields}{
   \describe{
-    \item{\code{verbose}:}{A \code{logical(1)} instance indicating
-      whether methods invoked on the class should be reported to the
-      user.}
+    The \code{Producer} class inherits the fields \code{verbose}, \code{inUse}
+    and \code{yieldSize} fields from the \code{Streamer} class. Please refer to
+    the \code{\link{Streamer}} class for more details.
   }
 }
 
 \section{Class-Based Methods}{
   \describe{
-    \item{\code{reset()}:}{Reset this \code{Producer}. Derived classes
-      should implement an appropriate method.}
-    \item{\code{yield()}:}{Yield the current stream content. The default
-      method returns \code{NULL}.}
+    The \code{Producer} class inherits the methods \code{initialize}, \code{msg},
+    \code{reset}, \code{status} and \code{yield} from the \code{Streamer}
+    virtual class. Please refer to the \code{\link{Streamer}} class for more
+    details.
+    
+    Derived classes should implement an appropriate \code{initialize} method to
+    initialize the fields of the derived class. Additionally, a \code{yield} method
+    should be implemented to return the contents of the current stream. The
+    default method for the base virtual \code{Streamer} class returns a \code{list()} 
   }
 }
 
@@ -49,7 +55,7 @@
 \seealso{
 
   \code{\link{Streamer-package}}, \code{\linkS4class{Consumer}-class},
-  \code{\linkS4class{Stream}-class}.
+  \code{\linkS4class{Streamer}-class}.
 
 }
 

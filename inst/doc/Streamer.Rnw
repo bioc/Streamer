@@ -1,7 +1,7 @@
 %\VignetteIndexEntry{Streamer: A simple example}
 %\VignetteDepends{}
 %\VignetteKeywords{stream}
-%\VignettePackage{GenomicRanges}
+%\VignettePackage{Streamer}
 \documentclass{article}
 
 \usepackage{times}

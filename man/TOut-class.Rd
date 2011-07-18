@@ -9,18 +9,21 @@
 \description{
 
   A \code{\linkS4class{Consumer}}-class that is used internally to connect 
-  several consumer streams to a T connector.
+  several \code{Consumer} streams to a \code{TConnector}-class.
+ 
+  This class is only for use by functions internal to the \code{Streamer}
+  package. The \code{TOut}-class is responsible for filing the \code{.records}
+  field of the \code{TConnector} with adequate number of records.
 }
 
 \usage{TOut(..., yieldSize=1e6, verbose=FALSE)}
 
 \arguments{
-   \item{...}{Additional arguments, passed to the \code{$new} method of
-    this class. Currently ignored.}
-   \item{yieldSize}{A \code{integer(1)} indicating the number of
-      records to yield.}
+   \item{...}{ Additional arguments. Currently not used}
    \item{verbose}{\code{logical(1)} indicating whether class methods
     should report to the user.}
+  \item{yieldSize}{The number of records the input parser is to yield.}
+  
 }
 
 \section{Constructors}{
@@ -31,23 +34,23 @@
   \describe{
     \item{\code{start}:}{A \code{integer(1)} indicating the start position of the 
         record to be read next.}
-    \item{\code{yieldSize}:}{A \code{integer(1)} indicating the number of
-      records to yield.}
-    \item{\code{verbose}:}{Object of class \code{logical}. Display
-      method invokation messages to the user.}
+    \item{\code{.records}:}{A temporary buffer of the \code{TConnector} from which
+         the next set of records are to be read.}
   }
 }
 
 \section{Methods}{
   \describe{
-    \item{\code{yield()}:}{Retrieves records from the TConnector class connected
-        upstream to it.}
+    \item{\code{initalize(...)}:}{Initializes the fields of the \code{TOut} 
+        class.}
+    \item{\code{yield()}:}{Retrieves records from the \code{TConnector}-class 
+        connected up-stream to it.}
   }
 }
 
 \author{Nishant Gopalakrishnan \url{ngopalak@fhcrc.org}}
 
-\seealso{\code{\link{stream}}}
+\seealso{\code{\link{TConnector}}}
 
 \examples{showClass("TOut")}
 

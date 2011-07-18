@@ -109,8 +109,12 @@ rawParserFactory(separator = charToRaw("\n"), trim = separator)
 
 \author{Martin Morgan \url{mtmorgan@fhcrc.org}}
 
-\seealso{\code{\link{stream}}}
+\seealso{\code{\link{stream}}, \code{\link{connect}}}
 
-\examples{showClass("RawInput")}
+\examples{
+fl <- system.file("extdata", "s_1_sequence.txt", package="Streamer")
+b <- RawInput(fl, 100L, reader=rawReaderFactory(1e4))
+yield(b)
+}
 
 \keyword{classes}

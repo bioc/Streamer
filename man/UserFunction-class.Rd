@@ -8,8 +8,16 @@
 
 \description{
 
-  A \code{\linkS4class{Consumer}}-class that users can plugin their
-  own function to quickly create a component that can be connected to a stream.
+  The \code{UserFunction} class is provided as a convenience class enabling
+  users to quickly create \code{Consumer}-classes that can be added to a stream
+  without having to go into more complex details about the implementation of the 
+  classes hierarchy provided by the \code{Streamer}-package.
+
+  The users pass in a function \code{fun} to the constructor of the
+  \code{UserFunction}-class to manipulate the records returned by
+  the class intended to be connected upstream. The constructor returns an
+  instance of the \code{UserFunction}-class with a with a
+  \code{yield} method that the user can directly invoke.
 }
 
 \usage{UserFunction(fun, ..., yieldSize=1e6, verbose=FALSE)}
@@ -32,14 +40,17 @@
 \section{Fields}{
   \describe{
     \item{\code{.fun}:}{A user supplied\code{function} that operates on records
-        yielded by the class connected upstream. }
+        yielded by the class connected up-stream. }
     }
 }
 
 \section{Methods}{
   \describe{
-    \item{\code{yield()}:}{Retrieves records from the  class connected
-        upstream to it.}
+    \item{\code{initialize(...)}:}{Initializes the fields of the
+        \code{UserFunction}-class.}
+    \item{\code{yield()}:}{Applies the function \code{fun} to the records
+        retrieved from the  class connected upstream to the \code{UserFunction}
+        class.}
   }
 }
 
@@ -47,7 +58,22 @@
 
 \seealso{\code{\link{stream}}}
 
-\examples{showClass("UserFunction")}
+\examples{
+f <- system.file("extdata", "s_1_sequence.txt", package="Streamer")
+b <- RawInput(f, 100L, reader=rawReaderFactory(1e4))
+### Create a user defined function to convert raw bytes to character
+myFun <- function(x) {
+    sapply(x, rawToChar)
+}
+
+#### Pass the function to the UserFunction constructor
+d <- UserFunction(fun=myFun)
+
+#### Create a stream
+s <- stream(b, d)
+yield(s)
+
+}
 
 \keyword{classes}
 
