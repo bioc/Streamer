@@ -27,7 +27,7 @@
         }
     },
     finalize = function() 
-    {
+    {   
         "Close threads started by ParallelConnector"
         if (verbose) msg(".ParallelConnector$finalize()")
         kill(children(.upstream), SIGTERM)
