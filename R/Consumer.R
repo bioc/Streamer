@@ -1,6 +1,10 @@
 .Consumer <- setRefClass("Consumer",
     contains="Streamer",
-    fields = list(inputPipe="ANY", .records="list"),     # actually, "Producer"
+    fields = list(
+        inputPipe="ANY", 
+        .records="ANY",
+        .bufferInt="BufferInt",
+        .bufFun="logical"),     
     methods = list(
     initialize = function(..., inputPipe)
     {
@@ -9,6 +13,8 @@
         if (verbose) msg("Consumer$initialize")
         if (!missing(inputPipe))
             .self$inputPipe <- inputPipe
+        .self$.bufferInt <- BufferInt()
+        .self$.bufFun <- FALSE
         .self
     }))
 
@@ -37,30 +43,41 @@
         "delegate yield() to inputPipe"
         if (verbose) msg("Consumer$yield()")
         .fill()
-        idx <- seq_len(min(yieldSize, length(.records)))
-        records <- .records[idx]
-        .self$.records[idx] <- NULL
+        idx <- seq_len(min(yieldSize, .self$.bufferInt$length(.records)))
+        records <- .self$.bufferInt$subset(.records,idx)
+       # .self$.records[idx] <- NULL
+        .self$.records <- .self$.bufferInt$subset(.records,-idx)
         records
     },
     status = function() 
     {
         "report status of 'Consumer'"
         if (verbose) msg("Consumer$status()")
-        c(recLength=length(.records), inputs=inputs(), callSuper())
+        c(recLength=.self$.bufferInt$length(.records), inputs=inputs(), callSuper())
     },
     .fill = function() {
         "fill stream with yieldSize records, if available"
         if(verbose) msg("Consumer$.fill()")
-        while ( length(.records) < yieldSize &&
-               0 != length(input <- inputPipe$yield()))
+        input <- inputPipe$yield()
+        if(!.self$.bufFun)
+        {
+            .self$.records <- new(class(input))
+            .self$.bufferInt <- BufferInterface(input)
+        }
+       
+        while ( .self$.bufferInt$length(.records) < yieldSize &&
+               0 != length(input)) 
+        {
             .add(input)
+            input <- inputPipe$yield()
+        }
         .self
     },
     .add = function(input)
     { 
         ".add (incomplete) 'input'"
         if (verbose) msg("Consumer$.add()")
-        .self$.records <- c(.records, input)
+        .self$.records <- .self$.bufferInt$append(.records, input)
         .self    
     })
 
