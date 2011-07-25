@@ -30,8 +30,8 @@
     {   
         "Close threads started by ParallelConnector"
         if (verbose) msg(".ParallelConnector$finalize()")
-        kill(children(.upstream), SIGTERM)
-        collect(children(.upstream))
+#       kill(children(.upstream), SIGTERM)
+ #      collect(children(.upstream))
     })
 
 ParallelConnector <- function(..., yieldSize=1e6, verbose = FALSE) 
