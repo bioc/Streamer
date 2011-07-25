@@ -2,6 +2,7 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{BufferInt-class}
+\alias{BufferInt}
 \alias{BufferInterface}
 \alias{BufferInterface,ANY-method}
 \alias{BufferInterface,data.frame-method}
