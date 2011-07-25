@@ -186,7 +186,7 @@ the results for the hits  after collating results for all the sequences)
         aln <- callSuper()
         df <- DataFrame(hits=numeric(0))
         if(length(aln))
-        {   aln <- aln[[1]] 
+        {    
             which <- .self$ranges[as.character(seqnames(.self$ranges)) == levels(rname(aln))]
             olap <- elementMetadata(countGenomicOverlaps(aln, which, type=.self$type, 
                                                          resolution=.self$resolution,

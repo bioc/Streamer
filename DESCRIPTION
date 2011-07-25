@@ -1,7 +1,7 @@
 Package: Streamer
 Type: Package
 Title: Enabling stream processing of large files
-Version: 0.0.20
+Version: 0.0.21
 Date: 2010-10-13
 Author: Martin Morgan, Nishant Gopalakrishnan
 Maintainer: Martin Morgan <mtmorgan@fhcrc.org>
@@ -17,11 +17,11 @@ License: Artistic-2.0
 LazyLoad: yes
 Depends: multicore
 Imports: methods, graph
-Suggests: RUnit
+Suggests: RUnit, Rsamtools
 Collate: 
   generics.R OldClass.R Streamer.R
-  Producer.R Consumer.R Stream.R
+  Producer.R  BufferInterface.R Consumer.R Stream.R
   ConnectionProducer.R RawInput.R ValueInput.R
-  RevStream.R Downsample.R Utility.R
+  Downsample.R Utility.R
   runit_runner.R ParallelConnector.R  
   TConnector.R YConnector.R UserFunction-class.R zzz.R
