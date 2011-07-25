@@ -63,6 +63,18 @@ readLinesParserFactory <- concatenationParserFactory
     }
 )
 
+ReadLinesInput <- 
+    function(con, reader=readLinesReaderFactory(), ...,
+             yieldSize=1e6, verbose=FALSE)
+    {
+        if (!is(con, "connection"))
+            con <- file(con, "r")
+        .ReadLinesInput$new(con=con, 
+                      reader=reader, ...,
+                      yieldSize=yieldSize, verbose=verbose)
+    }
+
+
 ## ScanInput
 
 scanReaderFactory <-
