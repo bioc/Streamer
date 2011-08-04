@@ -15,9 +15,9 @@ Description: Large data files can be difficult to work with in R,
   package?Streamer for details.
 License: Artistic-2.0
 LazyLoad: yes
-Depends: multicore
 Imports: methods, graph
 Suggests: RUnit, Rsamtools
+Enhances: multicore
 Collate: 
   generics.R OldClass.R Streamer.R
   Producer.R  BufferInterface.R Consumer.R Stream.R
