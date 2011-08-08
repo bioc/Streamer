@@ -45,7 +45,6 @@
         .fill()
         idx <- seq_len(min(yieldSize, .self$.bufferInt$length(.records)))
         records <- .self$.bufferInt$subset(.records,idx)
-       # .self$.records[idx] <- NULL
         .self$.records <- .self$.bufferInt$subset(.records,-idx)
         records
     },
