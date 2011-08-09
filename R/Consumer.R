@@ -57,18 +57,18 @@
     .fill = function() {
         "fill stream with yieldSize records, if available"
         if(verbose) msg("Consumer$.fill()")
-        input <- inputPipe$yield()
         if(!.self$.bufFun)
         {
+            input <- inputPipe$yield()
             .self$.records <- new(class(input))
             .self$.bufferInt <- BufferInterface(input)
+            .add(input)
+            .self$.bufFun <- TRUE
         }
-       
         while ( .self$.bufferInt$length(.records) < yieldSize &&
-               0 != length(input)) 
+               0 != length(input<- inputPipe$yield())) 
         {
             .add(input)
-            input <- inputPipe$yield()
         }
         .self
     },
