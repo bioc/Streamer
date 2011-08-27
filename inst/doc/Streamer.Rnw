@@ -79,7 +79,7 @@ sequence within the ranges specified by the user until all the sequences have
 been read from the BAM file at which point, an empty \Rclass{GappedAlignments} 
 object will be returned. 
 
-<<<BamInput class>>=
+<<BamInput class>>=
 
 .BamInput <- 
     setRefClass("BamInput",
@@ -110,7 +110,8 @@ object will be returned.
             seq <- .self$.seqNames[1]
             .self$.seqNames <- .self$.seqNames[-1]                              
             which <- .self$ranges[as.character(seqnames(.self$ranges)) == seq]
-            aln <- readGappedAlignments(.self$file, which = which)
+            param <- ScanBamParam(which=which)
+            aln <- readGappedAlignments(.self$file, param=param)
             seqlevels(aln) <- seq
             aln
 
@@ -122,7 +123,7 @@ object will be returned.
 @
 The constructor for the \Rclass{BamInput} class takes the file and ranges as
 input and returns and instance of the \Rclass{BamInput} class.
-<<<BamInput constructor>>=
+<<BamInput constructor>>=
 
 BamInput <- function(file, ranges,..., verbose = FALSE)
 {
@@ -150,7 +151,7 @@ The rownames of the result returned correspond to the order of the results in
 the original ranges supplied by the user. (These are subsequently used to reorder
 the results for the hits  after collating results for all the sequences)
 
-<<<CountGOverlap class>>=
+<<CountGOverlap class>>=
 
 .CountGOverlap <-
     setRefClass("CountGOverlap",
@@ -223,7 +224,7 @@ the results obtained by calling yield first on the \Rclass{BamInput} class and
 subsequently on the \Rclass{CountGOverlap} class for the first sequence in the
 ranges provided.
 
-<<<BAM file and ranges>>=
+<<BAM file and ranges>>=
 galn_file <- system.file("extdata", "ex1.bam", package="Rsamtools")
 gr <-
     GRanges(seqnames =

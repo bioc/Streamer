@@ -16,7 +16,7 @@ Description: Large data files can be difficult to work with in R,
 License: Artistic-2.0
 LazyLoad: yes
 Imports: methods, graph
-Suggests: RUnit, Rsamtools
+Suggests: RUnit, Rsamtools (>= 1.5.53)
 Enhances: multicore
 Collate: 
   generics.R OldClass.R Streamer.R
