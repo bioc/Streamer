@@ -9,12 +9,10 @@
     initialize = function(..., inputPipe)
     {
         "initialize 'Consumer'"
-        callSuper(...)
+        callSuper(..., .bufferInt=BufferInt(), .bufFun=FALSE)
         if (verbose) msg("Consumer$initialize")
         if (!missing(inputPipe))
             .self$inputPipe <- inputPipe
-        .self$.bufferInt <- BufferInt()
-        .self$.bufFun <- FALSE
         .self
     }))
 
@@ -52,7 +50,8 @@
     {
         "report status of 'Consumer'"
         if (verbose) msg("Consumer$status()")
-        c(recLength=.self$.bufferInt$length(.records), inputs=inputs(), callSuper())
+        c(recLength=.self$.bufferInt$length(.records), inputs=inputs(),
+          callSuper())
     },
     .fill = function() {
         "fill stream with yieldSize records, if available"
@@ -80,34 +79,10 @@
         .self    
     })
 
-
 setMethod(stream, "Consumer",
     function(x, ..., verbose=FALSE)
-{  
-    inp <- list(x, ...)
-    use <- sapply(inp, function(k) {
-                  k$inUse
-               })
-    cls <- sapply(inp, class)
-    if(any(use)) {
-        msg <- sprintf("%s : already in use in another stream",
-                       paste(cls[which(use)], sep = " ", collapse = ", "))
-        stop(msg)
-    }
-    x$inUse <- TRUE
-    inputPipe <- Reduce(function(x, y) {
-        x$inputPipe <- y
-        y$inUse <- TRUE
-        if ( is(x, "ParallelConnector")) {
-            x$.upstream <- parallel(quote({
-                while(TRUE) {
-                    prime <- yield(y)
-                    sendMaster(prime)
-            }}))
-        }
-        x
-    }, list(x, ...), right=TRUE)
-    .Stream$new(inputPipe=inputPipe, yieldSize=x$yieldSize, verbose=verbose)
+{
+    .stream_set(x, ..., verbose=verbose)
 })
 
 setMethod(show, "Consumer",

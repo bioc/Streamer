@@ -3,5 +3,8 @@
 setMethod(stream, "Producer",
     function(x, ..., verbose=FALSE)
 {
-    do.call(stream, c(rev(list(..., verbose=verbose)), list(x)))
+    if (0L == length(list(...)))
+        .stream_set(x, verbose=verbose)
+    else
+        do.call(stream, c(rev(list(..., verbose=verbose)), list(x)))
 })

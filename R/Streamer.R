@@ -9,10 +9,8 @@
     {
         "initialize 'Streamer'"
         if (verbose) msg("Streamer$initialize")
-        .self$yieldSize <- as.integer(yieldSize)
-        .self$verbose <- verbose
-        .self$inUse <- FALSE
-        invisible(.self)
+        invisible(callSuper(..., yieldSize=as.integer(yieldSize),
+                            verbose=verbose, inUse=FALSE))
     },
     msg = function(fmt, ...)
     {

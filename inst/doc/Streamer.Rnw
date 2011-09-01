@@ -31,23 +31,27 @@ a \Rmethod{countGenomicOverlaps} operation}
 \maketitle
 
 \section{Introduction}
-This vignette illustrates how users can make use of the functionality provided
-by the \Rclass{Producer}, \Rclass{Consumer} and \Rclass{stream} classes in the
-\Rpackage{Streamer} package to  process data in a streaming fashion. The users
-have the option of quickly being able to create their own class to stream process
-data by inheriting from the classes provided by the \Rpackage{Streamer} package.
+This vignette illustrates how users can make use of the functionality
+provided by the \Rclass{Producer}, \Rclass{Consumer} and
+\Rclass{stream} classes in the \Rpackage{Streamer} package to process
+data in a streaming fashion. The users have the option of quickly
+being able to create their own class to stream process data by
+inheriting from the classes provided by the \Rpackage{Streamer}
+package.
 
-This example illustrates a simple \Rclass{BamInput} class that inherits from the
-\Rclass{Producer} class and a \Rclass{CountGOverlap} class that inherits from
-the \Rclass{Consumer} class. These classes allows us to count the number of
-hits in a BAM file corresponding to the ranges specified by the user and return 
-the  hits in a streaming manner on a per sequence basis. Finally, the results for 
-each sequence is collated and reordered using a helper function so they appear
-in the same order as the ranges provided by the user. The classes that we are 
-going to develop in this example make use of the reference class system 
-available in \R{}.
+This example illustrates a simple \Rclass{BamInput} class that
+inherits from the \Rclass{Producer} class and a \Rclass{CountGOverlap}
+class that inherits from the \Rclass{Consumer} class. These classes
+allows us to count the number of hits in a BAM file corresponding to
+the ranges specified by the user and return the hits in a streaming
+manner on a per sequence basis. Finally, the results for each sequence
+is collated and reordered using a helper function so they appear in
+the same order as the ranges provided by the user. The classes that we
+are going to develop in this example make use of the reference class
+system available in \R{}.
 
-We first load the \Rpackage{Rsamtools} and \Rpackage{Streamer} packages. 
+We first load the \Rpackage{Rsamtools} and \Rpackage{Streamer}
+packages.
 
 <<Load packages>>=
 library(Rsamtools)  
@@ -56,28 +60,29 @@ library(Streamer)
 
 \section{\Rclass{BAMInput} class}
 
-The \Rclass{BAMInput} class will be used to read gapped alignments from a file specified
-by the user in a streaming manner. i.e reads will be read one sequence at a
-time. 
+The \Rclass{BAMInput} class will be used to read gapped alignments
+from a file specified by the user in a streaming manner. i.e reads
+will be read one sequence at a time.
 
 The two inputs specified by the user are  
 \begin{itemize}
-    \item file: a character string specifying the file from which alignments are
-        to be read.
-    \item ranges: the ranges from which alingments are to be retrieved.
+    \item file: a character string specifying the file from which
+      alignments are to be read.
+    \item ranges: the ranges from which alingments are to be
+      retrieved.
 \end{itemize}
 
-Like the design of the other classes in the \Rpackage{Streamer} package, the
-\Rclass{BamInput} class will have an \Rmethod{initialize} and a \Rmethod{yield}
-method. The \Rmethod{initialize} method will be used to initialize the fields of 
-the \Rclass{BamInput} class and is called automatically when objects are 
-instantiated from this class.
+Like the design of the other classes in the \Rpackage{Streamer}
+package, the \Rclass{BamInput} class will have an \Rmethod{initialize}
+and a \Rmethod{yield} method. The \Rmethod{initialize} method will be
+used to initialize the fields of the \Rclass{BamInput} class and is
+called automatically when objects are instantiated from this class.
 
 The \Rmethod{yield} method does not take any inputs. Each call to the
-\Rmethod{yield} method returns a \Rclass{GappedAlignments} object for a single 
-sequence within the ranges specified by the user until all the sequences have 
-been read from the BAM file at which point, an empty \Rclass{GappedAlignments} 
-object will be returned. 
+\Rmethod{yield} method returns a \Rclass{GappedAlignments} object for
+a single sequence within the ranges specified by the user until all
+the sequences have been read from the BAM file at which point, an
+empty \Rclass{GappedAlignments} object will be returned.
 
 <<BamInput class>>=
 
@@ -87,20 +92,9 @@ object will be returned.
     fields=list(
         file="character",
         ranges="GRanges",
-        .seqNames="character"
-                ))
+        .seqNames="character"))
 
 .BamInput$methods(
-    initialize=function(file, ranges, ...)
-    {
-        "initialize BamInput"
-        callSuper(...)
-        if(verbose) msg(".BamInput$initialize()")
-        .self$file <- file
-        .self$ranges <- ranges
-        .self$.seqNames <- names(scanBamHeader(.self$file)[[1]]$target)
-        .self
-    },
     yield=function()
     { 
        "yield data from .bam file"
@@ -109,47 +103,52 @@ object will be returned.
        {    
             seq <- .self$.seqNames[1]
             .self$.seqNames <- .self$.seqNames[-1]                              
-            which <- .self$ranges[as.character(seqnames(.self$ranges)) == seq]
-            param <- ScanBamParam(which=which)
+            idx <- as.character(seqnames(.self$ranges)) == seq
+            param <- ScanBamParam(which=.self$ranges[idx],
+                                  what=character())
             aln <- readGappedAlignments(.self$file, param=param)
             seqlevels(aln) <- seq
             aln
-
        } else {
-           new("GappedAlignments")
+           GappedAlignments()
        }
     })
 
-@
-The constructor for the \Rclass{BamInput} class takes the file and ranges as
-input and returns and instance of the \Rclass{BamInput} class.
+@ 
+The constructor for the \Rclass{BamInput} class takes the file and
+ranges as input and returns and instance of the \Rclass{BamInput}
+class.
 <<BamInput constructor>>=
 
 BamInput <- function(file, ranges,..., verbose = FALSE)
 {
-    .BamInput$new(file=file, ranges=ranges, ...,yieldSize=1L, verbose=verbose)
-
+    .seqNames <- names(scanBamHeader(file)[[1]]$target)
+    .BamInput$new(file=file, ranges=ranges, .seqNames=.seqNames, ...,
+                  yieldSize=1L, verbose=verbose)
 }
 
 @
 \section{\Rclass{CountGOverlap} class}
 
-The second class we are going to develop is a \Rclass{Consumer} class that
-processes the data obtained from the \Rclass{BamInput} class. The class calls
-the \Rmethod{countGenomicOverlaps} method with the \Rclass{GappedAlignments}
-object, user supplied ranges and additional arguments to control the behaviour
-of the \Rmethod{countGenomicOverlaps} method.
+The second class we are going to develop is a \Rclass{Consumer} class
+that processes the data obtained from the \Rclass{BamInput} class. The
+class calls the \Rmethod{countGenomicOverlaps} method with the
+\Rclass{GappedAlignments} object, user supplied ranges and additional
+arguments to control the behaviour of the
+\Rmethod{countGenomicOverlaps} method.
 
-The \Rclass{CountGOverlap} class has an \Rmethod{initialize} method and a 
-\Rmethod{yield} method. The \Rmethod{initialize} method initializes the class
-with the options to be passed in to the \Rmethod{countGenomicOverlaps} method
-as well as some variables for keeping track of the order of the hits to be
-returned by the \Rclass{CountGOverlap} class.
+The \Rclass{CountGOverlap} class has an \Rmethod{initialize} method
+and a \Rmethod{yield} method. The \Rmethod{initialize} method
+initializes the class with the options to be passed in to the
+\Rmethod{countGenomicOverlaps} method as well as some variables for
+keeping track of the order of the hits to be returned by the
+\Rclass{CountGOverlap} class.
 
-The \Rmethod{yield} method returns a \Rclass{DataFrame} with the number of hits.
-The rownames of the result returned correspond to the order of the results in
-the original ranges supplied by the user. (These are subsequently used to reorder
-the results for the hits  after collating results for all the sequences)
+The \Rmethod{yield} method returns a \Rclass{DataFrame} with the
+number of hits.  The rownames of the result returned correspond to the
+order of the results in the original ranges supplied by the
+user. (These are subsequently used to reorder the results for the hits
+after collating results for all the sequences)
 
 <<CountGOverlap class>>=
 
@@ -159,27 +158,9 @@ the results for the hits  after collating results for all the sequences)
     fields=list(ranges="GRanges",
                 type="character",
                 resolution="character",
-                ignore.strand="logical"
-                ))
+                ignore.strand="logical"))
 
 .CountGOverlap$methods(
-    initialize=function(ranges, type, resolution, ignore.strand,...)
-    {   
-        "initialize CountGO"
-        callSuper(...)
-        if (verbose) msg(".CountGOt$initialize()")
-        .self$ranges <- .addPos(ranges)
-        .self$type <- type
-        .self$resolution <- resolution
-        .self$ignore.strand <- ignore.strand
-        .self
-    },
-    .addPos=function(rng) 
-    {   "adds pos col to elementMetadata"
-        elementMetadata(rng) <- c(elementMetadata(rng), 
-                                 list(pos = seq_len(length(rng))))
-        rng
-    },
     yield=function() 
     {   
         "return no of hits"
@@ -188,52 +169,55 @@ the results for the hits  after collating results for all the sequences)
         df <- DataFrame(hits=numeric(0))
         if(length(aln))
         {    
-            which <- .self$ranges[as.character(seqnames(.self$ranges)) == levels(rname(aln))]
-            olap <- elementMetadata(countGenomicOverlaps(aln, which, type=.self$type, 
-                                                         resolution=.self$resolution,
-                                                         ignore.strand=.self$ignore.strand))
-            df <- olap[,"hits", drop=FALSE]
-            rownames(df) <- olap[,"pos"]
+            idx <- as.character(seqnames(.self$ranges)) == levels(rname(aln))
+            which <- .self$ranges[idx]
+            olap <- countGenomicOverlaps(which, aln, type=.self$type, 
+                                         resolution=.self$resolution,
+                                         ignore.strand=.self$ignore.strand)
+            df <- as(assays(olap)[[1]], "DataFrame")
+            dimnames(df) <- 
+                list(values(unlist(rowData(olap)))[["pos"]], "hits")
         } 
         df
     })
 
-CountGOverlap <- function(ranges, type = c("any", "start", "end", "within", "equal"),
-                   resolution = c("none", "divide", "uniqueDisjoint"),
-                   ignore.strand = FALSE, ..., verbose=FALSE) 
+CountGOverlap <- 
+    function(ranges, type = c("any", "start", "end", "within", "equal"),
+             resolution = c("none", "divide", "uniqueDisjoint"),
+             ignore.strand = FALSE, ..., verbose=FALSE) 
 {
+    values(ranges)$pos <- seq_len(length(ranges))
     .CountGOverlap$new(ranges=ranges, type=type, resolution=resolution,
-                 ignore.strand=ignore.strand, ..., yieldSize = 1L, verbose=verbose)
+                       ignore.strand=ignore.strand, ..., 
+                       yieldSize = 1L, verbose=verbose)
 }
 
 @
 
 \section{Stream with \Rclass{BamInput} and \Rclass{CountGOverlap}}
 
-Instances of the \Rclass{BamInput} and \Rclass{CountGOverlap} classes can be
-created using their respective constructors and can subsequently be hooked up to
-form a stream using the \Rmethod{stream} function provided by the
-\Rpackage{Streamer} package. For our example we shall make use of a BAM file
-available in the \Rpackage{Rsamtools} package and create a
-\Rclass{GenomicRanges} object for the ranges that we are interested. A
-\Rclass{stream} can then be created by passing these objects as the arguments to
-the \Rmethod{stream} function.
+Instances of the \Rclass{BamInput} and \Rclass{CountGOverlap} classes
+can be created using their respective constructors and can
+subsequently be hooked up to form a stream using the \Rmethod{stream}
+function provided by the \Rpackage{Streamer} package. For our example
+we shall make use of a BAM file available in the \Rpackage{Rsamtools}
+package and create a \Rclass{GenomicRanges} object for the ranges that
+we are interested. A \Rclass{stream} can then be created by passing
+these objects as the arguments to the \Rmethod{stream} function.
 
-A call to the \Rmethod{yield} function of the \Rclass{stream} class will yield
-the results obtained by calling yield first on the \Rclass{BamInput} class and
-subsequently on the \Rclass{CountGOverlap} class for the first sequence in the
-ranges provided.
+A call to the \Rmethod{yield} function of the \Rclass{stream} class
+will yield the results obtained by calling yield first on the
+\Rclass{BamInput} class and subsequently on the \Rclass{CountGOverlap}
+class for the first sequence in the ranges provided.
 
 <<BAM file and ranges>>=
 galn_file <- system.file("extdata", "ex1.bam", package="Rsamtools")
 gr <-
     GRanges(seqnames =
             Rle(c("seq2", "seq2", "seq2", "seq1"), c(1, 3, 2, 4)),
-            ranges =
-            IRanges(rep(10,1), width = 1:10, names = head(letters,10)),
-            strand =
-            Rle(strand(c("+", "+", "+", "+", "+")),
-                c(1, 2, 2, 3, 2)),
+            ranges = IRanges(rep(10,1), width = 1:10, 
+              names = head(letters,10)),
+            strand = Rle(strand(rep("+", 5)), c(1, 2, 2, 3, 2)),
             score = 1:10,
             GC = seq(1, 0, length=10))
 
@@ -246,11 +230,12 @@ yield(s)
 
 \section{Collate results}
 
-Each call to the \Rmethod{yield} function of the stream process data for one
-sequence. It would be convenient to have a function that processed data for all
-the sequences in the ranges provided and collated the results so that they are
-ordered correctly. (same order as the ranges provided). We proceed to create
-this helper \Rmethod{overlapCounter} function that takes a \Rclass{BAMInput} and
+Each call to the \Rmethod{yield} function of the stream process data
+for one sequence. It would be convenient to have a function that
+processed data for all the sequences in the ranges provided and
+collated the results so that they are ordered correctly. (same order
+as the ranges provided). We proceed to create this helper
+\Rmethod{overlapCounter} function that takes a \Rclass{BAMInput} and
 \Rclass{CountGOverlap} class objects as inputs.
 
 <<overlap counter >>=
