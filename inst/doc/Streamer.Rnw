@@ -156,14 +156,13 @@ after collating results for all the sequences)
     setRefClass("CountGOverlap",
     contains="Consumer",
     fields=list(ranges="GRanges",
-                type="character",
-                resolution="character",
+                mode="character",
                 ignore.strand="logical"))
 
 .CountGOverlap$methods(
     yield=function() 
     {   
-        "return no of hits"
+        "return number of hits"
         if (verbose) msg(".CountGOt$yield()")
         aln <- callSuper()
         df <- DataFrame(hits=numeric(0))
@@ -171,23 +170,23 @@ after collating results for all the sequences)
         {    
             idx <- as.character(seqnames(.self$ranges)) == levels(rname(aln))
             which <- .self$ranges[idx]
-            olap <- countGenomicOverlaps(which, aln, type=.self$type, 
-                                         resolution=.self$resolution,
-                                         ignore.strand=.self$ignore.strand)
+            olap <- summarizeOverlaps(aln, which, mode=.self$mode,
+                                      .self$ignore.strand)
             df <- as(assays(olap)[[1]], "DataFrame")
             dimnames(df) <- 
-                list(values(unlist(rowData(olap)))[["pos"]], "hits")
+                list(values(rowData(olap))[["post"]], "hits")
         } 
         df
     })
 
 CountGOverlap <- 
-    function(ranges, type = c("any", "start", "end", "within", "equal"),
-             resolution = c("none", "divide", "uniqueDisjoint"),
+    function(ranges, 
+             mode = c("Union", "IntersectionStrict", 
+               "IntersectionNotEmpty"),
              ignore.strand = FALSE, ..., verbose=FALSE) 
 {
     values(ranges)$pos <- seq_len(length(ranges))
-    .CountGOverlap$new(ranges=ranges, type=type, resolution=resolution,
+    .CountGOverlap$new(ranges=ranges, mode=mode,
                        ignore.strand=ignore.strand, ..., 
                        yieldSize = 1L, verbose=verbose)
 }
@@ -211,6 +210,7 @@ will yield the results obtained by calling yield first on the
 class for the first sequence in the ranges provided.
 
 <<BAM file and ranges>>=
+
 galn_file <- system.file("extdata", "ex1.bam", package="Rsamtools")
 gr <-
     GRanges(seqnames =
@@ -222,11 +222,11 @@ gr <-
             GC = seq(1, 0, length=10))
 
 bam <- BamInput(file = galn_file, ranges = gr)
-olap  <- CountGOverlap(ranges=gr, resolution ="divide")
+olap  <- CountGOverlap(ranges=gr, mode="IntersectionNotEmpty")
 s <- stream(bam, olap)
 yield(s)
-@
 
+@
 
 \section{Collate results}
 
@@ -252,7 +252,7 @@ overlapCounter <- function(pr,cs) {
 }
 
 bam <- BamInput(file = galn_file, ranges = gr)
-olap  <- CountGOverlap(ranges=gr, resolution ="divide")
+olap  <- CountGOverlap(ranges=gr, mode="IntersectionNotEmpty")
 overlapCounter(bam, olap)
 @
 
