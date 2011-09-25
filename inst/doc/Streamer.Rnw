@@ -170,7 +170,7 @@ after collating results for all the sequences)
         {    
             idx <- as.character(seqnames(.self$ranges)) == levels(rname(aln))
             which <- .self$ranges[idx]
-            olap <- summarizeOverlaps(aln, which, mode=.self$mode,
+            olap <- summarizeOverlaps(which, aln, mode=.self$mode,
                                       .self$ignore.strand)
             df <- as(assays(olap)[[1]], "DataFrame")
             dimnames(df) <- 
