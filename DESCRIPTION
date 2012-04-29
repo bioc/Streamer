@@ -18,6 +18,7 @@ LazyLoad: yes
 Imports: methods, graph
 Suggests: RUnit, Rsamtools (>= 1.5.53)
 Enhances: multicore
+biocViews: Infrastructure, DataImport
 Collate: 
   generics.R OldClass.R Streamer.R
   Producer.R  BufferInterface.R Consumer.R Stream.R
