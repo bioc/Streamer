@@ -87,8 +87,6 @@ NetCDFFile(file = character(), ...)
     \item{\code{getPrecision()}:}{Retrieves the precision of each
       variable in the NetCDF file.}
 
-    \item{\code{finalize()}:}{Close the NetCDF connection \code{con}.}
-
   }
 }
 

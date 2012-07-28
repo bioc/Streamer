@@ -46,8 +46,6 @@
     \item{\code{yield()}:}{Reads data from the child processes and converts the
         result (which must be a list of \code{raw}) into a vector of
         \code{character}.}
-    \item{\code{finalize()}:}{Collects results from the parallel processes and 
-            closes the threads started by the \code{ParallelConnector}.}
   }
 }
 
