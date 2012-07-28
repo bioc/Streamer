@@ -84,7 +84,6 @@ scanReaderFactory(blockSize=1e06, ...)
     \item{\code{yield()}:}{Process stream to yield as many complete
       records as are represented in the current \code{blockSize}
       elements.}
-    \item{\code{finalize()}:}{Close \code{con}.}
   }
 }
 

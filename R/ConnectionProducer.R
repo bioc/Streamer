@@ -18,15 +18,6 @@
         .self$parser <- parser
         .self
     },
-    finalize = function()
-    {
-        "finalize ConnectionProducer"
-        if (verbose) msg("ConnectionProducer$finalize")
-        ## Commented out as the finalize method ends up getting called during gc
-        ## and not when the object is destroyed as documented
-       # if (is(con, "connection") && isOpen(con))
-        #    close(con)
-    },
     reset = function()
     {
         "reset ConnectionProducer: reopen connection"
