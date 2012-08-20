@@ -30,12 +30,13 @@
 
 \section{Fields}{
   \describe{
-    \item{\code{.upstream}:}{Object of class \code{ANY}. The output of a call 
-      to the \code{parallel} function from the \code{multicore}-package. This
-      field is internal to the \code{ParallelConnector} class and will be
-      populated by a call to the \code{stream} method or the \code{connect}
-      function used to connect the \code{ParallelConnector} to other blocks in a
-    \code{stream}.}
+    \item{\code{.upstream}:}{Object of class \code{ANY}. The output of a
+      call to the \code{mcparallel} function from the
+      \code{parallel}-package. This field is internal to the
+      \code{ParallelConnector} class and will be populated by a call to
+      the \code{stream} method or the \code{connect} function used to
+      connect the \code{ParallelConnector} to other blocks in a
+      \code{stream}.}
   }
 }
 

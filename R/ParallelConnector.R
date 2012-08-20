@@ -29,10 +29,6 @@
 
 ParallelConnector <- function(..., yieldSize=1e6, verbose = FALSE) 
 {
-    if (is.loaded("mc_fork", PACKAGE="multicore"))
-        .ParallelConnector$new(..., yieldSize=yieldSize, verbose = verbose)
-    else 
-        stop("multicore package not loaded")
-
+    .ParallelConnector$new(..., yieldSize=yieldSize, verbose = verbose)
 }
 

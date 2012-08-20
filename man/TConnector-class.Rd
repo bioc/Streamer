@@ -8,12 +8,11 @@
 
 \description{
 
-  A \code{\linkS4class{Consumer}}-class that is used to connect the output of
-  one stream to several \code{Consumer} \code{stream}'s that perform different
-  operations on the records. The \code{TConnector} manages the records
-  supplied to it to ensure that all the streams connected to it get acess to all
-  the  records passed to the TConnector irrespective of the number of records 
-  processed at a time by each stream connected down-stream.
+  A \code{\linkS4class{Consumer}}-class that is used to connect the
+  output of one stream to several \code{Consumer} \code{stream}s that
+  perform different operations on the records. The \code{TConnector}
+  manages the records supplied to it to ensure that all streams get
+  access to \emph{all} records passed to the TConnector.
 
   A \code{TConnector} can be connected to other \code{Producer} and
   \code{Consumer} objects using the \code{\link{connect}} function.

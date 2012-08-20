@@ -1,7 +1,7 @@
 Package: Streamer
 Type: Package
 Title: Enabling stream processing of large files
-Version: 1.3.1
+Version: 1.3.2
 Date: 2010-10-13
 Author: Martin Morgan, Nishant Gopalakrishnan
 Maintainer: Martin Morgan <mtmorgan@fhcrc.org>
@@ -15,14 +15,14 @@ Description: Large data files can be difficult to work with in R,
   package?Streamer for details.
 License: Artistic-2.0
 LazyLoad: yes
-Imports: methods, graph
+Imports: methods, graph, parallel
 Suggests: RUnit, Rsamtools (>= 1.5.53)
 Enhances: multicore
 biocViews: Infrastructure, DataImport
 Collate: 
   generics.R OldClass.R Streamer.R
   Producer.R  BufferInterface.R Consumer.R Stream.R
-  ConnectionProducer.R RawInput.R ValueInput.R
-  Downsample.R Utility.R
+  ConnectionProducer.R RawInput.R ValueInput.R Seq.R
+  Downsample.R Team.R Utility.R
   runit_runner.R ParallelConnector.R  
   TConnector.R YConnector.R UserFunction-class.R zzz.R

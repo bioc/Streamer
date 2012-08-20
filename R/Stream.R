@@ -23,7 +23,7 @@
         x$inputPipe <- y
         y$inUse <- TRUE
         if (is(x, "ParallelConnector")) {
-            x$.upstream <- multicore::parallel(quote({
+            x$.upstream <- mcparallel(quote({
                 while(TRUE) {
                     prime <- yield(y)
                     sendMaster(prime)

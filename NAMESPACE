@@ -2,14 +2,16 @@ useDynLib(Streamer, .registration=TRUE)
 
 import(methods)
 
+importFrom(parallel, mcparallel, mccollect)
+
 importFrom(graph, graphBAM)
 
 importMethodsFrom(graph, degree)
 
 exportPattern("^[^\\.]")
 
-export(connect)
-exportClasses(Streamer, Producer, Consumer, Stream,
-              ConnectionProducer, RawInput, Downsample,
-              RawToChar, Rev, ParallelConnector,
+exportClasses(Streamer,
+              Producer, RawInput, Seq, 
+              Consumer, RawToChar, Rev, Team, Downsample,
+              Stream, ConnectionProducer, ParallelConnector,
               TConnector, YConnector)

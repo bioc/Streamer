@@ -75,7 +75,7 @@ connect <- function(blocks, df)
 
         }
         if ( is(right, "ParallelConnector")) {
-            right$.upstream <- multicore::parallel(quote({
+            right$.upstream <- mcparallel(quote({
                 while(TRUE) {
                     prime <- yield(left)
                     sendMaster(prime)
