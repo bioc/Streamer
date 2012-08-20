@@ -16,12 +16,12 @@ Description: Large data files can be difficult to work with in R,
 License: Artistic-2.0
 LazyLoad: yes
 Imports: methods, graph, parallel
-Suggests: RUnit, Rsamtools (>= 1.5.53)
+Suggests: BiocGenerics, RUnit, Rsamtools (>= 1.5.53)
 biocViews: Infrastructure, DataImport
 Collate: 
-  generics.R OldClass.R Streamer.R
-  Producer.R  BufferInterface.R Consumer.R Stream.R
+  generics.R OldClass.R
+  Streamer.R Producer.R  Consumer.R Stream.R
   ConnectionProducer.R RawInput.R ValueInput.R Seq.R
-  Downsample.R Team.R Utility.R
-  runit_runner.R ParallelConnector.R  
-  TConnector.R YConnector.R UserFunction-class.R zzz.R
+  Downsample.R Team.R UserFunction-class.R Utility.R
+  ParallelConnector.R TConnector.R YConnector.R
+  zzz.R

@@ -1,3 +1,1 @@
-library(Streamer)
-Streamer:::.test()
-
+BiocGenerics:::.testPackage("Streamer")
