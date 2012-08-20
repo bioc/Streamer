@@ -21,18 +21,17 @@
                        k$yield()
                    })
         do.call(.self$.fun, args)
+    },
+    show = function()
+    {
+        callSuper()
+        upstream <- paste(lapply(.upstream, "class"), collapse = " ,")
+        upstream[!nzchar(upstream)] <- "uninitialized field"
+        txt <- sprintf("upstream: %s", upstream)
+        cat(strwrap(txt, exdent=2), sep="\n")
     })
 
 YConnector <- function(fun, ...,  yieldSize =1e6, verbose = FALSE) 
 {
     .YConnector$new(fun=fun, ..., yieldSize=yieldSize, verbose=verbose)
 }
-
-setMethod(show, "YConnector",
-    function(object)
-{
-    cat("class:", class(object), "\n")
-    upstream <- paste(lapply(object$.upstream, "class"), collapse = " ,")
-    txt <- sprintf("upstream: %s", if(upstream=="") "uninitialized field" else upstream)
-    cat(strwrap(txt, exdent=2), sep="\n")
-})

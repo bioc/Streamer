@@ -23,20 +23,19 @@ BufferInt <- function(length=.Primitive("length"), append=.Primitive("c"),
 }
 
 
-setGeneric("BufferInterface", function(object) standardGeneric("BufferInterface"))
+setGeneric("BufferInterface",
+    function(object) standardGeneric("BufferInterface"))
 
 setMethod("BufferInterface", signature = signature(object = "ANY"),
-          function(object) {
-            BufferInt()
-          })
+    function(object) BufferInt())
 
 setMethod("BufferInterface", signature = signature(object = "data.frame"),
-          function(object) {
-            BufferInt(length=nrow, append=rbind, 
-                             subset=function(x, i){ 
-                                as.data.frame(sapply(x, .Primitive("["), i))
-                             })
-          })
+    function(object)
+{
+    BufferInt(length=nrow, append=rbind, subset=function(x, i) { 
+        as.data.frame(sapply(x, .Primitive("["), i))
+    })
+})
 
 
 

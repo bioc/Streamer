@@ -111,6 +111,15 @@ rawParserFactory <-
                .recordLength = length(.records),
                .bufferLength = length(.buffer)),
           callSuper())
+    },
+    show = function()
+    {
+        callSuper()
+        cat("file:", basename(summary(con)$description), "\n")
+        s <- status()
+        elts <- paste(names(s), s, sep="=", collapse=" ")
+        txt <- sprintf("status: %s", elts)
+        cat(strwrap(txt, exdent=2), sep="\n")
     })
     
 
@@ -126,14 +135,3 @@ RawInput <-
          reader=reader, parser=parser, ...,
          yieldSize=yieldSize, verbose=verbose)
 }
-
-setMethod(show, "RawInput",
-    function(object)
-{
-    callNextMethod()
-    cat("file:", basename(summary(object$con)$description), "\n")
-    s <- object$status()
-    elts <- paste(names(s), s, sep="=", collapse=" ")
-    txt <- sprintf("status: %s", elts)
-    cat(strwrap(txt, exdent=2), sep="\n")
-})

@@ -35,6 +35,10 @@
         "report status of Steamer"
         if (verbose) msg("Streamer$status()")
         list(yieldSize=yieldSize, verbose=verbose, inUse=inUse)
+    },
+    show = function()
+    {
+        cat("class:", class(.self), "\n")
     })
 
 setMethod(reset, "Streamer", function(x, ...) x$reset())
@@ -42,9 +46,3 @@ setMethod(reset, "Streamer", function(x, ...) x$reset())
 setMethod(yield, "Streamer", function(x, ...) x$yield())
 
 setMethod(status,"Streamer", function(x, ...) x$status())
-
-setMethod(show, "Streamer",
-    function(object)
-{
-    cat("class:", class(object), "\n")
-})

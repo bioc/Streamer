@@ -45,21 +45,18 @@
         "report status of 'Downsample'"
         if (verbose) msg("Downsample$status()")
         c(list(probability=probability), callSuper())
+    },
+    show = function()
+    {
+        callSuper()
+        txt <- sprintf("probability: %.2f; yieldSize: %d",
+                       probability, yieldSize)
+        cat(txt, "\n")
     }))
 
 Downsample <-
-    function(probability = 0.1, ..., yieldSize = 1e6,
-             verbose=FALSE)
+    function(probability = 0.1, ..., yieldSize = 1e6, verbose=FALSE)
 {
     .Downsample$new(probability=probability, ...,
                     yieldSize=yieldSize, verbose=verbose)
 }
-    
-setMethod(show, "Downsample",
-    function(object)
-{
-    callNextMethod()
-    txt <- sprintf("probability: %.2f; yieldSize: %d",
-                   object$probability, object$yieldSize)
-    cat(txt, "\n")
-})

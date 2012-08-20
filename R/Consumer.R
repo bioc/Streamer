@@ -77,21 +77,19 @@
         if (verbose) msg("Consumer$.add()")
         .self$.records <- .self$.bufferInt$append(.records, input)
         .self    
+    },
+    show = function() 
+    {
+        callSuper()
+        inp <- rev(inputs())
+        indx <- !inp %in%"TOut" 
+        inp <- paste(inp[indx], collapse=" => ")
+        txt <- sprintf("stream: %s", inp)
+        cat(strwrap(txt, exdent=2), sep="\n")
     })
 
 setMethod(stream, "Consumer",
     function(x, ..., verbose=FALSE)
 {
     .stream_set(x, ..., verbose=verbose)
-})
-
-setMethod(show, "Consumer",
-    function(object)
-{
-    callNextMethod()
-    inp <- rev(object$inputs())
-    indx = !inp %in%"TOut" 
-    inp <- paste(inp[indx], collapse=" => ")
-    txt <- sprintf("stream: %s", inp)
-    cat(strwrap(txt, exdent=2), sep="\n")
 })
