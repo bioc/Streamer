@@ -1,16 +1,13 @@
 .Streamer <- setRefClass("Streamer",
     fields = list(
-      yieldSize="integer",
       verbose="logical",
       inUse="logical"))
 
 .Streamer$methods(
-    initialize = function(..., yieldSize=1e6, verbose=FALSE)
+    initialize = function(..., verbose=FALSE)
     {
         "initialize 'Streamer'"
-        if (verbose) msg("Streamer$initialize")
-        invisible(callSuper(..., yieldSize=as.integer(yieldSize),
-                            verbose=verbose, inUse=FALSE))
+        invisible(callSuper(..., verbose=verbose, inUse=FALSE))
     },
     msg = function(fmt, ...)
     {
@@ -34,7 +31,7 @@
     {
         "report status of Steamer"
         if (verbose) msg("Streamer$status()")
-        list(yieldSize=yieldSize, verbose=verbose, inUse=inUse)
+        list(verbose=verbose, inUse=inUse)
     },
     show = function()
     {

@@ -16,14 +16,11 @@
   field of the \code{TConnector} with adequate number of records.
 }
 
-\usage{TOut(..., yieldSize=1e6, verbose=FALSE)}
+\usage{TOut(...)}
 
 \arguments{
-   \item{...}{ Additional arguments. Currently not used}
-   \item{verbose}{\code{logical(1)} indicating whether class methods
-    should report to the user.}
-  \item{yieldSize}{The number of records the input parser is to yield.}
-  
+  \item{...}{Arguments passed to the \code{\linkS4class{Consumer}}-class
+    constructors.}
 }
 
 \section{Constructors}{
@@ -32,19 +29,21 @@
 
 \section{Fields}{
   \describe{
-    \item{\code{start}:}{A \code{integer(1)} indicating the start position of the 
-        record to be read next.}
-    \item{\code{.records}:}{A temporary buffer of the \code{TConnector} from which
-         the next set of records are to be read.}
+
+    \item{\code{.start}:}{A \code{integer(1)} indicating the start
+      position of the record to be read next.}
+
   }
 }
 
 \section{Methods}{
   \describe{
-    \item{\code{initalize(...)}:}{Initializes the fields of the \code{TOut} 
-        class.}
-    \item{\code{yield()}:}{Retrieves records from the \code{TConnector}-class 
-        connected up-stream to it.}
+
+    \item{\code{.add(input)}:}{Temporarily store records fro sbusequent
+      use.}
+
+    \item{\code{.dump()}:}{Remove records not required for subsequent
+      use.}
   }
 }
 

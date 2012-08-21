@@ -13,37 +13,20 @@
 
 }
 
-\usage{RawToChar(yieldSize = 1e6,verbose = FALSE)}
+\usage{RawToChar(...)}
 
 \arguments{
-  \item{yieldSize}{A \code{integer(1)} indicating the number of
-      records to yield.}
-  \item{verbose}{\code{logical(1)} indicating whether class methods
-    should report to the user.}
+  \item{...}{Arguments passed to the \code{\linkS4class{Consumer}}-class
+    constructors.}
 }
 
 \section{Constructors}{
   Use \code{RawToChar} to construct instances of this class.
 }
 
-\section{Fields}{
-  \describe{
-    \item{\code{inputPipe}:}{Object of class \code{ANY}. The component
-      from which input is retrieved.}
-    \item{\code{yieldSize}:}{A \code{integer(1)} indicating the number of
-      records to yield.}
-     \item{\code{verbose}:}{Object of class \code{logical}. Display
-      method invokation messages to the user.}
-  }
-}
+\section{Fields}{There are no fields unique to this class.}
 
-\section{Methods}{
-  \describe{
-    \item{\code{yield()}:}{Convert the result of applying \code{yield}
-      to \code{inputPipe} (which must be a list of \code{raw}) into a
-      vector of \code{character}.}
-  }
-}
+\section{Methods}{There are no methods unique to this class.}
 
 \author{Martin Morgan \url{mtmorgan@fhcrc.org}}
 

@@ -1,19 +1,19 @@
 .Seq <- setRefClass("Seq",
     fields = list(
-      from="numeric", to="numeric", by="numeric"),
+      from="numeric", to="numeric", by="numeric", length.out="integer"),
     contains="Producer",
     methods = list(
       yield = function() {
           if ((from - to) * by > 0)
               return(integer())
-          s <- seq(from, by=by, length.out=yieldSize + 1L)
+          s <- seq(from, by=by, length.out=length.out + 1L)
           .self$from <- s[length(s)]
           s <- s[-length(s)]
           s[s <= to]
       },
       show = function() {
           cat("from:", from, "\nto:", to, "\nby:", by,
-              "\nlength.out:", yieldSize, "\n")
+              "\nlength.out:", length.out, "\n")
       }))
 
 Seq <-
@@ -31,5 +31,5 @@ Seq <-
     if (from > to)
         stop("'from' must be less than or equal to 'to'")
     length.out <- as.integer(length.out)
-    .Seq$new(from=from, to=to, by=by, yieldSize=length.out, ...)
+    .Seq$new(from=from, to=to, by=by, length.out=length.out, ...)
 }

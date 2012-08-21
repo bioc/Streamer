@@ -20,29 +20,31 @@
 
 }
 
-
 \section{Methods}{
   Methods defined on this class include:
   \describe{
-      \item{show}{\code{signature(object = "YConnector")}: Displays the names of
-          the up-stream components to which the \code{YConnector}-class has been
-          connected.}
+
+      \item{show}{\code{signature(object = "YConnector")}: Displays the
+        names of the up-stream components to which the
+        \code{YConnector}-class has been connected.}
+
   }
 }
 
-
-\usage{YConnector(fun, ..., yieldSize=1e6, verbose=FALSE)}
+\usage{YConnector(fun, ...)}
 
 \arguments{
-   \item{fun}{A \code{function} that is used to combine the output of the
-       streams connected up-stream to the \code{YConnector}. The function
-       \code{fun} takes named arguments. The names correspond to the names 
-        of the objects passed to the \code{connect} function used to connect the
-       \code{YConnector} to up-stream \code{Streamer} classes.}
-   \item{...}{ Additional arguments. Currently not used}
-   \item{verbose}{\code{logical(1)} indicating whether class methods
-    should report to the user.}
-  \item{yieldSize}{The number of records the input parser is to yield.}
+
+   \item{fun}{A \code{function} that is used to combine the output of
+     the streams connected up-stream to the \code{YConnector}. The
+     function \code{fun} takes named arguments. The names correspond to
+     the names of the objects passed to the \code{connect} function used
+     to connect the \code{YConnector} to up-stream \code{Streamer}
+     classes.}
+
+  \item{...}{Arguments passed to the \code{\linkS4class{Consumer}}-class
+    constructors.}
+
 }
 
 
@@ -52,26 +54,22 @@
 
 \section{Fields}{
   \describe{
-    \item{\code{.fun}:}{User defined \code{function} to combine the output of
-        several streams. The function is applied on the named outputs obtained by
-        calling the \code{yield} method on the named streams connected upstream to
-        it.}
-    \item{\code{.upstream}:}{A named \code{list} of objects connected up-stream
-        to the \code{YConnector}-class. This field is meant to be internal to
-        the class and is only modified by using the \code{connect} function to
-        connect the \code{YConnector} to other \code{Streamer} objects.} 
+
+    \item{\code{.fun}:}{User defined \code{function} to combine the
+      output of several streams. The function is applied on the named
+      outputs obtained by calling the \code{yield} method on the named
+      streams connected upstream to it.}
+
+    \item{\code{.upstream}:}{A named \code{list} of objects connected
+      up-stream to the \code{YConnector}-class. This field is meant to
+      be internal to the class and is only modified by using the
+      \code{connect} function to connect the \code{YConnector} to other
+      \code{Streamer} objects.}
+
   }
 }
 
-\section{Methods}{
-  \describe{
-    \item{\code{initialize(..., fun)}:}{A method to initialize the fields of the
-        \code{YConnector}-class.}
-    \item{\code{yield()}:}{ Yields the records obtained by applying the function
-    \code{fun} to the result obtained by calling \code{yield} on all the
-    \code{stream}'s connected up-stream to it.}
-  }
-}
+\section{Methods}{There are no methods unique to this class.}
 
 \author{Nishant Gopalakrishnan \url{ngopalak@fhcrc.org}}
 
@@ -82,11 +80,11 @@
 fl <- system.file("extdata", "s_1_sequence.txt", package="Streamer")
 #### Blocks for stream1 
 b1 <- RawInput(fl, 100L, reader=rawReaderFactory(1e4))
-c1 <- RawToChar(10L)
+c1 <- RawToChar()
 
 #### Blocks for stream2
 b2 <- RawInput(fl, 100L, reader=rawReaderFactory(1e4))
-c2 <- RawToChar(20L)
+c2 <- RawToChar()
 #### YConnector with function list for combining the blocks
 y <- YConnector(fun=list)
 

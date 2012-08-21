@@ -36,18 +36,15 @@ rawParserFactory <-
 .RawInput <- setRefClass("RawInput",
     contains="ConnectionProducer",
     fields = list(
-        .buffer = "raw", .records = "list", .parsedRecords = "integer"
+      yieldSize = "integer",
+      .buffer = "raw", .records = "list", .parsedRecords = "integer"
     ))
 
 .RawInput$methods(
     initialize = function(...)
     {
         "initialize RawInput"
-        callSuper(...)
-        if (verbose) msg(".RawInput$initialize()")
-        .self$.records <- list()
-        .self$.parsedRecords <- 0L
-        .self
+        callSuper(..., .records=list(), .parsedRecords=0L)
     },
     reset = function()
     {
@@ -124,14 +121,12 @@ rawParserFactory <-
     
 
 RawInput <-
-    function(con, yieldSize = 1e6, 
-             reader=rawReaderFactory(),
-             parser=rawParserFactory(),
-             ..., verbose=FALSE)
+    function(con, yieldSize = 1e6, reader=rawReaderFactory(),
+             parser=rawParserFactory(), ...)
 {
     if (!is(con, "connection"))
         con <- file(con, "rb")
-    .RawInput$new(con=con, 
-         reader=reader, parser=parser, ...,
-         yieldSize=yieldSize, verbose=verbose)
+    yieldSize <- as.integer(yieldSize)
+    .RawInput$new(con=con, yieldSize=yieldSize, reader=reader,
+                  parser=parser, ...)
 }

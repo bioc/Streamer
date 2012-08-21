@@ -1,11 +1,7 @@
-test_recordReader <- function()
-{
-}
-
-test_binary_parse_count_records <- function()
+test_raw_parse_count_records <- function()
 {
     f <- function(...)
-        .Call(Streamer:::.binary_parse_count_records, ...)
+        .Call(Streamer:::.raw_parse_count_records, ...)
 
     sep <- charToRaw("\n")
 
@@ -32,9 +28,9 @@ test_binary_parse_count_records <- function()
     checkIdentical(1L, f(charToRaw("foo\nfoo\n"), sep))
 }
 
-test_binary_parse <- function()
+test_raw_parse <- function()
 {
-    f <- function(...) .Call(Streamer:::.binary_parse, ...)
+    f <- function(...) .Call(Streamer:::.raw_parse, ...)
 
     sep <- charToRaw("\n")
     trim <- sep
@@ -75,25 +71,25 @@ test_binary_parse <- function()
                    f(charToRaw("@foo\n@bar\n@"), sep, trim))
 }
 
-test_binaryParserFactory <- function()
+test_rawParserFactory <- function()
 {
-    checkException(binaryParserFactory("\n"),
+    checkException(rawParserFactory("\n"),
                    "'separator' must be 'raw()'", TRUE)
-    checkException(binaryParserFactory(trim="\n"),
+    checkException(rawParserFactory(trim="\n"),
                    "'trim' must be 'raw()'", TRUE)
-    checkException(binaryParserFactory(charToRaw("\n@"),
+    checkException(rawParserFactory(charToRaw("\n@"),
                                        charToRaw("@")),
                    "'trim' must equal separator[seq_along(trim)]",
                    TRUE)
-    checkException(binaryParserFactory(charToRaw("\n@"),
+    checkException(rawParserFactory(charToRaw("\n@"),
                                        charToRaw("\n@x")),
                    "'length(separator)' must be >= length(trim)",
                    TRUE)
 }
 
-test_binaryParser <- function()
+test_rawParser <- function()
 {
-    p <- binaryParserFactory()
+    p <- rawParserFactory()
     checkIdentical(list(), p(raw(), raw()))
 
     foo <- charToRaw("foo")
@@ -108,12 +104,12 @@ test_binaryParser <- function()
     checkIdentical(list(foo, foo), p(foo_n, foo))
 }
 
-test_BinaryInput <- function()
+test_RawInput <- function()
 {
     fl <- system.file("extdata", "s_1_sequence.txt", package="Streamer")
 
     ## default yield
-    s <- BinaryInput(fl)
+    s <- RawInput(fl)
     y <- yield(s)
     checkIdentical(1024L,length(y))
     checkIdentical(list(), yield(s))    # no more records
@@ -126,8 +122,8 @@ test_BinaryInput <- function()
     checkIdentical(list(), yield(s))
 
     ## yield w/ sep & trim arguments -- fastq records
-    parser <- binaryParserFactory(charToRaw("\n@"), charToRaw("\n"))
-    s <- BinaryInput(fl, parser=parser)
+    parser <- rawParserFactory(charToRaw("\n@"), charToRaw("\n"))
+    s <- RawInput(fl, parser=parser)
     y2 <- yield(s)
     checkIdentical(256L, length(y2))
     checkIdentical(sapply(y1, rawToChar),

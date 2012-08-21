@@ -62,7 +62,7 @@ s
 head(yield(s)) 			# First chunk
 
 b <- RawInput(fl, 5000L, verbose=TRUE)
-d <- Downsample(yieldSize=50)
+d <- Downsample(sampledSize=50)
 s <- stream(RawToChar(), d, b)
 s
 s[[2]]

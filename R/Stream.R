@@ -31,7 +31,7 @@
         }
         x
     }, list(x, ...), right=TRUE)
-    .Stream$new(inputPipe=inputPipe, yieldSize=x$yieldSize, verbose=verbose)
+    .Stream$new(inputPipe=inputPipe, verbose=verbose)
 }
 
 setMethod(length, "Stream",

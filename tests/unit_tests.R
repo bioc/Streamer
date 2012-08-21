@@ -1,1 +1,1 @@
-BiocGenerics:::.testPackage("Streamer")
+BiocGenerics:::testPackage("Streamer")

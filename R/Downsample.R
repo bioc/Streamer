@@ -2,16 +2,13 @@
     contains = "Consumer",
     fields = list(
       probability = "numeric",
+      sampledSize = "integer",
       .buffer = "ANY"),
     methods = list(
-    initialize = function(..., probability)
+    initialize = function(...)
     {
         "initialize Downsample"
-        callSuper(...)
-        if (verbose) msg("Downsample$initialize")
-        .self$probability <- probability
-        .self$.buffer <- list()
-        .self
+        callSuper(..., .buffer=list())
     },
     .sample = function(x)
     {
@@ -22,12 +19,12 @@
     },
     yield = function()
     {
-        "sample records with 'probability' until 'yieldSize' retrieved"
+        "sample records with 'probability' until 'sampledSize' retrieved"
         if (verbose) msg("Downsample$yield()")
-        while (length(.buffer) < yieldSize &&
+        while (length(.buffer) < sampledSize &&
                0L != length(res <- callSuper()))
             .self$.buffer <- c(.buffer, .sample(res))
-        idx <- seq_len(min(length(.buffer), yieldSize))
+        idx <- seq_len(min(length(.buffer), sampledSize))
         result <- .buffer[idx]
         .self$.buffer <- .buffer[-idx]
         result
@@ -49,14 +46,15 @@
     show = function()
     {
         callSuper()
-        txt <- sprintf("probability: %.2f; yieldSize: %d",
-                       probability, yieldSize)
+        txt <- sprintf("probability: %.2f; sampledSize: %d",
+                       probability, sampledSize)
         cat(txt, "\n")
     }))
 
 Downsample <-
-    function(probability = 0.1, ..., yieldSize = 1e6, verbose=FALSE)
+    function(probability = 0.1, sampledSize = 1e6, ...)
 {
-    .Downsample$new(probability=probability, ...,
-                    yieldSize=yieldSize, verbose=verbose)
+    sampledSize <- as.integer(sampledSize)
+    .Downsample$new(probability=probability, sampledSize=sampledSize,
+                    ...)
 }

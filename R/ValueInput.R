@@ -41,21 +41,15 @@ scanParserFactory <- concatenationParserFactory
 .ReadLinesInput <- setRefClass("ReadLinesInput",
     contains = "ConnectionProducer",
     fields = list(
+      yieldSize = "integer",
       .records = "character"))
 
 .ReadLinesInput$methods(
-    initialize = function(...)
-    {
-        "initialize 'ReadLinesInput'"
-        callSuper(...)
-        if (verbose) msg("ReadLinesInput$initialize()")
-        .self
-    },
     reset = function()
     {
         "reset ReadLinesInput"
-        callSuper()
         if (verbose) msg("ReadLinesInput$reset()")
+        callSuper()
         .self$.records <- character()
         .self$.parsedRecords <- 0L
         .self
@@ -93,15 +87,15 @@ scanParserFactory <- concatenationParserFactory
 
 ReadLinesInput <- 
     function(con, reader=readLinesReaderFactory(),
-             parser=readLinesParserFactory(), ...,
-             yieldSize=1e6, verbose=FALSE)
-    {
-        if (!is(con, "connection"))
-            con <- file(con, "r")
-        .ReadLinesInput$new(con=con, 
-                      reader=reader, parser=parser, ...,
-                      yieldSize=yieldSize, verbose=verbose)
-    }
+             parser=readLinesParserFactory(), 
+             yieldSize=1e6, ...)
+{
+    if (!is(con, "connection"))
+        con <- file(con, "r")
+    yieldSize <- as.integer(yieldSize)
+    .ReadLinesInput$new(con=con, reader=reader, parser=parser,
+                        yieldSize=yieldSize, ...)
+}
 
 
 

@@ -30,9 +30,11 @@
 
 \section{Fields}{
   \describe{
-    The \code{Producer} class inherits the fields \code{verbose}, \code{inUse}
-    and \code{yieldSize} fields from the \code{Streamer} class. Please refer to
+
+    The \code{Producer} class inherits the fields \code{verbose} and
+    \code{inUse} fields from the \code{Streamer} class. Please refer to
     the \code{\link{Streamer}} class for more details.
+
   }
 }
 

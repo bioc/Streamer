@@ -2,24 +2,28 @@
 \alias{connect}
 
 \title{
-  Connect \code{Producer} and \code{Consumer} streams together  and return a
-  named \code{list} of \code{stream}'s that the user can invoke the method
-  \code{yield} on. 
+
+  Connect \code{Producer} and \code{Consumer} streams together and
+  return a named \code{list} of \code{stream}'s that the user can invoke
+  the method \code{yield} on.
+
 }
 
 \description{
-  The function \code{connect} can be used to connect \code{Producer} and 
-  \code{Consumer} components together. 
+
+  The function \code{connect} can be used to connect \code{Producer} and
+  \code{Consumer} components together.
   
   For simple streams, it may be more appropriate to use the
-  \code{\link{stream}} method. The \code{connect} function is useful for connecting
-  together more complex \code{stream}s involving classes such as \code{YConnector},
-  \code{TConnector}, \code{ParallelConnector} etc which cannot be handled by the 
-  \code{stream} method.
+  \code{\link{stream}} method. The \code{connect} function is useful for
+  connecting together more complex \code{stream}s involving classes such
+  as \code{YConnector}, \code{TConnector}, \code{ParallelConnector} etc
+  which cannot be handled by the \code{stream} method.
 
-  The \code{connect} function returns a named list of possible \code{stream}s
-  from the connection information provided by the user. The user can then call
-  \code{yield} on the streams to obtain records.
+  The \code{connect} function returns a named list of possible
+  \code{stream}s from the connection information provided by the
+  user. The user can then call \code{yield} on the streams to obtain
+  records.
 
 }
 
@@ -28,18 +32,21 @@ connect(blocks, df)
 }
 
 \arguments{
-  \item{blocks}{A named list of instances of classes  \code{Consumer} and  
-      \code{Producer} to the connected together in a \code{stream}}
-  \item{df}{ A \code{data.frame} with two columns: "from" and  "to" which are 
-    character vectors corresponding to the names of the blocks.  Each row of 
-    \code{df} describes a connection between \code{Consumer} or \code{Producer} 
-    blocks.}   
+
+  \item{blocks}{A named list of instances of classes \code{Consumer} and
+    \code{Producer} to the connected together in a \code{stream}}
+
+  \item{df}{ A \code{data.frame} with two columns: "from" and "to" which
+    are character vectors corresponding to the names of the blocks.
+    Each row of \code{df} describes a connection between \code{Consumer}
+    or \code{Producer} blocks.}
+
 }
 
 \details{
 
-  Arguments \code{blocks} must consist of a named list of a single \code{Producer}
-  and zero or more \code{Consumer} components.
+  Arguments \code{blocks} must consist of a named list of a single
+  \code{Producer} and zero or more \code{Consumer} components.
 
 }
 
@@ -54,10 +61,10 @@ connect(blocks, df)
 ###  A simple stream involving a Producer and Consumer class 
 fl <- system.file("extdata", "s_1_sequence.txt", package="Streamer")
 b <- RawInput(fl, 100L, reader=rawReaderFactory(1e4))
-c <- RawToChar(10L)
+c <- RawToChar()
 
 ###  Create a named list of the blocks to be connected together
-blocks <- structure(list(b,c), names = c("b", "c"))
+blocks <- list(b=b, c=c)
 
 ## Create a data.frame that describes the connection between blocks
 df <- data.frame(from ="b", to = "c")

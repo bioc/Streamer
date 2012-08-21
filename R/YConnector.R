@@ -5,14 +5,11 @@
     
 .YConnector$methods(
     initialize = function(..., fun) 
-    {   "initialize YConnector"
-        callSuper(...)
-        if(verbose) msg(".YConnector$initialize")
-        .self$.upstream <- list()
+    {
+        "initialize YConnector"
         if(missing(fun))
-            .self$.fun <- function(){}
-        else .self$.fun <- fun
-        .self
+            fun <- function(...) as.list(...)
+        callSuper(..., .upstream=list(), .fun=fun)
     },
     yield = function() 
     {
@@ -25,13 +22,11 @@
     show = function()
     {
         callSuper()
-        upstream <- paste(lapply(.upstream, "class"), collapse = " ,")
+        upstream <- paste(sapply(.upstream, "class"), collapse = " ,")
         upstream[!nzchar(upstream)] <- "uninitialized field"
         txt <- sprintf("upstream: %s", upstream)
         cat(strwrap(txt, exdent=2), sep="\n")
     })
 
-YConnector <- function(fun, ...,  yieldSize =1e6, verbose = FALSE) 
-{
-    .YConnector$new(fun=fun, ..., yieldSize=yieldSize, verbose=verbose)
-}
+YConnector <- function(fun, ...)
+    .YConnector$new(fun=fun, ...)

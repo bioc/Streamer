@@ -20,17 +20,13 @@
   \code{yield} method that the user can directly invoke.
 }
 
-\usage{UserFunction(fun, ..., yieldSize=1e6, verbose=FALSE)}
+\usage{UserFunction(FUN, ...)}
 
 \arguments{
-   \item{fun}{User defined function that operates on records yielded by the class
+   \item{FUN}{User defined function that operates on records yielded by the class
        connected upstream.}
-   \item{...}{Additional arguments, passed to the \code{$new} method of
-    this class. Currently ignored.}
-   \item{yieldSize}{A \code{integer(1)} indicating the number of
-      records to yield.}
-   \item{verbose}{\code{logical(1)} indicating whether class methods
-    should report to the user.}
+  \item{...}{Arguments passed to the \code{\linkS4class{Consumer}}-class
+    constructors.}
 }
 
 \section{Constructors}{
@@ -39,20 +35,14 @@
 
 \section{Fields}{
   \describe{
-    \item{\code{.fun}:}{A user supplied\code{function} that operates on records
-        yielded by the class connected up-stream. }
+
+    \item{\code{.FUN}:}{A user supplied\code{function} that operates on
+      records yielded by the class connected up-stream. }
+
     }
 }
 
-\section{Methods}{
-  \describe{
-    \item{\code{initialize(...)}:}{Initializes the fields of the
-        \code{UserFunction}-class.}
-    \item{\code{yield()}:}{Applies the function \code{fun} to the records
-        retrieved from the  class connected upstream to the \code{UserFunction}
-        class.}
-  }
-}
+\section{Methods}{There are no methods unique to this class.}
 
 \author{Nishant Gopalakrishnan \url{ngopalak@fhcrc.org}}
 
@@ -67,7 +57,7 @@ myFun <- function(x) {
 }
 
 #### Pass the function to the UserFunction constructor
-d <- UserFunction(fun=myFun)
+d <- UserFunction(myFun)
 
 #### Create a stream
 s <- stream(b, d)

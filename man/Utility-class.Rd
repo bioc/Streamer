@@ -18,8 +18,9 @@
 
 \section{Fields}{
   \describe{
-    The \code{Utility} class inherits the fields \code{verbose}, \code{inUse}
-    and \code{yieldSize} fields from the \code{Streamer} class. Please refer to
+
+    The \code{Utility} class inherits the fields \code{verbose} adn
+    \code{inUse} fields from the \code{Streamer} class. Please refer to
     the \code{\link{Streamer}} class for more details.
 
     The \code{Utility} class inherits the fields \code{inputPipe},
@@ -30,10 +31,11 @@
 
 \section{Class-Based Methods}{
   \describe{
-    The \code{ConnectionProducer} class inherits the methods \code{initialize}, \code{msg},
-    \code{reset}, \code{status} and \code{yield} from the \code{Streamer}
-    virtual class. Please refer to the \code{\link{Streamer}} class for more
-    details.
+
+    The \code{ConnectionProducer} class inherits the methods
+    \code{initialize}, \code{msg}, \code{reset}, \code{status} and
+    \code{yield} from the \code{Streamer} virtual class. Please refer to
+    the \code{\link{Streamer}} class for more details.
   
     Derived classes should implement an appropriate  \code{yield} method to 
     return the contents of the current stream. The default method for the base 

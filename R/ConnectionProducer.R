@@ -10,12 +10,9 @@
         parser = rawParserFactory(), ...)
     {
         "initialize ConnectionProducer"
-        callSuper(...)
-        if (verbose) msg(".ConnectionProducer$initialize")
+        callSuper(..., reader=reader, parser=parser)
         if (!missing(con))
             .self$con <- con
-        .self$reader <- reader
-        .self$parser <- parser
         .self
     },
     reset = function()

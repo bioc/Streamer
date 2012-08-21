@@ -15,24 +15,24 @@
 
 \description{
 
-  A \code{\linkS4class{Producer}}-class to interpret text files. Users interact 
-  with this class through the constructor \code{ReadLinesInput} and methods 
-  \code{\link{yield}}, \code{\link{reset}}, and \code{\link{stream}}.
+  A \code{\linkS4class{Producer}}-class to interpret text files. Users
+  interact with this class through the constructor \code{ReadLinesInput}
+  and methods \code{\link{yield}}, \code{\link{reset}}, and
+  \code{\link{stream}}.
 
   This class requires two helper functions; the \sQuote{factory} methods
   defined on this page can be used to supply these.
   \code{readLinesReaderFactory} creates a \sQuote{reader}, whose
-  responsibility it is to accept a connection and return a  \code{character} 
-  vector.  \code{readLinesParserFactory} creates  a \sQuote{parser}, 
-  responsible for parsing a buffer and vector of the
-  same type as produced by the reader into records. 
+  responsibility it is to accept a connection and return a
+  \code{character} vector.  \code{readLinesParserFactory} creates a
+  \sQuote{parser}, responsible for parsing a buffer and vector of the
+  same type as produced by the reader into records.
   
 }
 
 \usage{
 ReadLinesInput(con, reader = readLinesReaderFactory(), 
-    parser = readLinesParserFactory(), ..., yieldSize = 1e+06,
-    verbose = FALSE)
+    parser = readLinesParserFactory(), yieldSize = 1e+06, ...)
 readLinesReaderFactory(blockSize=1e+06, ...)
 scanReaderFactory(blockSize=1e06, ...)
 }
@@ -47,10 +47,10 @@ scanReaderFactory(blockSize=1e06, ...)
     reader function) that returns a vector of type \code{character}.}
   \item{parser}{A function of two arguments (\code{buf}, \code{bin}),
     parsing the \code{raw} vector \code{c(buf, bin)} into records.}
-  \item{verbose}{\code{logical(1)} indicating whether class methods
-    should report to the user.}
+
   % readLinesReaderFactory
   \item{blockSize}{The number of characters to read at one time.}
+
   \item{...}{Additional arugments.}
  }
 

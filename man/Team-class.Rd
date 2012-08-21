@@ -108,7 +108,7 @@
 }
 
 \examples{
-team <- Team(function(x) { Sys.sleep(1); mean(x) }, size=5, yieldSize=5)
+team <- Team(function(x) { Sys.sleep(1); mean(x) }, size=5)
 s <- stream(Seq(to=50, length.out=5), team)
 system.time({
     while(length(y <- yield(s)))

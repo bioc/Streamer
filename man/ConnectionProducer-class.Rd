@@ -7,20 +7,24 @@
 
 \description{
 
-  A virtual class containing components that are required to create a custom
-  \code{Producer}-class to read data from file connections. Users can inherit from
-  the \code{ConnectionProducer}-class to create their own \code{Producer}
-  classes that interact with files. Users are expected to pass in appropriate 
-  \code{reader} and \code{parser} functions for files when creating instances of
-  classes that inherit from \code{ConnectionProducer}-class.
+  A virtual class containing components that are required to create a
+  custom \code{Producer}-class to read data from file connections. Users
+  can inherit from the \code{ConnectionProducer}-class to create their
+  own \code{Producer} classes that interact with files. Users are
+  expected to pass in appropriate \code{reader} and \code{parser}
+  functions for files when creating instances of classes that inherit
+  from \code{ConnectionProducer}-class.
 
 }
 
 \section{Fields}{
   \describe{
-    The \code{ConnectionProducer} class inherits the fields \code{verbose}, \code{inUse}
-    and \code{yieldSize} fields from the \code{Streamer} class. Please refer to
-    the \code{\link{Streamer}} class for more details.
+
+    The \code{ConnectionProducer} class inherits the fields
+    \code{verbose} and \code{inUse} fields from the \code{Streamer}
+    class. Please refer to the \code{\link{Streamer}} class for more
+    details.
+
     \item{\code{con}:}{An object of class \code{connection}.}
     \item{\code{reader}:}{A function that reads data from a file
         connection}
@@ -30,14 +34,16 @@
 
 \section{Class-Based Methods}{
   \describe{
-    The \code{ConnectionProducer} class inherits the methods \code{initialize}, \code{msg},
-    \code{reset}, \code{status} and \code{yield} from the \code{Streamer}
-    virtual class. Please refer to the \code{\link{Streamer}} class for more
-    details.
+
+    The \code{ConnectionProducer} class inherits the methods
+    \code{initialize}, \code{msg}, \code{reset}, \code{status} and
+    \code{yield} from the \code{Streamer} virtual class. Please refer to
+    the \code{\link{Streamer}} class for more details.
   
-    Derived classes should implement an appropriate  \code{yield} method to 
-    return the contents of the current stream. The default method for the base 
-    virtual \code{Streamer} class returns a \code{list()} 
+    Derived classes should implement an appropriate \code{yield} method
+    to return the contents of the current stream. The default method for
+    the base virtual \code{Streamer} class returns a \code{list()}
+
   }
 }
 

@@ -18,7 +18,7 @@
 }
 
 \usage{
-Downsample(probability=0.1, ..., yieldSize=1e6, verbose=FALSE)
+Downsample(probability=0.1, sampledSize=1e6, ...)
 }
 
 \arguments{
@@ -26,48 +26,25 @@ Downsample(probability=0.1, ..., yieldSize=1e6, verbose=FALSE)
     probability with which a record should be retained.}
   \item{...}{Additional arguments, passed to the \code{$new} method of
     the underlying reference class. Currently unused.}
-  \item{yieldSize}{A \code{integer(1)} indicating the number of
-    records to yield.}
-  \item{verbose}{\code{logical(1)} indicating whether class methods
-    should report to the user.}
+  \item{sampledSize}{A \code{integer(1)} indicating the number of
+    records to return.}
 }
   
 \section{Fields}{
   \describe{
-    \item{\code{inputPipe}:}{Object of class \code{ANY}. The component
-      from which input is retrieved.}
     \item{\code{probability}:}{Object of class \code{numeric}. The
       probability of including a record in the \code{yield}.}
-    \item{\code{yieldSize}:}{Object of class \code{integer}
+    \item{\code{sampledSize}:}{Object of class \code{integer}
       storing the number of records to produced each time \code{yield}
       is invoked.}
     \item{\code{.buffer}:}{Object of class \code{ANY}, used internally
       to store read but not yet parsed records.}
-    \item{\code{verbose}:}{Object of class \code{logical}. Display
-      method invokation messages to the user.}
   }
 }
 
 \section{Class-Based Methods}{
   \describe{
-    \item{\code{initialize(..., probability, yieldSize,
-	verbose)}:}{Initialize the instance.
-      \describe{
-	\item{\code{probability}:}{The probability with which a record
-	  is included in the sample.}
-	\item{\code{yieldSize}:}{The number of records to return when
-	  \code{yield} is invoked.}
-	\item{\code{...}:}{Additional arguments, currently ignored.}
-	\item{\code{verbose}:}{Display method invokation messages to the
-	  user.}
-      }}
-    \item{\code{reset()}:}{Reset sample buffer and delegate \code{reset}
-      to \code{inputPipe}.}
-    \item{\code{yield()}:}{Continually invoke \code{yield} on
-      \code{inputPipe}, accumulating a random sample of
-      \code{yieldSize} records until the \code{yield} of
-      \code{inputPipe} has length 0. The result is a \code{list} of
-      length \code{yieldSize}.}
+    \item{\code{.sample(x)}:}{Sample from amongst the incoming records.}
   }
 }
 

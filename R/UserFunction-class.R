@@ -1,28 +1,23 @@
 .UserFunction <- 
     setRefClass("UserFunction",
         contains = "Consumer",
-        fields = list(
-            .fun= "function")) 
+        fields = list(FUN = "function")) 
  
 .UserFunction$methods(
-    initialize = function(..., fun)
+    initialize = function(..., FUN)
     {
         "initialize myCons"
-        callSuper(...)
-        if (.self$verbose)
-            .self$msg("myCons$initialize")
-        .self$.fun <- fun
-        .self
+        callSuper(..., FUN=FUN)
     },
     yield = function()
     {
         "yield data from UserFunction"
         if (verbose) msg("UserFunction$yield")
-        .self$.fun(callSuper())
+        FUN(callSuper())
     })
 
-UserFunction <- function(fun, ..., yieldSize = 1e6, verbose = FALSE)
+UserFunction <- function(FUN, ...)
 {
-    .UserFunction$new(fun=fun,..., yieldSize=yieldSize, verbose=verbose)
+    .UserFunction$new(FUN=FUN,...)
 }
 

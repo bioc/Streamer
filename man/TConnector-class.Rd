@@ -18,13 +18,11 @@
   \code{Consumer} objects using the \code{\link{connect}} function.
 }
 
-\usage{TConnector(..., yieldSize=1e6, verbose=FALSE)}
+\usage{TConnector(...)}
 
 \arguments{
-   \item{...}{ Additional arguments}
-   \item{verbose}{\code{logical(1)} indicating whether class methods
-    should report to the user.}
-  \item{yieldSize}{The number of records the input parser is to yield.}
+  \item{...}{Arguments passed to the \code{\linkS4class{Consumer}}-class
+    constructors.}
 }
 
 \section{Constructors}{
@@ -33,31 +31,33 @@
 
 \section{Fields}{
   \describe{
-    \item{\code{.records}:}{ A temporary buffer used to save records retrieved 
-        from the \code{Producer} or \code{Consumer} class connector up-stream to
-        the \code{TConnector}. This field is used internally by class methods
-        and is not intende to be manipulated directly by the user.}
-    \item{\code{.tOuts}:}{A \code{list} of objects of class \code{TOut} of
-        length equal to the number of streams connected down-stream to
-        it. This field is used internally by the \code{TConnector}-class method
-        and not intended to be manipulated directly by the user.}
+
+    \item{\code{.records}:}{ A temporary buffer used to save records
+      retrieved from the \code{Producer} or \code{Consumer} class
+      connector up-stream to the \code{TConnector}. This field is used
+      internally by class methods and is not intended to be manipulated
+      directly by the user.}
+
+    \item{\code{.tOuts}:}{A \code{list} of objects of class \code{TOut}
+      of length equal to the number of streams connected down-stream to
+      it. This field is used internally by the \code{TConnector}-class
+      method and not intended to be manipulated directly by the user.}
+
    }
 }
 
 \section{Methods}{
   \describe{
-    \item{\code{initialize(...)}:}{A method to initialize the fields of the
-        \code{TConnector} class.}
-    \item{\code{.fill()}:}{An internal method used to retrieve records from the
-        \code{Producer} or \code{Consumer} class connected up-stream to the
-        \code{TConnector}.}
-    \item{\code{.add()}:}{An internal method to add records to the internal
-        buffer(\code{.records}).}
-    \item{\code{.dump()}:}{An internal method to remove records that have been
-        passed down to all the down-stream classes (and are no longer needed) 
-        from the internal buffer(\code{.records}).}
+
+    \item{\code{.add()}:}{An internal method to add records to the
+      internal buffer(\code{.records}).}
+
+    \item{\code{.dump()}:}{An internal method to remove records that
+      have been passed down to all the down-stream classes (and are no
+      longer needed) from the internal buffer(\code{.records}).}
+
   }
-  }
+}
 
 \author{Nishant Gopalakrishnan \url{ngopalak@fhcrc.org}}
 
@@ -69,13 +69,13 @@
 fl <- system.file("extdata", "s_1_sequence.txt", package="Streamer")
 b <- RawInput(fl, 100L, reader=rawReaderFactory(1e4))
 ### c1 and c2 return different number of records
-c1 <- RawToChar(10L)
-c2 <- RawToChar(20L)
+c1 <- RawToChar()
+c2 <- RawToChar()
 t <- TConnector()
 
 ### Connect the blocks together using the connect function
-blocks <- structure(list(b, c1, c2, t), names = c("b", "c1", "c2", "t"))
-df <- data.frame(from =c("b", "t", "t"), 
+blocks <- list(b=b, c1=c1, c2=c2, t=t)
+df <- data.frame(from = c("b", "t", "t"), 
                  to = c("t", "c1", "c2"))
 res <- connect(blocks, df)
 

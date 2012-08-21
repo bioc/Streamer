@@ -3,13 +3,6 @@
                 fields=list(.upstream="ANY"))
 
 .ParallelConnector$methods(
-    initialize = function(...)
-    {
-        "Initialize the fields of the ParallelConnector class"
-        callSuper(...)
-        if (verbose) msg(".ParallelConnector$initialize()")   
-        .self
-    },
     yield = function() 
    {  
         "Read data from childProcess"
@@ -27,8 +20,6 @@
         }
     })
 
-ParallelConnector <- function(..., yieldSize=1e6, verbose = FALSE) 
-{
-    .ParallelConnector$new(..., yieldSize=yieldSize, verbose = verbose)
-}
+ParallelConnector <- function(...)
+    .ParallelConnector$new(...)
 

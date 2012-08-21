@@ -7,21 +7,20 @@
 
 \description{
 
-  The \code{ParallelConnector} \code{\linkS4class{Consumer}}-class can be used
-  to parallelize the computations done by blocks directly connected to the 
-  \code{ParallelConnector} and all blocks down-stream to the
-  \code{ParallelConnector}. i.e Computations performed by the block directly 
-  connected  up-stream to the \code{ParallelConnector} and all blocks connected
-  down-stream to the \code{ParallelConnector} in a stream happen simultaneously.
+  The \code{ParallelConnector} \code{\linkS4class{Consumer}}-class can
+  be used to parallelize the computations done by blocks directly
+  connected to the \code{ParallelConnector} and all blocks down-stream
+  to the \code{ParallelConnector}. i.e Computations performed by the
+  block directly connected up-stream to the \code{ParallelConnector} and
+  all blocks connected down-stream to the \code{ParallelConnector} in a
+  stream happen simultaneously.
+
 }
 
-\usage{ParallelConnector(..., yieldSize=1e6, verbose=FALSE)}
+\usage{ParallelConnector(...)}
 
 \arguments{
   \item{...}{Additional arguments to be passed to the constructor.}
-  \item{yieldSize}{The number of records the input parser is to yield.}
-  \item{verbose}{\code{logical(1)} indicating whether class methods
-    should report to the user.}
 }
 
 \section{Constructors}{
@@ -57,4 +56,3 @@
 \examples{showClass("ParallelConnector")}
 
 \keyword{classes}
-

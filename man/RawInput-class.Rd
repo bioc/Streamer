@@ -34,7 +34,7 @@
 
 \usage{
 RawInput(con, yieldSize = 1e+06, reader = rawReaderFactory(), 
-    parser = rawParserFactory(), ..., verbose = FALSE)
+    parser = rawParserFactory(), ...)
 rawReaderFactory(blockSize = 1e+06, what)
 rawParserFactory(separator = charToRaw("\n"), trim = separator)
 }
@@ -51,12 +51,12 @@ rawParserFactory(separator = charToRaw("\n"), trim = separator)
     parsing the \code{raw} vector \code{c(buf, bin)} into records.}
   \item{...}{Additional arguments, passed to the \code{$new} method of
     this class. Currently ignored.}
-  \item{verbose}{\code{logical(1)} indicating whether class methods
-    should report to the user.}
+
   % rawReaderFactory
   \item{blockSize}{The number of bytes to read at one time.}
   \item{what}{The type of data to read, as the argument to
     \code{\link{readBin}}.}
+
   % rawParserFactory
   \item{separator}{A \code{raw} vector indicating the unique sequence of
     bytes by which record starts are to be recognized. The parser
@@ -68,41 +68,40 @@ rawParserFactory(separator = charToRaw("\n"), trim = separator)
 
 \section{Fields}{
   \describe{
+
     \item{\code{con}:}{Object of class \code{connection}. An R
       \code{\link{connection}} opened in \dQuote{rb} mode from which
       data will be read.}
+
     \item{\code{blockSize}:}{Object of class \code{integer}. Size
       (e.g., number of raw bytes) input during each
       \code{\link{yield}}.}
+
     \item{\code{reader}:}{Object of class \code{function}. A function
       used to input \code{blockSize} elements. See
       \code{\link{rawReaderFactory}}.}
+
     \item{\code{parser}:}{Object of class \code{function}. A function
       used to parse raw input into records, e.g., breaking a
       \code{raw} vector on new lines \sQuote{\\n}. See
       \code{\link{rawParserFactory}}}
+
     \item{\code{.buffer}:}{Object of class \code{raw}. Contains read but
       not parsed raw stream data.}
+
     \item{\code{.records}:}{Object of class \code{list}. Parsed but not
       yet yield-ed records.}
+
     \item{\code{.parsedRecords}:}{Object of class \code{integer}. Total
       number of records parsed by the Producer.}
-    \item{\code{verbose}:}{Object of class \code{logical}. Should
-      progress be reported?}
+
   }
 }
 
 \section{Class-Based Methods}{
   \describe{
-    \item{\code{initialize(con, blockSize, reader, parser,
-	verbose)}:}{Called during object creation with values to
-      initialize fields.}
     \item{\code{reset()}:}{Remove buffer and current records, reset
       record counter, re-open \code{con}.}
-    \item{\code{status()}:}{Summarize status of stream.}
-    \item{\code{yield()}:}{Process stream to yield as many complete
-      records as are represented in the current \code{blockSize}
-      elements.}
   }
 }
 
