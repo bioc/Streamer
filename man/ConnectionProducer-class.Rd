@@ -2,49 +2,56 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{ConnectionProducer-class}
+\alias{close.ConnectionProducer}
+\alias{ScanProducer-class}
+\alias{ReadLinesProducer-class}
+\alias{ReadTableProducer-class}
+\alias{ScanProducer}
+\alias{ReadLinesProducer}
+\alias{ReadTableProducer}
 
 \title{Class "ConnectionProducer"}
 
 \description{
 
-  A virtual class containing components that are required to create a
-  custom \code{Producer}-class to read data from file connections. Users
-  can inherit from the \code{ConnectionProducer}-class to create their
-  own \code{Producer} classes that interact with files. Users are
-  expected to pass in appropriate \code{reader} and \code{parser}
-  functions for files when creating instances of classes that inherit
-  from \code{ConnectionProducer}-class.
+  \code{ConnectionProducer} classes include \code{ScanProducer},
+  \code{ReadLinesProducer}, and \code{ReadTableProducer}, providing
+  Streamer interfaces to \code{scan}, \code{readLines}, and
+  \code{read.table}.
 
 }
 
-\section{Fields}{
-  \describe{
+\usage{
+ScanProducer(file, ..., fileArgs=list(), scanArgs=list(...))
+ReadLinesProducer(con, ..., conArgs=list(), readLinesArgs=list(...))
+ReadTableProducer(file, ..., fileArgs=list(), readTableArgs=list(...))
 
-    The \code{ConnectionProducer} class inherits the fields
-    \code{verbose} and \code{inUse} fields from the \code{Streamer}
-    class. Please refer to the \code{\link{Streamer}} class for more
-    details.
-
-    \item{\code{con}:}{An object of class \code{connection}.}
-    \item{\code{reader}:}{A function that reads data from a file
-        connection}
-    \item{\code{parser}:}{A function that parses  data to records.}
-  }
+\S3method{close}{ConnectionProducer}(con, ...)
 }
 
-\section{Class-Based Methods}{
-  \describe{
+\arguments{
 
-    The \code{ConnectionProducer} class inherits the methods
-    \code{initialize}, \code{msg}, \code{reset}, \code{status} and
-    \code{yield} from the \code{Streamer} virtual class. Please refer to
-    the \code{\link{Streamer}} class for more details.
-  
-    Derived classes should implement an appropriate \code{yield} method
-    to return the contents of the current stream. The default method for
-    the base virtual \code{Streamer} class returns a \code{list()}
+  \item{file, con}{The file or connection to be used for input. See
+    \code{\link{connections}}.}
 
-  }
+  \item{...}{Additional arguments, e.g., \code{nlines}, to \code{scan},
+    \code{readLines}, etc.}
+
+  \item{fileArgs, conArgs}{Arguments, e.g., \code{mode},
+    \code{encoding}, to be used when invoking \code{\link{reset}()}.}
+
+  \item{scanArgs, readLinesArgs, readTableArgs}{Arguments to
+    \code{scan}, \code{readLines}, etc., when reading a file or
+    connection; provide this argument when \code{...} contains arguments
+    (especially \code{verbose=TRUE}) to be used by the class.}
+
+}
+
+\section{Internal Methods}{
+
+  Class-based fields and methods are for internal use. See, e.g.,
+  \code{Streamer:::.ScanLinesProducer$help()} for documentation
+
 }
 
 \author{Martin Morgan \url{mtmorgan@fhcrc.org}}
@@ -54,6 +61,29 @@
   \code{\linkS4class{Streamer}-class}.
 }
 
-\examples{showClass("ConnectionProducer")}
+\examples{
+fl <- system.file(package="Rsamtools", "extdata", "ex1.sam")
+
+p <- ReadLinesProducer(fl, n = 1000)  # read 1000 lines at a time
+while (length(y <- yield(p)))
+    print(length(y))
+
+p <- ReadTableProducer(fl, quote="", fill=TRUE, nrows=1000)
+while (nrow(y <- yield(p)))
+    print(dim(y))
+
+reset(p)
+dim(yield(p))
+
+## connections opened 'under the hood' are closed, with warnings
+rm(p); gc() 
+
+## avoid warnings by managing connections
+p <- ScanProducer(file(fl, "r"), verbose=TRUE,
+                  scanArgs=list(what=character()))
+length(yield(p))
+close(p)
+rm(p); gc()
+}
 
 \keyword{classes}

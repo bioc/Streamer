@@ -36,7 +36,7 @@ rawParserFactory <-
 .RawInput <- setRefClass("RawInput",
     contains="ConnectionProducer",
     fields = list(
-      yieldSize = "integer",
+      parser = "function", yieldSize = "integer",
       .buffer = "raw", .records = "list", .parsedRecords = "integer"
     ))
 

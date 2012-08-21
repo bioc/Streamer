@@ -1,7 +1,7 @@
 Package: Streamer
 Type: Package
 Title: Enabling stream processing of large files
-Version: 1.3.3
+Version: 1.3.4
 Date: 2010-10-13
 Author: Martin Morgan, Nishant Gopalakrishnan
 Maintainer: Martin Morgan <mtmorgan@fhcrc.org>
@@ -21,7 +21,7 @@ biocViews: Infrastructure, DataImport
 Collate: 
   generics.R OldClass.R
   Streamer.R Producer.R  Consumer.R Stream.R
-  ConnectionProducer.R RawInput.R ValueInput.R Seq.R
+  ConnectionProducer.R RawInput.R Seq.R
   Downsample.R Team.R UserFunction-class.R Utility.R
   ParallelConnector.R TConnector.R YConnector.R
   zzz.R
