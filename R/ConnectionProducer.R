@@ -100,22 +100,15 @@ ReadLinesProducer <-
 }
 
 .ReadTableProducer <- setRefClass("ReadTableProducer",
-    fields = list(
-      .template = "data.frame"),
     contains = "ConnectionProducer",
     methods = list(
       .yield_error = function(err) {
-          if (conditionMessage(err) == "no lines available in input" &&
-              ncol(.template) != 0L)
-          {
-              .template
-          } else stop(err)
+          if (conditionMessage(err) == "no lines available in input")
+              data.frame()
+          else stop(err)
       },
       yield = function() {
-          y <- tryCatch(callSuper(), error=.self$.yield_error)
-          if (ncol(.template) == 0L)
-              .self$.template <- y[FALSE,,drop=FALSE]
-          y
+          tryCatch(callSuper(), error=.self$.yield_error)
       }))
 
 ReadTableProducer <-

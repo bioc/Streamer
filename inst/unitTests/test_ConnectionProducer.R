@@ -18,11 +18,11 @@ test_ConnectionProducer <-
 
     p <- ReadTableProducer(file(fl, "r"), quote="", fill=TRUE, nrows=1000)
     obs <- integer()
-    while (nrow(y <- yield(p)))
+    while (length(y <- yield(p)))
         obs <- append(obs, nrow(y))
+    checkIdentical(c(0L, 0L), dim(yield(p)))
     exp <- as.integer(c(1000, 1000, 1000, 307))
     checkIdentical(exp, obs)
-    checkIdentical(c(0L, 17L), dim(yield(p)))
     close(p)
 
     ## reset
