@@ -2,7 +2,9 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{Producer-class}
-\alias{show,Producer-class}
+\alias{lapply,Producer-method}
+\alias{sapply,Producer-method}
+\alias{show,Producer-method}
 
 \title{Class "Producer"}
 
@@ -18,8 +20,34 @@
 
 }
 
+\usage{
+\S4method{lapply}{Producer}(X, FUN, ..., .env=parent.frame())
+\S4method{sapply}{Producer}(X, FUN, ..., simplify=TRUE, USE.NAMES=TRUE)
+}
+
+\arguments{
+  \item{X}{An instance of class \code{Producer}}
+
+  \item{FUN}{A function to be applied to each successful \code{yield()}
+    of \code{X}.}
+
+  \item{...}{Additional arguments to \code{FUN}.}
+
+  \item{simplify}{See \code{?base::sapply}.}
+
+  \item{USE.NAMES}{See \code{?base::sapply} but note that names do not
+    usually make sense for instances of class \code{Producer}.}
+
+  \item{.env}{For internal use}
+}
+
 \section{Methods}{
-  Methods defined on this class include:
+
+  \code{lapply} and \code{sapply} apply \code{FUN} to each result
+  applied to \code{yield()}. Infite producers will of course exhaust
+  memory.
+
+  Inherited methods defined on this class include:
   \describe{
     \item{stream}{\code{signature(x = "Producer", ...)}: see
       \code{?stream}.}
@@ -40,15 +68,18 @@
 
 \section{Class-Based Methods}{
   \describe{
-    The \code{Producer} class inherits the methods \code{initialize}, \code{msg},
-    \code{reset}, \code{status} and \code{yield} from the \code{Streamer}
-    virtual class. Please refer to the \code{\link{Streamer}} class for more
-    details.
+
+    The \code{Producer} class inherits the methods \code{initialize},
+    \code{msg}, \code{reset}, \code{status} and \code{yield} from the
+    \code{Streamer} virtual class. Please refer to the
+    \code{\link{Streamer}} class for more details.
     
-    Derived classes should implement an appropriate \code{initialize} method to
-    initialize the fields of the derived class. Additionally, a \code{yield} method
-    should be implemented to return the contents of the current stream. The
-    default method for the base virtual \code{Streamer} class returns a \code{list()} 
+    Derived classes should implement an appropriate \code{initialize}
+    method to initialize the fields of the derived class. Additionally,
+    a \code{yield} method should be implemented to return the contents
+    of the current stream. The default method for the base virtual
+    \code{Streamer} class returns a \code{list()}
+
   }
 }
 
@@ -61,6 +92,13 @@
 
 }
 
-\examples{showClass("Producer")}
+\examples{
+showClass("Producer")
+showMethods(class="Producer", where="package:Streamer")
+
+sapply(Seq(to=47, length.out=7), function(elt) {
+    c(n = length(elt), xbar = mean(elt))
+})
+}
 
 \keyword{classes}

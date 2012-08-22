@@ -2,6 +2,8 @@ useDynLib(Streamer, .registration=TRUE)
 
 import(methods)
 
+importFrom(BiocGenerics, lapply, sapply)
+
 importFrom(parallel, mcparallel, mccollect)
 
 importFrom(graph, graphBAM)
@@ -9,6 +11,8 @@ importFrom(graph, graphBAM)
 importMethodsFrom(graph, degree)
 
 exportPattern("^[^\\.]")
+
+exportMethods(lapply, sapply)
 
 exportClasses(Streamer,
               Producer, RawInput, Seq, 
