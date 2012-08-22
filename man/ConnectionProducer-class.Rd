@@ -69,7 +69,7 @@ while (length(y <- yield(p)))
     print(length(y))
 
 p <- ReadTableProducer(fl, quote="", fill=TRUE, nrows=1000)
-while (nrow(y <- yield(p)))
+while (length(y <- yield(p)))
     print(dim(y))
 
 reset(p)
