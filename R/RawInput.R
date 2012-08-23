@@ -25,10 +25,7 @@ rawParserFactory <-
             stop("'trim' must equal separator[seq_along(trim)]")
     }
     function(buf, bin)
-    {
-        .Call(.raw_parse, c(buf, bin), separator, trim,
-              PACKAGE="Streamer")
-    }
+        .Call(.raw_parse, c(buf, bin), separator, trim)
 }
 
 ## 
