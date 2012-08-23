@@ -24,6 +24,12 @@ test_lapply_Producer <- function()
     fun <- function(x) if (x == 3) stop("x: ", x) else x
     checkException(lapply(Seq(to=5), fun), silent=TRUE)
 
+    ## error partial results
+    res <- tryCatch(sapply(Seq(to=5), fun), error = function(err) {
+        err$partialResult
+    })
+    checkIdentical(c(1, 2), res)
+
     ## trigger re-allocation
     ## res <- lapply(Seq(to=4096*4),
     ##               function(x) { if (x %% 1000 == 0) message(x); x })

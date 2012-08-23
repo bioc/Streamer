@@ -21,7 +21,7 @@
 }
 
 \usage{
-\S4method{lapply}{Producer}(X, FUN, ..., .env=parent.frame())
+\S4method{lapply}{Producer}(X, FUN, ...)
 \S4method{sapply}{Producer}(X, FUN, ..., simplify=TRUE, USE.NAMES=TRUE)
 }
 
@@ -44,8 +44,9 @@
 \section{Methods}{
 
   \code{lapply} and \code{sapply} apply \code{FUN} to each result
-  applied to \code{yield()}. Infite producers will of course exhaust
-  memory.
+  applied to \code{yield()}. Partial results on error can be recovered
+  using \code{\link{tryCatch}}, as illustrated below. Infinite producers
+  will of course exhaust memory.
 
   Inherited methods defined on this class include:
   \describe{
@@ -99,6 +100,15 @@ showMethods(class="Producer", where="package:Streamer")
 sapply(Seq(to=47, length.out=7), function(elt) {
     c(n = length(elt), xbar = mean(elt))
 })
+
+## recover partial results
+fun = function(i) if (i == 5) stop("oops, i == 5") else i
+res <- tryCatch(sapply(Seq(to=10), fun), error=function(err) {
+    warning(conditionMessage(err),
+            "\n  only partial results available")
+    simplify2array(err$partialResult)
+})
+res
 }
 
 \keyword{classes}

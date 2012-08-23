@@ -10,31 +10,47 @@ setMethod(stream, "Producer",
 })
 
 setMethod(lapply, "Producer",
-    function(X, FUN, ..., .env=parent.frame())
+    function(X, FUN, ...)
 {
     FUN <- match.fun(FUN)
-    fun <- function(yield) {
-        y <- tryCatch(yield(), error=function(err) {
-            stop("'lapply,Producer-method' yield() failed: ",
-                 conditionMessage(err))
-        })
-        if (!length(y))
-            return(y)
-        tryCatch(eval(FUN(y, ...), .env), error=function(err) {
-            stop("'lapply,Producer-method' FUN() failed: ",
-                 conditionMessage(err))
-        })
+    YIELD <- selectMethod("yield", class(X)) # avoid S4 dispatch
+
+    it <- 0L
+    result <- vector("list", 4096L)     # pre-allocate
+    .partialResult <- function(err) {
+        if (is(err, "simpleError")) {
+            length(result) <- it
+            err$message <- paste0("yield(): ", conditionMessage(err))
+            err$partialResult <- result
+            class(err) <- c("partialResult", class(err))
+        }
+        stop(err)
     }
-    ## avoid S4 dispatch on yield(X)
-    .Call(.lapply_Producer, fun, X$yield, environment())
+
+    repeat {
+        y <- tryCatch(YIELD(X), error = .partialResult)
+        if (!length(y))
+            break;
+        y <- tryCatch(FUN(y, ...), error = .partialResult)
+        it <- it + 1L
+        if (it == length(result))       # grow
+            length(result) <- 1.6 * length(result)
+        result[[it]] <- y
+    }
+    length(result) <- it
+    result
 })
 
 setMethod(sapply, "Producer",
     function(X, FUN, ..., simplify=TRUE, USE.NAMES=TRUE)
 {
     FUN <- match.fun(FUN)
-    .env <- parent.frame()
-    answer <- lapply(X = X, FUN = FUN, ..., .env=.env)
+    answer <- tryCatch(lapply(X = X, FUN = FUN, ...), error=function(err) {
+        if (is(err, "partialResult"))
+            err$partialResult <- simplify2array(err$partialResult,
+                                                higher = (simplify == "array"))
+        stop(err)
+    })
     if (!identical(simplify, FALSE) && length(answer))
         simplify2array(answer, higher = (simplify == "array"))
     else answer
