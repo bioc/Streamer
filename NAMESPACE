@@ -4,7 +4,8 @@ import(methods)
 
 importFrom(BiocGenerics, lapply, sapply)
 
-importFrom(parallel, mcparallel, mccollect)
+## only exported on unix
+## importFrom(parallel, mccollect, mcparallel)
 
 importFrom(graph, graphBAM)
 

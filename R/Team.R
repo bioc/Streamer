@@ -6,7 +6,7 @@
     results <- vector("list", length(jobs))
     t0 <- as.numeric(Sys.time(), units="secs") + timeout
     for (i in seq_along(jobs)) {
-        result <- mccollect(jobs[[i]], wait, timeout, intermediate)
+        result <- .mc_collect(jobs[[i]], wait, timeout, intermediate)
         if (is.null(result))
             results[i] <- list(NULL)
         else results[[i]] <- result[[1]]
@@ -60,7 +60,7 @@
               task[c("name", "result", "status")] <-
                   list(.id, value, "ERROR")
           } else {
-              task <- mcparallel(FUN(value), .id, mc.set.seed, silent)
+              task <- .mc_parallel(FUN(value), .id, mc.set.seed, silent)
               task$status <- "YIELD"
           }
           .self$tasks[[idx]] <- task
@@ -80,7 +80,7 @@
           results <- results[idx]
           nms <- base::names(results)
           tids <- match(nms, names())
-          parallel:::mckill(tasks[tids], 15)
+          .mc_kill(tasks[tids], 15)
           for (i in seq_along(nms)) {
               tid <- tids[i]
               task <- tasks[[tid]]

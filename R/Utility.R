@@ -70,10 +70,10 @@ connect <-
         }
         
         if (is(right, "ParallelConnector")) {
-            right$.upstream <- mcparallel(quote({
+            right$.upstream <- .mc_parallel(quote({
                 while(TRUE) {
                     prime <- yield(left)
-                    parallel:::sendMaster(prime)
+                    .mc_sendMaster(prime)
                 }}))
 
         }

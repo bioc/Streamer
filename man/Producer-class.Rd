@@ -38,7 +38,6 @@
   \item{USE.NAMES}{See \code{?base::sapply} but note that names do not
     usually make sense for instances of class \code{Producer}.}
 
-  \item{.env}{For internal use}
 }
 
 \section{Methods}{
