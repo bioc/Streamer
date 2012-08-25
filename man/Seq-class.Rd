@@ -13,21 +13,23 @@
 
 }
 
-\usage{Seq(from = 1L, to, by = 1L, length.out=1L, ...)}
+\usage{
+Seq(from = 1L, to=.Machine$integer.max, by = 1L, yieldSize=1L,
+    ...)
+}
 
 \arguments{
 
-  \item{from}{A \code{numeric(1)} starting value.}
+  \item{from}{A starting value of any type (e.g., \code{integer},
+    \code{numeric} supported by \code{base::seq}.}
 
-  \item{to}{A \code{numeric(1)} ending value. If missing, it is set to
-    the maximum (or minimum, depending on \code{by}) value representable
-    for the class of \code{from}, creating an (effectively) infinite
-    stream.}
+  \item{to}{An ending value, typically of the same type as \code{from}.}
+  
+  \item{by}{A value, typically of the same class as \code{from},
+    indicating the increment between successive numbers in the
+    sequence. \code{by = 0} can create an infinite stream.}
 
-  \item{by}{A \code{numeric(1)} indicating the increment between
-    successive numbers in the sequence.}
-
-  \item{length.out}{A \code{integer(1)} indicating the length of the
+  \item{yieldSize}{A \code{integer(1)} indicating the length of the
     output sequence each time \code{yield()} is invoked.}
 
   \item{...}{Additional arguments passed to \code{\linkS4class{Producer}}.}
@@ -38,24 +40,15 @@
   Use \code{Seq} to construct instances of this class.
 }
 
-\section{Fields}{
-  Fields of this class are
-  \describe{
-    \item{\code{from}:}{\code{numeric(1)} (current) sequence starting value.}
-    \item{\code{to}:}{\code{numeric(1)} sequence ending value.}
-    \item{\code{by}:}{\code{numeric(1)} sequence increment value.}
-    \item{\code{length.out}:}{\code{integer(1)} sequence length on yield.}
-  }
-}
+\section{Internal Class Fields and Methods}{
 
-\section{Methods}{
-  Methods of this class are
-  \describe{
+  Internal fields of this class are are described with
+  \code{getRefClass("Seq")$fields}.
 
-    \item{\code{yield()}:}{A sequence as specified by current
-      \code{from}, \code{to}, \code{by}, and \code{length.out} values.}
+  Internal methods of this class are described with
+  \code{getRefClass("Seq")$methods()} and
+  \code{getRefClass("Seq")$help()}.
 
-  }
 }
 
 \author{Martin Morgan \url{mtmorgan@fhcrc.org}}
@@ -63,7 +56,7 @@
 \seealso{\code{\link{stream}}}
 
 \examples{
-s <- Seq(1, 10, length.out=5)
+s <- Seq(1, 10, yieldSize=5)
 while(length(y <- yield(s)))
     print(y)
 }

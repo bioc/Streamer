@@ -96,7 +96,7 @@
 showClass("Producer")
 showMethods(class="Producer", where="package:Streamer")
 
-sapply(Seq(to=47, length.out=7), function(elt) {
+sapply(Seq(to=47, yieldSize=7), function(elt) {
     c(n = length(elt), xbar = mean(elt))
 })
 

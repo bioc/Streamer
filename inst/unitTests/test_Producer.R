@@ -4,20 +4,20 @@ test_lapply_Producer <- function()
     exp <- unname(lapply(vals, mean))
 
     ## function
-    obs <- lapply(Seq(to=47, length.out=7), mean)
+    obs <- lapply(Seq(to=47, yieldSize=7), mean)
     checkIdentical(exp, obs)
 
     ## anonymous function
-    obs <- lapply(Seq(to=47, length.out=7), function(x) mean(x))
+    obs <- lapply(Seq(to=47, yieldSize=7), function(x) mean(x))
     checkIdentical(exp, obs)
 
     ## ... args
-    obs <- lapply(Seq(to=47, length.out=7), function(x, z) mean(z), z=1:10)
+    obs <- lapply(Seq(to=47, yieldSize=7), function(x, z) mean(z), z=1:10)
     checkIdentical(mean(1:10), unique(unlist(obs)))
 
     ## env
     ZZZ <- 1:10
-    res <- lapply(Seq(to=47, length.out=7), function(x) mean(ZZZ))
+    res <- lapply(Seq(to=47, yieldSize=7), function(x) mean(ZZZ))
     checkIdentical(mean(ZZZ), unique(unlist(res)))
 
     ## error
@@ -25,10 +25,10 @@ test_lapply_Producer <- function()
     checkException(lapply(Seq(to=5), fun), silent=TRUE)
 
     ## error partial results
-    res <- tryCatch(sapply(Seq(to=5), fun), error = function(err) {
+    res <- tryCatch(sapply(Seq(to=5L), fun), error = function(err) {
         err$partialResult
     })
-    checkIdentical(c(1, 2), res)
+    checkIdentical(1:2, res)
 
     ## trigger re-allocation
     ## res <- lapply(Seq(to=4096*4),
