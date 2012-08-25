@@ -1,9 +1,10 @@
-.mc_parallel <- .mc_collect <- .mc_sendMaster <- .mc_kill <- NULL
+.mc_parallel <- .mc_collect <- .mc_sendMaster <- .mc_kill <-
+    function(...) {}
 
 .onLoad <-
     function(libname, pkgname)
 {
-    if (tools:::.OStype() == "unix") {
+    if (.Platform$OS.type == "unix") {
         ## conditional export in Windows
         .mc_parallel <<- parallel::mcparallel
         .mc_collect <<- parallel::mccollect

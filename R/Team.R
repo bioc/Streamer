@@ -118,6 +118,8 @@
 Team <-
     function(FUN, size=1L, mc.set.seed=TRUE, silent=TRUE, ...)
 {
+    if (.Platform$OS.type != "unix")
+        stop("'Team' not supported on platform '", .Platform$OS.type, "'")
     require(parallel)
     if (size < 1L)
         stop("'size' must be >= 1")
