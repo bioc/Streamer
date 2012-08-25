@@ -27,7 +27,7 @@
     whichever is smaller.}
 
   \item{mc.set.seed, silent}{\code{logical(1)}; see
-    \code{\link{mcparallel}}.}
+    \code{?mcparallel} on unix platforms.}
 
   \item{...}{Additional arguments (e.g., \code{verbose}, passed to the
     \code{\linkS4class{Consumer}} constructor.}
@@ -48,7 +48,7 @@
       be evaulated.}
 
     \item{\code{mc.set.seed, silent}:}{Object of class \code{logical},
-      see \code{\link{mcparallel}}.}
+      see \code{?mcparallel}.}
 
     \item{\code{.id}:}{Object of class \code{integer}, a sequential
       identifier indexing tasks that have been consumed.}
