@@ -3,7 +3,7 @@
 \docType{class}
 \alias{Streamer-class}
 
-\title{Class "Streamer"}
+\title{Class defining methods shared by all classes}
 \description{
 
   A virtual base class from which all classes in the Streamer package
@@ -12,42 +12,20 @@
 }
 
 \section{Methods}{
-  \describe{
-    \item{reset}{\code{signature(x = "Streamer")}: see \code{?reset}.}
-    \item{yield}{\code{signature(x = "Streamer")}: see \code{?yield}.}
-  }
+
+  See \code{Stream}, \code{Producer}, and \code{Consumer} Methods.
+
 }
 
-\section{Fields}{
-  \describe{
-      \item{\code{verbose}:}{A \code{logical(1)} instance indicating
-      whether methods invoked on the class should be reported to the
-      user.}
-      \item{\code{inUse}:}{ A \code{logical(1)} instance indicating whether
-      the object instantiated has been used in a stream.}
-  }
-}
+\section{Internal Class Fields and Methods}{
 
-\section{Class-Based Methods}{
-  \describe{
+  Internal fields of this class are are described with, e.g.,
+  \code{getRefClass("Streamer")$fields}.
 
-    \item{\code{initialize(..., verbose = FALSE)}:}{Initialize
-      \code{Streamer}, setting \code{verbose} and \code{inUse} fields,
-      returning \code{.self} invisibly.}
+  Internal methods of this class are described with
+  \code{getRefClass("Streamer")$methods()} and
+  \code{getRefClass("Streamer")$help()}.
 
-    \item{\code{msg(fmt, ...)}:}{Use \code{msg} to print
-      \code{sprintf(fmt, ...)} messages to user.}
-
-    \item{\code{reset()}:}{Reset \code{Streamer}; this default method is
-      a no-op.}
-
-    \item{\code{yield()}:}{Yield default value \code{list()}.}
-
-    \item{\code{status()}:}{Reports the status of the \code{Streamer}
-       class.  A \code{list} of the status of \code{verbose} and
-       \code{inUse} fields is returned.}
-
-    }
 }
 
 \author{Martin Morgan \url{mtmorgan@fhcrc.org}}

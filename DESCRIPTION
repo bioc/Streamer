@@ -18,9 +18,11 @@ Imports: methods, graph, parallel, BiocGenerics
 Suggests: RUnit, Rsamtools (>= 1.5.53)
 biocViews: Infrastructure, DataImport
 Collate: 
-  generics.R OldClass.R
-  Streamer.R Producer.R  Consumer.R Stream.R
-  ConnectionProducer.R RawInput.R Seq.R
-  Downsample.R Team.R UserFunction-class.R Utility.R
-  ParallelConnector.R TConnector.R YConnector.R
+  AllGenerics.R 
+  Streamer-class.R Producer-class.R Consumer-class.R Stream-class.R
+  ConnectionProducer-classes.R RawInput-class.R Seq-class.R
+  Downsample-class.R Team-class.R FunctionProducerConsumer-classes.R
+  Utility-classes.R ParallelConnector-class.R TConnector-class.R
+  YConnector-class.R
+  lapply-methods.R stream-methods.R
   zzz.R

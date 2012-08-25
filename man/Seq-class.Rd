@@ -4,7 +4,7 @@
 \alias{Seq-class}
 \alias{Seq}
 
-\title{Class "Seq"}
+\title{Producer class to generate (numeric) sequences}
 
 \description{
 
@@ -39,6 +39,8 @@ Seq(from = 1L, to=.Machine$integer.max, by = 1L, yieldSize=1L,
 \section{Constructors}{
   Use \code{Seq} to construct instances of this class.
 }
+
+\section{Methods}{See \code{\link{Producer}} Methods.}
 
 \section{Internal Class Fields and Methods}{
 

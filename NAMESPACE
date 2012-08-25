@@ -4,6 +4,8 @@ import(methods)
 
 importFrom(BiocGenerics, lapply, sapply)
 
+importClassesFrom(BiocGenerics, connection)
+
 ## only exported on unix
 ## importFrom(parallel, mccollect, mcparallel)
 

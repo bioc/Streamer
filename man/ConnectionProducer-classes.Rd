@@ -1,6 +1,7 @@
-\name{ConnectionProducer-class}
+\name{ConnectionProducer-classes}
 \Rdversion{1.1}
 \docType{class}
+\alias{ConnectionProducer-classes}
 \alias{ConnectionProducer-class}
 \alias{close.ConnectionProducer}
 \alias{ScanProducer-class}
@@ -10,7 +11,7 @@
 \alias{ReadLinesProducer}
 \alias{ReadTableProducer}
 
-\title{Class "ConnectionProducer"}
+\title{Producer classes to read file connections}
 
 \description{
 
@@ -47,10 +48,16 @@ ReadTableProducer(file, ..., fileArgs=list(), readTableArgs=list(...))
 
 }
 
-\section{Internal Methods}{
+\section{Methods}{See \code{\link{Producer}} Methods.}
 
-  Class-based fields and methods are for internal use. See, e.g.,
-  \code{Streamer:::.ScanLinesProducer$help()} for documentation
+\section{Internal Class Fields and Methods}{
+
+  Internal fields of this class are are described with, e.g.,
+  \code{getRefClass("ReadLinesProducer")$fields}.
+
+  Internal methods of this class are described with
+  \code{getRefClass("ReadLinesProducer")$methods()} and
+  \code{getRefClass("ReadLinesProducer")$help()}.
 
 }
 

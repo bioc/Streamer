@@ -4,7 +4,7 @@
 \alias{status-methods}
 \alias{status,Streamer-method}
 
-\title{Report current status of a stream.}
+\title{Function to report current status of a stream}
 
 \description{
 

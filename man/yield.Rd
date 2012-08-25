@@ -4,7 +4,7 @@
 \alias{yield-methods}
 \alias{yield,Streamer-method}
 
-\title{Iterate a stream to yield one chunk of data.}
+\title{Function to yield one chunk of data}
 
 \description{
 

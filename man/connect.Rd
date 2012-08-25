@@ -1,13 +1,7 @@
 \name{connect}
 \alias{connect}
 
-\title{
-
-  Connect \code{Producer} and \code{Consumer} streams together and
-  return a named \code{list} of \code{stream}'s that the user can invoke
-  the method \code{yield} on.
-
-}
+\title{Function to create a complex stream}
 
 \description{
 

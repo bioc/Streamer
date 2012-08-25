@@ -1,10 +1,11 @@
 \name{Consumer-class}
 \Rdversion{1.1}
 \docType{class}
+\alias{Consumer}
 \alias{Consumer-class}
 \alias{show,Consumer-method}
 
-\title{Class "Consumer"}
+\title{Class defining methods for all consumers}
 
 \description{
 
@@ -19,56 +20,24 @@
 
 \section{Methods}{
   Methods defined on this class include:
-  \describe{
-    \item{stream}{\code{signature(x = "Consumer", ...)}: see
-      \code{?stream}.}
-    \item{show}{\code{signature(object = "Consumer")}: Display the
-      stream.}
-  }
-}
 
-\section{Fields}{
   \describe{
 
-    \item{\code{inputPipe}:}{Object of class \code{Streamer},
-      representing the \code{Producer} or \code{Consumer} connected
-      up-stream to it and from which records are yielded.}
-    
-    The \code{Consumer} class inherits the fields \code{verbose} and
-    \code{inUse} from the virtual \code{Streamer} class.  Please refer
-    to the \code{\link{Streamer}} class for more details.
+    \item{stream}{Construct a stream from one \code{Producer} and one or
+      more \code{Consumer}. See \code{?stream}.}
 
   }
 }
 
-\section{Class-Based Methods}{
-  \describe{
-    \item{\code{initialize(..., inputPipe)}:}{A method to
-      initialize the fields of the \code{Consumer} class.
-      \describe{
-	\item{\code{inputPipe}:}{An object of class \code{Streamer}
-          connected up-stream to it. The class could be a
-          \code{Consumer} or \code{Producer} which yields data to the
-          \code{Consumer} class.}
-      }
-    }
+\section{Internal Class Fields and Methods}{
 
-    \item{\code{reset()}:}{Return the result of delegating
-      \code{reset()} to the object in the field \code{inputPipe}.}
+  Internal fields of this class are are described with, e.g.,
+  \code{getRefClass("Consumer")$fields}.
 
-    \item{\code{yield()}:}{Return the result of delegating
-      \code{yield()} to the object in the field \code{inputPipe}.}
+  Internal methods of this class are described with
+  \code{getRefClass("Consumer")$methods()} and
+  \code{getRefClass("Consumer")$help()}.
 
-    \item{\code{inputs()}:}{Return a \code{character} vector
-      representing up-stream components.}
-
-    \item{\code{status{}}:}{Reports the status of the \code{Consumer}
-      class. A \code{list} of the status of the length of the object in
-      the \code{.records} field, the classes connected to the
-      \code{inputPipe} field and the status of the fields of the virtual
-      class \code{Streamer} are returned.}
-
-  }
 }
 
 \author{Martin Morgan \url{mtmorgan@fhcrc.org}}

@@ -2,21 +2,21 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{Producer-class}
+\alias{Producer}
 \alias{lapply,Producer-method}
 \alias{sapply,Producer-method}
-\alias{show,Producer-method}
 
-\title{Class "Producer"}
+\title{Class defining methods for all Producers}
 
 \description{
 
   A virtual class representing components that can read data from
   connections, and yield records to the user or a \code{Consumer}
   instance. A \code{Producer} represents a source of data, responsible
-  for parsing a file into records to be passed to \code{Consumer}
-  classes. \code{Producer} and \code{Consumer} instances are associated
-  with each other through the \code{\link{stream}} function or using the
-  \code{\link{connect}} function.  
+  for parsing a file or other data source into records to be passed to
+  \code{Consumer} classes. \code{Producer} and \code{Consumer} instances
+  are associated with each other through the \code{\link{stream}}
+  function or using the \code{\link{connect}} function.
 
 }
 
@@ -26,6 +26,7 @@
 }
 
 \arguments{
+
   \item{X}{An instance of class \code{Producer}}
 
   \item{FUN}{A function to be applied to each successful \code{yield()}
@@ -42,45 +43,36 @@
 
 \section{Methods}{
 
-  \code{lapply} and \code{sapply} apply \code{FUN} to each result
-  applied to \code{yield()}. Partial results on error can be recovered
-  using \code{\link{tryCatch}}, as illustrated below. Infinite producers
-  will of course exhaust memory.
+  Methods defined on this class include:
 
-  Inherited methods defined on this class include:
   \describe{
-    \item{stream}{\code{signature(x = "Producer", ...)}: see
-      \code{?stream}.}
-    \item{show}{\code{signature(object = "Streamer")}: Display the
-      stream.}
+
+    \item{stream}{Construct a stream from one \code{Producer} and one or
+      more \code{Consumer}. See \code{?stream}.}
+
+    \item{yield}{Yield a single result (e.g., \code{data.frame}) from
+      the Producer.}
+
+    \item{reset}{Reset, if possible, the Producer.}
+
+    \item{lapply, sapply}{Apply \code{FUN} to each result applied to
+      \code{yield()}, simplifying (using \code{simplify2array}) if
+      possible for \code{sapply}. Partial results on error can be
+      recovered using \code{\link{tryCatch}}, as illustrated
+      below. Infinite producers will of course exhaust memory.}
+
   }
 }
 
-\section{Fields}{
-  \describe{
+\section{Internal Class Fields and Methods}{
 
-    The \code{Producer} class inherits the fields \code{verbose} and
-    \code{inUse} fields from the \code{Streamer} class. Please refer to
-    the \code{\link{Streamer}} class for more details.
+  Internal fields of this class are are described with, e.g.,
+  \code{getRefClass("Producer")$fields}.
 
-  }
-}
+  Internal methods of this class are described with
+  \code{getRefClass("Producer")$methods()} and
+  \code{getRefClass("Producer")$help()}.
 
-\section{Class-Based Methods}{
-  \describe{
-
-    The \code{Producer} class inherits the methods \code{initialize},
-    \code{msg}, \code{reset}, \code{status} and \code{yield} from the
-    \code{Streamer} virtual class. Please refer to the
-    \code{\link{Streamer}} class for more details.
-    
-    Derived classes should implement an appropriate \code{initialize}
-    method to initialize the fields of the derived class. Additionally,
-    a \code{yield} method should be implemented to return the contents
-    of the current stream. The default method for the base virtual
-    \code{Streamer} class returns a \code{list()}
-
-  }
 }
 
 \author{Martin Morgan \url{mtmorgan@fhcrc.org}}

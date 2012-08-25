@@ -4,7 +4,7 @@
 \alias{reset-methods}
 \alias{reset,Streamer-method}
 
-\title{Reset a stream, or a stream component and all inputs.}
+\title{Function to reset a Stream, Producer, or Consumer}
 
 \description{
 

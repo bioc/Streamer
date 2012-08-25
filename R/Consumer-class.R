@@ -53,9 +53,3 @@
         txt <- sprintf("stream: %s", inp)
         cat(strwrap(txt, exdent=2), sep="\n")
     })
-
-setMethod(stream, "Consumer",
-    function(x, ..., verbose=FALSE)
-{
-    .stream_set(x, ..., verbose=verbose)
-})

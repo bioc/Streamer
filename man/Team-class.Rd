@@ -4,7 +4,7 @@
 \alias{Team-class}
 \alias{Team}
 
-\title{Class \code{"Team"}}
+\title{Consumer class to enable parallel evaluation}
 
 \description{
 
@@ -37,64 +37,17 @@
 \section{Constructors}{
   Use \code{Team} to contruct instances of this class.
 }
-\section{Fields}{
-  Class-specific fields, intended for internal use:
-  \describe{
 
-    \item{\code{tasks}:}{Object of class \code{list} to contain
-      in-process tasks.}
+\section{Methods}{See \code{\link{Consumer}} Methods.}
 
-    \item{\code{FUN}:}{Object of class \code{function}, the function to
-      be evaulated.}
+\section{Internal Class Fields and Methods}{
 
-    \item{\code{mc.set.seed, silent}:}{Object of class \code{logical},
-      see \code{?mcparallel}.}
+  Internal fields of this class are are described with, e.g.,
+  \code{getRefClass("Team")$fields}.
 
-    \item{\code{.id}:}{Object of class \code{integer}, a sequential
-      identifier indexing tasks that have been consumed.}
-
-    \item{\code{.yid}:}{Object of class \code{integer}, a sequential
-      identifier indexing tasks that have been yielded.}
-
-  }
-
-  Inherited fields: see \code{\linkS4class{Consumer}}.
-
-}
-
-\section{Class-Based Methods}{
-
-  Intended for internal use.
-  \describe{
-
-    \item{\code{initialize(...)}:}{Initialize the task pool and task id
-    \code{.id} and yield id \code{.yid} indexes.}
-
-    \item{\code{status()}:}{Status of each class; one of \sQuote{IDLE},
-      \sQuote{YIELD} (computation in process), \sQuote{VALUE} (result
-      available), \sQuote{ERROR}, and \sQuote{DONE} (end-of-stream
-      recieved).}
-
-    \item{\code{valued()}, \code{yielding()},
-      \code{idle()}:}{\code{logical} vector indicating corresponding
-      task status.}
-
-    \item{\code{names()}:}{Task names, derived from \code{.id}.}
-
-    \item{\code{consume(value)}:}{Create and fork a task to process
-      \code{value}, obtained from the upstream yield. The task has
-      \code{name} equal to \code{.id} and status \sQuote{YIELD};
-      \code{.id} is incremented.}
-
-    \item{\code{collect()}:}{Collect completed tasks, updating status to
-      \sQuote{VALUE}, \sQuote{ERROR}, or \sQuote{DONE}.}
-
-    \item{\code{yield()}:}{Return the next value, in the same order as
-      upstream.}
-
-    \item{\code{show()}:}{Display information on the team.}
-
-  }
+  Internal methods of this class are described with
+  \code{getRefClass("Team")$methods()} and
+  \code{getRefClass("Team")$help()}.
 
 }
 

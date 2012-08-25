@@ -4,16 +4,14 @@
 \alias{Downsample}
 \alias{Downsample-class}
 
-\title{Class "Downsample"}
+\title{Consumer class to down-sample data}
 
 \description{
   
   A \code{\linkS4class{Consumer}}-class to select records with fixed
   probability, returning a yield of fixed size. Successive calls to
   \code{yield} result in sampling of subsequent records in the stream,
-  until the stream is exhausted. Users interact with this class through
-  the constructor \code{Downsample} and methods \code{\link{yield}},
-  \code{\link{reset}}, and \code{\link{stream}}.
+  until the stream is exhausted.
 
 }
 
@@ -22,30 +20,29 @@ Downsample(probability=0.1, sampledSize=1e6, ...)
 }
 
 \arguments{
+
   \item{probability}{A \code{numeric(1)} between 0, 1 indicating the
     probability with which a record should be retained.}
+
   \item{...}{Additional arguments, passed to the \code{$new} method of
     the underlying reference class. Currently unused.}
+
   \item{sampledSize}{A \code{integer(1)} indicating the number of
     records to return.}
+
 }
   
-\section{Fields}{
-  \describe{
-    \item{\code{probability}:}{Object of class \code{numeric}. The
-      probability of including a record in the \code{yield}.}
-    \item{\code{sampledSize}:}{Object of class \code{integer}
-      storing the number of records to produced each time \code{yield}
-      is invoked.}
-    \item{\code{.buffer}:}{Object of class \code{ANY}, used internally
-      to store read but not yet parsed records.}
-  }
-}
+\section{Methods}{See \code{\link{Consumer}} Methods.}
 
-\section{Class-Based Methods}{
-  \describe{
-    \item{\code{.sample(x)}:}{Sample from amongst the incoming records.}
-  }
+\section{Internal Class Fields and Methods}{
+
+  Internal fields of this class are are described with, e.g.,
+  \code{getRefClass("Downsample")$fields}.
+
+  Internal methods of this class are described with
+  \code{getRefClass("Downsample")$methods()} and
+  \code{getRefClass("Downsample")$help()}.
+
 }
 
 \author{Martin Morgan \url{mtmorgan@fhcrc.org}}
