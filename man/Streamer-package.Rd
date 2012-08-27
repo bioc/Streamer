@@ -2,7 +2,7 @@
 \alias{Streamer-package}
 \alias{Streamer}
 \docType{package}
-\title{Enable stream processing of large data}
+\title{Package to enable stream (iterative) processing of large data}
 \description{
 
   Large data files can be difficult to work with in R, where data

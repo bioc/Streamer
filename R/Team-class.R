@@ -1,3 +1,11 @@
+## Team
+
+.Team <- setRefClass("Team",
+    fields = list(parallelParam = "ParallelParam"),
+    contains = "Consumer")
+
+## MulticoreTeam
+
 .mccollect <- 
     function (jobs, wait = TRUE, timeout = 0, intermediate = FALSE)
 {
@@ -25,13 +33,12 @@
     results
 }
 
-.Team <- setRefClass("Team",
+.MulticoreTeam <- setRefClass("MulticoreTeam",
     fields=list(
       tasks="list",          # status: IDLE, YIELD, VALUE, ERROR, DONE
       FUN="function",
-      mc.set.seed="logical", silent="logical",
       .id="integer", .yid="integer"),
-    contains = "Consumer",
+    contains = "Team",
     methods = list(
       initialize = function(...) {
           callSuper(..., .id=1L, .yid=1L)
@@ -60,7 +67,9 @@
               task[c("name", "result", "status")] <-
                   list(.id, value, "ERROR")
           } else {
-              task <- .mc_parallel(FUN(value), .id, mc.set.seed, silent)
+              task <- .mc_parallel(FUN(value), .id,
+                                   parallelParam$mc.set.seed,
+                                   parallelParam$verbose)
               task$status <- "YIELD"
           }
           .self$tasks[[idx]] <- task
@@ -109,22 +118,8 @@
       },
 
       show = function() {
-          cat("mc.set.seed:", mc.set.seed, "\n")
-          cat("silent:", silent, "\n")
-          cat("tasks status:\n")
+          cat("MulticoreParam:\n")
+          parallelParam$show()
+          cat("\ntasks status:\n")
           print(noquote(setNames(status(), names())))
       }))
-
-Team <-
-    function(FUN, size=1L, mc.set.seed=TRUE, silent=TRUE, ...)
-{
-    if (.Platform$OS.type != "unix")
-        stop("'Team' not supported on platform '", .Platform$OS.type, "'")
-    require(parallel)
-    if (size < 1L)
-        stop("'size' must be >= 1")
-    tasks <- replicate(size, list(status="IDLE", name=NA_character_),
-                       simplify=FALSE)
-    .Team$new(FUN=FUN, tasks=tasks, mc.set.seed=mc.set.seed,
-              silent=silent, ...)
-}

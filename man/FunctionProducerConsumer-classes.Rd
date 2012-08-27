@@ -8,7 +8,7 @@
 \alias{FunctionConsumer}
 \alias{FunctionConsumer-class}
 
-\title{Classes to create Producers and Consumers from functions}
+\title{Classes for user-defined Producers and Consumers}
 
 \description{
 

@@ -5,7 +5,7 @@
 \alias{stream,Consumer-method}
 \alias{stream,Producer-method}
 
-\title{Function to create a Stream from a Producer and Consumers}
+\title{Function to create a Stream from a Producer and zero or more Consumers}
 
 \description{
 
