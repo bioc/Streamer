@@ -49,6 +49,7 @@
       idle = function() status() == "IDLE",
       yielding = function() status() == "YIELD",
       valued = function() status() == "VALUE",
+      done = function() any(status() == "DONE"),
 
       .idx = function() which.max(idle()),
       .yidx = function() if (.yid == 1L) 1L else match(.yid, names()),
@@ -110,8 +111,9 @@
                   consume(callSuper())
           }
           task <- tasks[[yidx]]
-          if (task$status != "DONE") {
+          if (!done()) {
               .self$tasks[[yidx]]$status <- "IDLE"
+              consume(callSuper())
               .self$.yid <- .yid + 1L
           }
           task$result
