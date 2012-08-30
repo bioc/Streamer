@@ -1,7 +1,7 @@
 Package: Streamer
 Type: Package
 Title: Enabling stream processing of large files
-Version: 1.3.10
+Version: 1.3.11
 Author: Martin Morgan, Nishant Gopalakrishnan
 Maintainer: Martin Morgan <mtmorgan@fhcrc.org>
 Description: Large data files can be difficult to work with in R,
@@ -22,7 +22,7 @@ Collate:
   Streamer-class.R Producer-class.R Consumer-class.R Stream-class.R
   ConnectionProducer-classes.R RawInput-class.R Seq-class.R
   Downsample-class.R FunctionProducerConsumer-classes.R
-  ParallelParam-classes.R Team-class.R Team-methods.R
+  ParallelParam-classes.R Team-class.R Team-methods.R Reducer-class.R
   Utility-classes.R ParallelConnector-class.R TConnector-class.R
   YConnector-class.R
   lapply-methods.R stream-methods.R

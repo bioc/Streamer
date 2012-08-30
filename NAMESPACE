@@ -19,6 +19,6 @@ exportMethods(lapply, sapply)
 
 exportClasses(Streamer,
               Producer, RawInput, Seq, 
-              Consumer, RawToChar, Rev, Team, Downsample,
+              Consumer, RawToChar, Rev, Reducer, Team, Downsample,
               Stream, ConnectionProducer, ParallelConnector,
               TConnector, YConnector)
