@@ -1,7 +1,7 @@
 setMethod("Team", c(param="missing"),
     function(FUN, ..., param)
 {
-    param <- parallelRegister()$param
+    param <- register()$param
     if (!param$inUse)
         if (.Platform$OS.type == "unix")
             param <- MulticoreParam()
