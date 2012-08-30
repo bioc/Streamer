@@ -10,4 +10,9 @@ test_MulticoreTeam_yield <- function()
     t <- Team(function(i) i, param=MulticoreParam(1L))
     s <- stream(Seq(to=10), t)
     checkIdentical(1:10, sapply(s, c))
+
+    t <- Team(function(x) mean(x), param=MulticoreParam(5L))
+    s <- stream(Seq(to=50, yieldSize=5), t)
+    exp <- as.vector(sapply(split(1:50, rep(1:10, each=5)), mean))
+    checkIdentical(exp, sapply(s, c))
 }

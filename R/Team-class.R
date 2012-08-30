@@ -111,11 +111,11 @@
                   consume(callSuper())
           }
           task <- tasks[[yidx]]
-          if (!done()) {
+          .self$.yid <- .yid + 1L
+          if (task$status != "DONE")
               .self$tasks[[yidx]]$status <- "IDLE"
+          if (!done())
               consume(callSuper())
-              .self$.yid <- .yid + 1L
-          }
           task$result
       },
 
