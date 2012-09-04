@@ -9,16 +9,27 @@ importClassesFrom(BiocGenerics, connection)
 ## only exported on unix
 ## importFrom(parallel, mccollect, mcparallel)
 
-importFrom(graph, graphBAM)
+importClassesFrom(graph, graphNEL)
 
-importMethodsFrom(graph, degree)
+importFrom(graph, ftM2graphNEL)
+
+importMethodsFrom(graph, numNodes, numEdges, nodes, edges, inEdges)
+
+importFrom(RBGL, tsort)
 
 exportPattern("^[^\\.]")
 
 exportMethods(lapply, sapply)
 
-exportClasses(Streamer,
-              Producer, RawInput, Seq, 
-              Consumer, RawToChar, Rev, Reducer, Team, Downsample,
-              Stream, ConnectionProducer, ParallelConnector,
-              TConnector, YConnector)
+exportClasses(
+    Streamer,
+    Stream,
+    Producer,
+        RawInput, Seq,
+        FunctionProducer,
+        ConnectionProducer,
+    Consumer,
+        RawToChar, Rev, Downsample, Reducer,
+        FunctionConsumer,
+        Team, ParallelParam, MulticoreParam,
+        DAGTeam, DAGParam)
