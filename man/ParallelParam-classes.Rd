@@ -70,8 +70,8 @@ register(param)
 \seealso{
 
   \code{\link{Team}} to apply one function in parallel,
-  \code{\link{TConnector}} to apply different functions to all elements
-  of a stream.
+  \code{\link{DAGTeam}} to evaluate functions whose dependencies are
+  represented as directed acyclic graphs.
 
 }
 
