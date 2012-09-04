@@ -15,7 +15,7 @@
   A \code{\linkS4class{Producer}}-class to interpret files as raw
   (binary) data. Users interact with this class through the constructor
   \code{\link{RawInput}} and methods \code{\link{yield}},
-  \code{\link{reset}}, and \code{\link{stream}}.
+  \code{\link{reset}}, and \code{\link{Stream}}.
 
   This class requires two helper functions; the \sQuote{factory} methods
   defined on this page can be used to supply these.
@@ -107,7 +107,7 @@ rawParserFactory(separator = charToRaw("\n"), trim = separator)
 
 \author{Martin Morgan \url{mtmorgan@fhcrc.org}}
 
-\seealso{\code{\link{stream}}, \code{\link{connect}}}
+\seealso{\code{\link{Stream}}}
 
 \examples{
 fl <- system.file("extdata", "s_1_sequence.txt", package="Streamer")

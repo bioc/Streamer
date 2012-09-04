@@ -15,6 +15,7 @@
 
 \usage{
 status(x, ...)
+
 \S4method{status}{Streamer}(x, ...)
 }
 
@@ -33,13 +34,13 @@ status(x, ...)
 
 \seealso{
 
-  \code{\link{stream}}, \code{\linkS4class{Producer}},
+  \code{\link{Stream}}, \code{\linkS4class{Producer}},
   \code{\linkS4class{Consumer}}.
 
 }
 
 \examples{
-## see example(stream)
+## see example(Stream)
 }
 
 \keyword{ manip }

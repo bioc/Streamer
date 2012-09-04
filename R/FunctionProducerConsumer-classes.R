@@ -25,9 +25,7 @@ FunctionProducer <-
     if (missing(FUN))
         FUN <- function() logical()
     if (missing(RESET))
-        RESET = function(state)
-            stop("'reset()' not implemented for this FunctionProducer",
-                 call. = FALSE)
+        RESET = function(state) {}
     .FunctionProducer$new(FUN=FUN, RESET=RESET, state=state, ...)
 }
 
@@ -57,9 +55,7 @@ FunctionConsumer <- function(FUN, RESET, ..., state=NULL)
     if (missing(FUN))
         FUN = function(y) y
     if (missing(RESET))
-        RESET = function(state)
-            stop("'reset()' no implemented for this FunctionConsumer",
-                 call.=FALSE)
+        RESET = function(state) {}
     .FunctionConsumer$new(FUN=FUN, RESET=RESET, state=state, ...)
 }
 

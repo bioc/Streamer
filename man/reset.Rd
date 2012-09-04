@@ -16,12 +16,14 @@
 
 \usage{
 reset(x, ...)
-\S4method{reset}{Streamer}(x, ...)
 }
 
 \arguments{
+
   \item{x}{A \code{Stream}, \code{Producer}, or \code{Consumer} object.}
+
   \item{\dots}{Additional arguments, currently unused.}
+
 }
 
 \value{
@@ -35,13 +37,13 @@ reset(x, ...)
 
 \seealso{
 
-  \code{\link{stream}}, \code{\linkS4class{Producer}},
+  \code{\link{Stream}}, \code{\linkS4class{Producer}},
   \code{\linkS4class{Consumer}}.
 
 }
 
 \examples{
-## see example(stream)
+## see example(Stream)
 }
 
 \keyword{methods}

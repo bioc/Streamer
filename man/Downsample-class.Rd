@@ -47,7 +47,7 @@ Downsample(probability=0.1, sampledSize=1e6, ...)
 
 \author{Martin Morgan \url{mtmorgan@fhcrc.org}}
 
-\seealso{\code{\link{stream}}}
+\seealso{\code{\link{Stream}}}
 
 \examples{showClass("Downsample")}
 

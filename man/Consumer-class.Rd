@@ -14,7 +14,7 @@
   \code{Consumer} instances. A \code{Consumer} typically transforms
   records from one form to another. \code{Producer} and \code{Consumer}
   instances are associated with each other through the
-  \code{\link{stream}} function or using the \code{\link{connect}} function.
+  \code{\link{Stream}} function.
 
 }
 
@@ -23,8 +23,8 @@
 
   \describe{
 
-    \item{stream}{Construct a stream from one \code{Producer} and one or
-      more \code{Consumer}. See \code{?stream}.}
+    \item{Stream}{Construct a stream from one \code{Producer} and one or
+      more \code{Consumer}. See \code{?Stream}.}
 
   }
 }

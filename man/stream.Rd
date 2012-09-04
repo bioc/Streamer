@@ -1,23 +1,21 @@
-\name{stream}
+\name{Stream}
 
-\alias{stream}
-\alias{stream-methods}
-\alias{stream,Consumer-method}
-\alias{stream,Producer-method}
+\alias{Stream}
+\alias{Stream-methods}
+\alias{Stream,Consumer-method}
+\alias{Stream,Producer-method}
 
 \title{Function to create a Stream from a Producer and zero or more Consumers}
 
 \description{
 
-  \code{stream} is used to create a stream from a single \code{Producer}
+  \code{Stream} is used to create a stream from a single \code{Producer}
   and zero or more \code{Consumer} instances.
 
 }
 
 \usage{
-stream(x, ..., verbose=FALSE)
-\S4method{stream}{Producer}(x, ..., verbose=FALSE)
-\S4method{stream}{Consumer}(x, ..., verbose=FALSE)
+Stream(x, ..., verbose=FALSE)
 }
 
 \arguments{
@@ -29,16 +27,16 @@ stream(x, ..., verbose=FALSE)
 
 \details{
 
-  Arguments to \code{stream} must consist of a single \code{Producer}
+  Arguments to \code{Stream} must consist of a single \code{Producer}
   and zero or more \code{Consumer} components.
 
   When invoked with the \code{Producer} as the first argument,
-  \code{stream(P, C1, C2)} produces a stream in which the data is read
+  \code{Stream(P, C1, C2)} produces a stream in which the data is read
   by \code{P}, then processed by \code{C1}, then processed by \code{C2}.
 
   When invoked with the \code{Consumer} as the first argument, the
   \code{...} must include a \code{Producer} as the \emph{last}
-  argument. \code{stream(C1, C2, P)} produces a stream in which the data
+  argument. \code{Stream(C1, C2, P)} produces a stream in which the data
   is read by \code{P}, then processed by \code{C2}, then processed by
   \code{C1}.
 
@@ -53,7 +51,7 @@ stream(x, ..., verbose=FALSE)
 \examples{
 fl <- system.file("extdata", "s_1_sequence.txt", package="Streamer")
 b <- RawInput(fl, 100L, reader=rawReaderFactory(1e4))
-s <- stream(b, Rev(), RawToChar())
+s <- Stream(b, Rev(), RawToChar())
 s
 yield(s)
 reset(s)

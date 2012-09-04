@@ -22,8 +22,11 @@
 
 \usage{
 \S4method{length}{Stream}(x)
+
 \S4method{[[}{Stream,numeric}(x, i, j, ...)
+
 \S4method{lapply}{Stream}(X, FUN, ...)
+
 \S4method{sapply}{Stream}(X, FUN, ..., simplify=TRUE, USE.NAMES=TRUE)
 }
 
@@ -48,8 +51,8 @@
 }
 
 \section{Constructors}{
-  Instances from this class are constructed with calls to \code{stream};
-  see \code{?stream}
+  Instances from this class are constructed with calls to \code{Stream};
+  see \code{?Stream}
 }
 
 \section{Methods}{

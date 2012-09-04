@@ -50,6 +50,6 @@
         inp <- rev(inputs())
         indx <- !inp %in%"TOut" 
         inp <- paste(inp[indx], collapse=" => ")
-        txt <- sprintf("stream: %s", inp)
+        txt <- sprintf("Stream: %s", inp)
         cat(strwrap(txt, exdent=2), sep="\n")
     })

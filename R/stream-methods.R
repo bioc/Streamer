@@ -1,6 +1,6 @@
-.stream_set <- function(x, ..., verbose)
+.Stream_set <- function(x, ..., verbose)
 {
-    ## helper used to construct streams
+    ## helper used to construct Streams
     inp <- list(x, ...)
     use <- sapply(inp, "[[", "inUse")
     cls <- sapply(inp, class)
@@ -25,13 +25,13 @@
     .Stream$new(inputPipe=inputPipe, verbose=verbose)
 }
 
-setMethod(stream, "Producer",
+setMethod(Stream, "Producer",
     function(x, ..., verbose=FALSE)
 {
     if (0L == length(list(...)))
-        .stream_set(x, verbose=verbose)
+        .Stream_set(x, verbose=verbose)
     else
-        do.call(stream, c(rev(list(..., verbose=verbose)), list(x)))
+        do.call(Stream, c(rev(list(..., verbose=verbose)), list(x)))
 })
 
-setMethod(stream, "Consumer", .stream_set)
+setMethod(Stream, "Consumer", .Stream_set)

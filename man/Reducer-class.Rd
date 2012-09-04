@@ -52,18 +52,18 @@ Reducer(FUN, init, ..., yieldNth = NA_integer_)
 
 \author{Martin Morgan \url{mtmorgan@fhcrc.org}}
 
-\seealso{\code{\link{stream}}}
+\seealso{\code{\link{Stream}}}
 
 \examples{
-s <- stream(Seq(to=10), Reducer("+"))
+s <- Stream(Seq(to=10), Reducer("+"))
 yield(s)     ## sum(1:10), i.e., Reduce over the entire stream
-s <- stream(Seq(to=10), Reducer("+", yieldNth=5))
+s <- Stream(Seq(to=10), Reducer("+", yieldNth=5))
 yield(s)     ## sum(1:5)
 yield(s)     ## sum(6:10)
-s <- stream(Seq(to=10), Reducer("+", init=10, yieldNth=5))
+s <- Stream(Seq(to=10), Reducer("+", init=10, yieldNth=5))
 sapply(s, c) ## 10 + c(sum(1:5), sum(6:10))
 if (.Platform$OS.type != "windows") {
-    s <- stream(Seq(to=10),
+    s <- Stream(Seq(to=10),
                 Team(function(i) { Sys.sleep(1); i },
                      param=MulticoreParam(10L)),
                 Reducer("+"))

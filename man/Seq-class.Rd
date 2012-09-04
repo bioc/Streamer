@@ -55,7 +55,7 @@ Seq(from = 1L, to=.Machine$integer.max, by = 1L, yieldSize=1L,
 
 \author{Martin Morgan \url{mtmorgan@fhcrc.org}}
 
-\seealso{\code{\link{stream}}}
+\seealso{\code{\link{Stream}}}
 
 \examples{
 s <- Seq(1, 10, yieldSize=5)

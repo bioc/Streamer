@@ -17,12 +17,12 @@
 }
 \details{
 
-  The central paradigm in this package is a \code{stream} composed of a
+  The central paradigm in this package is a \code{Stream} composed of a
   \code{\linkS4class{Producer}} and zero or more
   \code{\linkS4class{Consumer}} components. The \code{Producer} is
   responsible for input of data, e.g., from the file system. A
   \code{Consumer} accepts data from a \code{Producer} and performs
-  transformations on it. The \code{\link{stream}} function is used to
+  transformations on it. The \code{\link{Stream}} function is used to
   assemble a \code{Producer} and zero or more \code{Consumer} components
   into a single string.
 
@@ -41,7 +41,7 @@
 \seealso{
 
   \code{\linkS4class{Producer}}, \code{\linkS4class{Consumer}} are the
-  main types of stream components. Use \code{\link{stream}} to connect
+  main types of stream components. Use \code{\link{Stream}} to connect
   components, and \code{\link{yield}} to iterate a stream.
 
 }
@@ -57,13 +57,13 @@ getClass("Consumer")            # Consumer classes
 ## An example
 fl <- system.file("extdata", "s_1_sequence.txt", package="Streamer")
 b <- RawInput(fl, 100L, reader=rawReaderFactory(1e4))
-s <- stream(RawToChar(), Rev(), b)
+s <- Stream(RawToChar(), Rev(), b)
 s
 head(yield(s)) 			# First chunk
 
 b <- RawInput(fl, 5000L, verbose=TRUE)
 d <- Downsample(sampledSize=50)
-s <- stream(RawToChar(), d, b)
+s <- Stream(RawToChar(), d, b)
 s
 s[[2]]
 

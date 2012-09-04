@@ -4,6 +4,6 @@ test_Rev <-
     checkTrue(validObject(Rev()))
 
     fl <- system.file("extdata", "s_1_sequence.txt", package="Streamer")
-    s <- stream(Rev(), RawInput(fl))
+    s <- Stream(Rev(), RawInput(fl))
     res <- yield(s)
 }

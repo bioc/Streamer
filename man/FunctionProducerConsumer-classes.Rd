@@ -66,7 +66,7 @@ FunctionConsumer(FUN, RESET, ..., state=NULL)
 
 \author{Nishant Gopalakrishnan \url{ngopalak@fhcrc.org}}
 
-\seealso{\code{\link{stream}}}
+\seealso{\code{\link{Stream}}}
 
 \examples{
 ## A ProducerFunction
@@ -91,7 +91,7 @@ consumerFun <- function(y)
 
 neg10log10 <- FunctionConsumer(consumerFun)
 
-strm <- stream(randomSampleMeans, neg10log10)
+strm <- Stream(randomSampleMeans, neg10log10)
 result <- sapply(strm, c)
 length(result)
 head(result)

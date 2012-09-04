@@ -15,13 +15,14 @@
   instance. A \code{Producer} represents a source of data, responsible
   for parsing a file or other data source into records to be passed to
   \code{Consumer} classes. \code{Producer} and \code{Consumer} instances
-  are associated with each other through the \code{\link{stream}}
-  function or using the \code{\link{connect}} function.
+  are associated with each other through the \code{\link{Stream}}
+  function.
 
 }
 
 \usage{
 \S4method{lapply}{Producer}(X, FUN, ...)
+
 \S4method{sapply}{Producer}(X, FUN, ..., simplify=TRUE, USE.NAMES=TRUE)
 }
 
@@ -47,8 +48,8 @@
 
   \describe{
 
-    \item{stream}{Construct a stream from one \code{Producer} and one or
-      more \code{Consumer}. See \code{?stream}.}
+    \item{Stream}{Construct a stream from one \code{Producer} and one or
+      more \code{Consumer}. See \code{?Stream}.}
 
     \item{yield}{Yield a single result (e.g., \code{data.frame}) from
       the Producer.}
