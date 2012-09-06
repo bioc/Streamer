@@ -1,6 +1,7 @@
-\name{Utility-class}
+\name{Utility}
 \Rdversion{1.1}
 \docType{class}
+\alias{Utility}
 \alias{Utility-classes}
 \alias{Utility-class}
 \alias{RawToChar}

@@ -1,4 +1,4 @@
-\name{Team-class}
+\name{Team}
 \Rdversion{1.1}
 \docType{class}
 \alias{Team-class}

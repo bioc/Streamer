@@ -1,4 +1,4 @@
-\name{ParallelParam-class}
+\name{ParallelParam}
 \Rdversion{1.1}
 \docType{class}
 \alias{ParallelParam-class}

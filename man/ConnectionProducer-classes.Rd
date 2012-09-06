@@ -1,6 +1,7 @@
-\name{ConnectionProducer-classes}
+\name{ConnectionProducer}
 \Rdversion{1.1}
 \docType{class}
+\alias{ConnectionProducer}
 \alias{ConnectionProducer-classes}
 \alias{ConnectionProducer-class}
 \alias{close.ConnectionProducer}

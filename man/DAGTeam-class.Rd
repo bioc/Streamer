@@ -1,4 +1,4 @@
-\name{DAGTeam-class}
+\name{DAGTeam}
 \Rdversion{1.1}
 \docType{class}
 \alias{DAGTeam-class}

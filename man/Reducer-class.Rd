@@ -1,4 +1,4 @@
-\name{Reducer-class}
+\name{Reducer}
 \Rdversion{1.1}
 \docType{class}
 \alias{Reducer}

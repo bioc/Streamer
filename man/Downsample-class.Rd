@@ -1,4 +1,4 @@
-\name{Downsample-class}
+\name{Downsample}
 \Rdversion{1.1}
 \docType{class}
 \alias{Downsample}

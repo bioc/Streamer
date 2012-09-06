@@ -1,4 +1,4 @@
-\name{Producer-class}
+\name{Producer}
 \Rdversion{1.1}
 \docType{class}
 \alias{Producer-class}

@@ -1,4 +1,4 @@
-\name{RawInput-class}
+\name{RawInput}
 
 \Rdversion{1.1}
 \docType{class}

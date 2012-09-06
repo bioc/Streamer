@@ -1,6 +1,7 @@
 \name{Streamer-package}
 \alias{Streamer-package}
 \alias{Streamer}
+\alias{Streamer-class}
 \docType{package}
 \title{Package to enable stream (iterative) processing of large data}
 \description{

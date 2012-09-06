@@ -1,4 +1,4 @@
-\name{Seq-class}
+\name{Seq}
 \Rdversion{1.1}
 \docType{class}
 \alias{Seq-class}

@@ -1,7 +1,13 @@
-\name{Stream-class}
+\name{Stream}
 \Rdversion{1.1}
 \docType{class}
 \alias{Stream-class}
+
+\alias{Stream}
+\alias{Stream-methods}
+\alias{Stream,Consumer-method}
+\alias{Stream,Producer-method}
+
 \alias{[[,Stream,numeric-method}
 \alias{length,Stream-method}
 \alias{lapply,Stream-method}
@@ -21,6 +27,8 @@
 }
 
 \usage{
+Stream(x, ..., verbose=FALSE)
+
 \S4method{length}{Stream}(x)
 
 \S4method{[[}{Stream,numeric}(x, i, j, ...)
@@ -32,15 +40,17 @@
 
 \arguments{
 
-  \item{x, X}{An instance of class \code{Stream}.}
- 
+  \item{x, X}{For \code{Stream}, \code{x} is a \code{Producer}
+  instance. For other functions, an instance of class \code{Stream}.}
+
   \item{FUN}{A function to be applied to each successful \code{yield()}
     of \code{X}.}
 
   \item{i, j}{Numeric index of the ith stream element (\code{j} is
     ignored by this method).}
 
-  \item{...}{For \code{lapply}, \code{sapply}, additional arguments to
+  \item{...}{For \code{Stream}, zero or more \code{Consumer}
+    instances. For \code{lapply}, \code{sapply}, additional arguments to
     \code{FUN}.}
 
   \item{simplify}{See \code{?base::sapply}.}
@@ -48,11 +58,26 @@
   \item{USE.NAMES}{See \code{?base::sapply} but note that names do not
     usually make sense for instances of class \code{Producer}.}
 
+  \item{verbose}{A \code{logical(1)} indicating whether status
+    information should be reported.}
+
 }
 
 \section{Constructors}{
-  Instances from this class are constructed with calls to \code{Stream};
-  see \code{?Stream}
+
+  Arguments to \code{Stream} must consist of a single \code{Producer}
+  and zero or more \code{Consumer} components.
+
+  When invoked with the \code{Producer} as the first argument,
+  \code{Stream(P, C1, C2)} produces a stream in which the data is read
+  by \code{P}, then processed by \code{C1}, then processed by \code{C2}.
+
+  When invoked with the \code{Consumer} as the first argument, the
+  \code{...} must include a \code{Producer} as the \emph{last}
+  argument. \code{Stream(C1, C2, P)} produces a stream in which the data
+  is read by \code{P}, then processed by \code{C2}, then processed by
+  \code{C1}.
+
 }
 
 \section{Methods}{
@@ -101,6 +126,18 @@
 
 }
 
-\examples{showClass("Stream")}
+\examples{
+fl <- system.file("extdata", "s_1_sequence.txt", package="Streamer")
+b <- RawInput(fl, 100L, reader=rawReaderFactory(1e4))
+s <- Stream(b, Rev(), RawToChar())
+s
+yield(s)
+reset(s)
+while (length(yield(s))) cat("tick\n")
+
+strm <- Stream(Seq(to=10), FunctionConsumer(function(y) 1/y))
+sapply(strm, c)
+}
+
 
 \keyword{classes}

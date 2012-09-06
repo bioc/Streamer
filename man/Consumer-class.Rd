@@ -1,4 +1,4 @@
-\name{Consumer-class}
+\name{Consumer}
 \Rdversion{1.1}
 \docType{class}
 \alias{Consumer}

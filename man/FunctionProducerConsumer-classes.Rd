@@ -1,7 +1,8 @@
-\name{FunctionProducerConsumer-classes}
+\name{Function*}
 \Rdversion{1.1}
 \docType{class}
 
+\alias{Function*}
 \alias{FunctionProducerConsumer-classes}
 \alias{FunctionProducer}
 \alias{FunctionProducer-class}
