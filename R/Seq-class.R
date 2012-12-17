@@ -4,7 +4,7 @@
       from="ANY", to="ANY", by="ANY", yieldSize="integer"),
     contains="Producer",
     methods = list(
-      initialize = function(..., yieldSize) {
+      initialize = function(..., yieldSize=1L) {
           ## increment yieldSize to avoid repeated addition
           callSuper(..., yieldSize=as.integer(yieldSize) + 1L)
       },
