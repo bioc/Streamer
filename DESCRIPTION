@@ -1,7 +1,7 @@
 Package: Streamer
 Type: Package
 Title: Enabling stream processing of large files
-Version: 1.9.2
+Version: 1.9.3
 Author: Martin Morgan, Nishant Gopalakrishnan
 Maintainer: Martin Morgan <mtmorgan@fhcrc.org>
 Description: Large data files can be difficult to work with in R,
@@ -15,7 +15,7 @@ Description: Large data files can be difficult to work with in R,
 License: Artistic-2.0
 LazyLoad: yes
 Imports: methods, graph, RBGL, parallel, BiocGenerics
-Suggests: RUnit, Rsamtools (>= 1.5.53), Rgraphviz
+Suggests: RUnit, Rsamtools (>= 1.5.53), GenomicAlignments, Rgraphviz
 biocViews: Infrastructure, DataImport
 Collate: 
   AllGenerics.R 
