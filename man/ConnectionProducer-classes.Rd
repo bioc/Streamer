@@ -75,6 +75,7 @@ fl <- system.file(package="Rsamtools", "extdata", "ex1.sam")
 p <- ReadLinesProducer(fl, n = 1000)  # read 1000 lines at a time
 while (length(y <- yield(p)))
     print(length(y))
+close(p)
 
 p <- ReadTableProducer(fl, quote="", fill=TRUE, nrows=1000)
 while (length(y <- yield(p)))

@@ -112,7 +112,9 @@ rawParserFactory(separator = charToRaw("\n"), trim = separator)
 \examples{
 fl <- system.file("extdata", "s_1_sequence.txt", package="Streamer")
 b <- RawInput(fl, 100L, reader=rawReaderFactory(1e4))
-yield(b)
+length(value <- yield(b))
+head(value)
+close(b)
 }
 
 \keyword{classes}

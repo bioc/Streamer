@@ -61,6 +61,7 @@ b <- RawInput(fl, 100L, reader=rawReaderFactory(1e4))
 s <- Stream(RawToChar(), Rev(), b)
 s
 head(yield(s)) 			# First chunk
+close(b)
 
 b <- RawInput(fl, 5000L, verbose=TRUE)
 d <- Downsample(sampledSize=50)
@@ -75,5 +76,6 @@ while (10 >= i && 0L != length(chunk <- yield(s)))
    cat("chunk", i, "length", length(chunk), "\n")
    i <- i + 1
 }
+close(b)
 }
 

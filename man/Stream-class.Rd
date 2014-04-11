@@ -134,6 +134,7 @@ s
 yield(s)
 reset(s)
 while (length(yield(s))) cat("tick\n")
+close(b)
 
 strm <- Stream(Seq(to=10), FunctionConsumer(function(y) 1/y))
 sapply(strm, c)
