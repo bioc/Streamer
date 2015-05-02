@@ -28,7 +28,7 @@
 setMethod(Stream, "Producer",
     function(x, ..., verbose=FALSE)
 {
-    if (0L == length(list(...)))
+    if (missing(...))
         .Stream_set(x, verbose=verbose)
     else
         do.call(Stream, c(rev(list(..., verbose=verbose)), list(x)))
