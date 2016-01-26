@@ -17,7 +17,7 @@ setMethod("Team", c(param="MulticoreParam"),
     if (.Platform$OS.type != "unix")
         stop("'Team' with 'param=MulticoreParam()' not supported on '",
              .Platform$OS.type, "' operating system")
-    require(parallel)
+    requireNamespace("parallel")
     tasks <- replicate(param$size, list(status="IDLE",
                        name=NA_character_), simplify=FALSE)
     .MulticoreTeam$new(FUN=FUN, tasks=tasks, ..., parallelParam=param)

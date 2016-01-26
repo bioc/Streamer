@@ -1,8 +1,7 @@
 plot.DAGParam <-
     function(x, y, ...)
 {
-    require(Rgraphviz)
-    plot(x$dag, ...)
+    Rgraphviz::plot(x$dag, ...)
 }
 
 plot.DAGTeam <-
