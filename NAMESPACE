@@ -15,9 +15,15 @@ importFrom(graph, ftM2graphNEL)
 
 importMethodsFrom(graph, numNodes, numEdges, nodes, edges, inEdges)
 
+importFrom(graphics, plot)
+
 importFrom(RBGL, tsort)
 
 exportPattern("^[^\\.]")
+
+S3method(close, ConnectionProducer)
+S3method(plot, DAGParam)
+S3method(plot, DAGTeam)
 
 exportMethods(lapply, sapply)
 
