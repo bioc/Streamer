@@ -90,7 +90,7 @@
           results <- results[idx]
           nms <- base::names(results)
           tids <- match(nms, names())
-          .mc_kill(tasks[tids], 15)
+          tryCatch(.mc_kill(tasks[tids], 15), error = function(...) NULL)
           for (i in seq_along(nms)) {
               tid <- tids[i]
               task <- tasks[[tid]]
