@@ -8,7 +8,7 @@ setMethod(DAGParam, "graphNEL",
     function(x, ...)
 {
     topology <- suppressWarnings(tsort(x))
-    if (nodes(x) > 1L && !length(topology))
+    if (length(nodes(x)) > 1L && !length(topology))
         stop("'x' is not a directed acyclic graph")
     .DAGParam$new(dag=x, ...)
 })
