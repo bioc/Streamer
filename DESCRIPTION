@@ -1,7 +1,7 @@
 Package: Streamer
 Type: Package
 Title: Enabling stream processing of large files
-Version: 1.37.0
+Version: 1.38.0
 Author: Martin Morgan, Nishant Gopalakrishnan
 Maintainer: Martin Morgan <martin.morgan@roswellpark.org>
 Description: Large data files can be difficult to work with in R,
